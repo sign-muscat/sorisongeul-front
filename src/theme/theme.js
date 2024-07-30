@@ -58,6 +58,26 @@ const theme = extendTheme({
                         bg: "blueGray.100",
                         color: "black",
                     }
+                },
+                mint: {
+                    bg: "#A3D8F4",
+                    color: "#1A202C",
+                    _hover: {
+                        bg: "#81E6D9",
+                        color: "#1A202C",
+                    },
+                    _active: {
+                        bg: "#7FB9ED",
+                        color: "#1A202C",
+                    }
+                },
+                gradient: {
+                    bg: "linear-gradient(270deg, #9AE6B4 0%, #90CDF4 100%)",
+                    color: "black",
+                    _hover: {
+                        bg: "linear-gradient(270deg, #8EE1AB 0%, #7DC4F1 100%)",
+                        color: "black",
+                    }
                 }
             }
         },
@@ -66,6 +86,7 @@ const theme = extendTheme({
                 '&:hover': { textDecoration: 'none' },
             },
         },
-    }
-})
+    },
+});
+
 export default theme;

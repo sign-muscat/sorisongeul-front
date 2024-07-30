@@ -32,6 +32,8 @@ function MainPage() {
                 <GameCard game={soundGame}/>
                 <GameCard game={lipGame}/>
             </HStack>
+
+
         </>
     );
 }
