@@ -22,7 +22,7 @@ function MainPage() {
     }
 
     return (
-        <>
+        <Box h="2000">
             <Box pb={10}>
                 메인 페이지
             </Box>
@@ -32,7 +32,7 @@ function MainPage() {
                 <GameCard game={soundGame}/>
                 <GameCard game={lipGame}/>
             </HStack>
-        </>
+        </Box>
     );
 }
 
