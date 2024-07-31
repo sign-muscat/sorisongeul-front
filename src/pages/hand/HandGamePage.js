@@ -2,51 +2,68 @@ import {Button, Flex} from "@chakra-ui/react";
 import QuitGame from "../../components/button/QuitGame";
 import SkipButton from "../../components/button/SkipButton";
 import GameHeader from "../../components/game/GameHeader";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import HandGameHint from "./HandGameHint";
 import HandGameQuestion from "./HandGameQuestion";
+import {useDispatch, useSelector} from "react-redux";
+import {callGetWordsAPI} from "../../apis/HandGameAPICalls";
+import WordStepper from "./WordStepper";
 
 
 function HandGamePage({difficulty, onQuitGame}) {
 
     const [gameInfo, setGameInfo] = useState({
         totalQuestion: 5,       // 총 문제 개수
-        currentQuestion: 1,     // 현재 문제 순번
+        currentQuestion: 0,     // 현재 문제 순번
+        currentStep: 1,         // 현재 문제의 Step
         correctedAnswer: 0,     // 정답 개수
         skipCount: 0,           // 건너 뛴 횟수
     });
 
-    const questionList = ['바나나', '사과', '금연', '빵집', '소방관'];
-
     const webcamRef = useRef(null);
+    const dispatch = useDispatch();
 
     const [capturedImage, setCapturedImage] = useState(null);
-    const [countdown, setCountdown] = useState(0);
+    const [countdown, setCountdown] = useState(3000);
     const [isFlashing, setIsFlashing] = useState(false);
 
+    const {questionList} = useSelector(state => state.handGameReducer);
+
+    useEffect(() => {
+        dispatch(callGetWordsAPI(difficulty, gameInfo.totalQuestion));
+    }, [difficulty, dispatch]);
+
     const startCountdown = () => {
-        setCountdown(3);
+        setCountdown(3000);
         const timer = setInterval(() => {
             setCountdown((prevCount) => {
-                if (prevCount === 1) {
+                if (prevCount <= 10) { // 10 밀리초 이하일 때
                     setIsFlashing(true);
                     setTimeout(() => {setIsFlashing(false);}, 300);
 
                     clearInterval(timer);
-                    captureImage();
+                    setCapturedImage(webcamRef.current.getScreenshot());
                     return null;
                 }
-                return prevCount - 1;
+                return prevCount - 10;
             });
-        }, 1000);
+        }, 10);
     };
 
-    const captureImage = () => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        setCapturedImage(imageSrc);
-    };
+
+    const increaseSkipCount = (count, current) => {
+        setGameInfo({
+            ...gameInfo,
+            skipCount: count,
+            currentQuestion: current,
+            currentStep: 1
+        });
+        setCapturedImage(null);
+        setCountdown(3000);
+    }
 
     return (
+        questionList && questionList.length > 0 &&
         <>
             <QuitGame onQuitGame={onQuitGame}/>
 
@@ -54,14 +71,16 @@ function HandGamePage({difficulty, onQuitGame}) {
                         gameInfo={gameInfo}/>
 
             <HandGameQuestion gameInfo={gameInfo} questionList={questionList}
-                              webcam={webcamRef} capturedImage={capturedImage} isFlashing={isFlashing}/>
+                              webcam={webcamRef} capturedImage={capturedImage} isFlashing={isFlashing}
+                              countdown={countdown}
+            />
 
             <HandGameHint/>
 
             <Flex mt={4} justifyContent='space-between'>
-                <SkipButton gameInfo={gameInfo}/>
+                <SkipButton gameInfo={gameInfo} increaseSkipCount={increaseSkipCount}/>
                 <Button colorScheme='teal' variant='outline' size='sm' onClick={startCountdown}
-                        isDisabled={(countdown !== 0) || !!capturedImage}>
+                        isDisabled={(countdown !== 3000) || !!capturedImage}>
                     사진 찍기
                 </Button>
             </Flex>

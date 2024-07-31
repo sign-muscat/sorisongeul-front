@@ -22,7 +22,7 @@ function GameHeader({title, difficulty, gameInfo}) {
                 {
                     gameInfo &&
                     <Box borderLeft='1px solid white' px={3}>
-                        <Text>총 {gameInfo.totalQuestion}문제 중 {gameInfo.currentQuestion}문제 공부 중</Text>
+                        <Text>총 {gameInfo.totalQuestion}문제 중 {gameInfo.currentQuestion + 1}문제 공부 중</Text>
                     </Box>
                 }
             </HStack>

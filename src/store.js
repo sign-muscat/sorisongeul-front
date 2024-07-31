@@ -5,7 +5,7 @@ import logger from "redux-logger";
 import rootReducer from "./modules";
 
 const store = legacy_createStore(
-    // rootReducer,
+    rootReducer,
     composeWithDevTools(applyMiddleware(thunk, logger))
 );
 
