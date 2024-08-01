@@ -1,4 +1,4 @@
-function SoundGamePage() {
+function SoundGameInfo() {
     return (
         <>
             도소탐 안내화면
@@ -6,4 +6,4 @@ function SoundGamePage() {
     );
 }
 
-export default SoundGamePage
+export default SoundGameInfo

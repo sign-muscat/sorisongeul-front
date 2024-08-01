@@ -1,6 +1,9 @@
 import {combineReducers} from "redux";
-// const rootReducer = combineReducers({
-//
-// });
-//
-// export default rootReducer;
+import handGameReducer from "./HandGameReducer";
+import rankReducer from "./RankReducer";
+
+const rootReducer = combineReducers({
+    handGameReducer, rankReducer
+});
+
+export default rootReducer;

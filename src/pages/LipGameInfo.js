@@ -1,4 +1,4 @@
-function LipGamePage() {
+function LipGameInfo() {
     return (
         <>
             너목보 안내화면
@@ -6,4 +6,4 @@ function LipGamePage() {
     );
 }
 
-export default LipGamePage
+export default LipGameInfo
