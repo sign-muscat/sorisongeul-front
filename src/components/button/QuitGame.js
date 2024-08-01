@@ -4,7 +4,8 @@ import {ChevronLeftIcon} from "@chakra-ui/icons";
 function QuitGame({onQuitGame, reset}) {
 
     const onClickHandler = () => {
-        reset();
+        if(reset)
+            reset();
         onQuitGame();
     }
 
