@@ -1,5 +1,5 @@
-import {Text, Image, Flex, Box} from "@chakra-ui/react";
-
+import {Text, Image, Flex, Box, Link as ChakraLink} from "@chakra-ui/react";
+import { Link as ReactRouterLink } from 'react-router-dom'
 
 function Sidebar () {
 
@@ -10,16 +10,22 @@ function Sidebar () {
                     <Text fontSize={14} fontWeight={500}>Quick</Text>
                 </Flex>
                 <Flex p={4} flexDirection="column" alignItems="center">
-                    <Image src="images/icon_sidebar_hand.png"/>
-                    <Text>맞.수.수</Text>
+                    <ChakraLink as={ReactRouterLink} to='/game/hand'>
+                        <Image src="/images/icon_sidebar_hand.png"/>
+                        <Text>맞.수.수</Text>
+                    </ChakraLink>
                 </Flex>
                 <Flex p={4} flexDirection="column" alignItems="center">
-                    <Image src="images/icon_sidebar_lip.png"/>
-                    <Text>너.목.보</Text>
+                    <ChakraLink as={ReactRouterLink} to='/game/lip'>
+                        <Image src="/images/icon_sidebar_lip.png"/>
+                        <Text>너.목.보</Text>
+                    </ChakraLink>
                 </Flex>
                 <Flex p={4} flexDirection="column" alignItems="center">
-                    <Image src="images/icon_sidebar_sound.png"/>
-                    <Text>도.소.탐</Text>
+                    <ChakraLink as={ReactRouterLink} to='/game/sound'>
+                        <Image src="/images/icon_sidebar_sound.png"/>
+                        <Text>도.소.탐</Text>
+                    </ChakraLink>
                 </Flex>
             </Flex>
         </Box>

@@ -1,11 +1,13 @@
+import {useState} from "react";
 import {Box, Button, Card, Divider, HStack, Image, Text} from "@chakra-ui/react";
 import DifficultyButton from "../../components/button/DifficultyButton";
-import {useState} from "react";
-import HandGamePage from "./HandGamePage";
+import SoundGamePage from "./SoundGamePage";
 
-function HandGameInfo() {
+function SoundGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [difficulty, setDifficulty] = useState("easy");
+
+    // TODO: 컴포넌트 제대로 안 뽀개서, DifficultyButton에 맞수수 내용 들어가 있음 ㅎ
 
     const handleStartGame = () => {
         setIsGameStarted(true);
@@ -21,28 +23,28 @@ function HandGameInfo() {
 
     return (
         isGameStarted ?
-            <HandGamePage difficulty={difficulty} onQuitGame={handleQuitGame}/>
+            <SoundGamePage difficulty={difficulty} onQuitGame={handleQuitGame}/>
             :
             <>
                 <Card p={4} mb={5}>
                     <HStack>
                         <Box>
-                            <Image src='/images/main_hand.png' w='300px'/>
+                            <Image src='/images/main_sound.png' w='300px'/>
                         </Box>
                         <Box>
-                            <Text fontWeight={600}>포인트 동작으로 가볍게 배우는 수어</Text>
+                            <Text fontWeight={600}>발음이 조금 달라도 소리 탐정에겐 문제 없다</Text>
                             <Text fontWeight={800} fontSize='20px'>
-                                맞혀라! 수수께끼
+                                도전! 소리 탐정
                             </Text>
                             <Text>
-                                맞혀라! 수수께끼는 화면의 손모양에 맞게 수어의 각 단계를 동작하여
-                                정답을 맞히는 수어 학습 퀴즈입니다.
+                                도전! 소리 탐정은 AI로 생성된 농인의 말소리를 듣고, 문장을 맞히는 게임입니다.
+                                농인의 발음도 한 번에 알아 맞히는 소리 탐정이 되어 보세요.
                             </Text>
                         </Box>
                     </HStack>
                 </Card>
                 <Button variant='gradient' w="100%" minH="80px" onClick={handleStartGame}>
-                    🙏🤲 게임 시작!
+                    🔊👂게임 시작!
                 </Button>
 
                 <DifficultyButton difficulty={difficulty} handleDifficulty={handleDifficulty}/>
@@ -52,4 +54,4 @@ function HandGameInfo() {
     );
 }
 
-export default HandGameInfo;
+export default SoundGameInfo
