@@ -1,22 +1,17 @@
-import {Box, Flex, Text, Image, keyframes, Skeleton, Progress} from "@chakra-ui/react";
+import {Box, Flex, Text, Image, Skeleton, Progress} from "@chakra-ui/react";
 import Webcam from "react-webcam";
 import {useEffect, useRef, useState} from "react";
 import WordStepper from "./WordStepper";
 import {useDispatch, useSelector} from "react-redux";
 import {callGetWordImageAPI} from "../../apis/HandGameAPICalls";
 
-function HandGameQuestion({gameInfo, questionList, webcam, capturedImage, isFlashing, countdown}) {
+function HandGameQuestion({gameInfo, questionList, webcam, capturedImage, countdown}) {
 
     const [loading, setLoading] = useState(true);
     const canvasRef = useRef(null);
     const dispatch = useDispatch();
 
     const {wordImage} = useSelector(state => state.handGameReducer);
-
-    const flash = keyframes`
-        from { opacity: 1; }
-        to { opacity: 0; }
-    `;
 
     const handleUserMedia =  () => setLoading(false);
 
@@ -37,7 +32,7 @@ function HandGameQuestion({gameInfo, questionList, webcam, capturedImage, isFlas
                     <Text fontSize='13px'>
                         맞춘 문제 수 {gameInfo.correctedAnswer}/{gameInfo.currentQuestion}
                         ({gameInfo.correctedAnswer === 0 ? 0
-                        : gameInfo.correctedAnswer/(gameInfo.currentQuestion) * 100}%)
+                        : Math.round(gameInfo.correctedAnswer/(gameInfo.currentQuestion) * 100)}%)
                     </Text>
                 </Flex>
             </Box>
@@ -66,18 +61,7 @@ function HandGameQuestion({gameInfo, questionList, webcam, capturedImage, isFlas
                     </>
                     : <Image src={capturedImage} w='100%' h='400px' objectFit='cover'/>
                 }
-                {isFlashing &&
-                    <Box
-                        position="absolute"
-                        top={0}
-                        left={0}
-                        width="100%"
-                        height="100%"
-                        bg="white"
-                        animation={`${flash} 0.3s ease-out`}
-                    />
-                }
-                {!capturedImage && wordImage &&
+                {!loading && !capturedImage && wordImage &&
                     <Image src={wordImage} alt="Guide"
                            position="absolute"
                            top={0}

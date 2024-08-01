@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/react";
 function SkipButton({gameInfo, increaseSkipCount}) {
 
     const onClickHandler = () => {
-        increaseSkipCount(gameInfo.skipCount + 1, gameInfo.currentQuestion + 1);
+        increaseSkipCount(gameInfo.skipCount + 1);
     }
 
     return (
