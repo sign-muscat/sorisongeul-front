@@ -44,7 +44,7 @@ function SuccessModal({nextQuestion, isOpen, onClose, riddleId}) {
                         <Box
                             as='video'
                             controls
-                            src={wordVideo.videoLink}
+                            src={wordVideo}
                             objectFit='contain'
                             mt={8}
                             borderRadius='md'

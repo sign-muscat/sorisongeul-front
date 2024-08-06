@@ -18,7 +18,7 @@ const UPDATE_CORRECT = 'game/UPDATE_CORRECT';
 
 export const { game : {getWords, getWordImage, getWordVideo, checkCorrect, resetCorrect, updateCorrect}} = createActions({
     [GET_WORDS] : result => ({ questionList : result.data }),
-    [GET_WORD_IMAGE] : result => ({ wordImage : result.data.guide }),
+    [GET_WORD_IMAGE] : result => ({ wordImage : result.data }),
     [GET_WORD_VIDEO] : result => ({ wordVideo : result.data }),
     [CHECK_CORRECT] : result => ({ isCorrect : result.data.isCorrect }),
     [RESET_CORRECT] : result => ({ isCorrect : null }),
