@@ -29,7 +29,10 @@ function SoundGameAnswer({sound}) {
         <>
             <Box mb={2}>
                 <Text fontSize='13px'>내 도전 횟수: {records.length}회</Text>
-                <Text fontSize='13px'>내 최대 유사도: {Math.max(...records.map(item => item.similarity))}</Text>
+                <Text fontSize='13px'>
+                    내 최대 유사도: {records.length > 0 ?
+                    Math.max(...records.map(item => item.similarity)) : '-'}
+                </Text>
             </Box>
             <InputGroup size='md' mb={4}>
                 <Input

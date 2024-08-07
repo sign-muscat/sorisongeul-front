@@ -5,21 +5,12 @@ import {checkCorrect, getSoundQuestion, getSoundRecords} from "../modules/SoundG
 export const callGetSoundAPI = (difficulty) => {
     return async (dispatch, getState) => {
         try {
-            // const queryString = `difficulty=${difficulty}`;
+            const queryString = `difficulty=${difficulty}`;
 
-            // const result = await request(
-            //     'GET',
-            //     '/game-start?${queryString}'
-            // );
-
-            const result = {
-                status: 200,
-                data: {
-                    challengeId: 1,
-                    url: 'https://ccrma.stanford.edu/~jos/mp3/harpsi-cs.mp3',
-                    isCorrect: false
-                }
-            }
+            const result = await request(
+                'GET',
+                `/api/v1/challenge/game-start?${queryString}`
+            );
 
             console.log('callGetSoundAPI result : ', result.data);
 
@@ -38,24 +29,12 @@ export const callGetSoundAPI = (difficulty) => {
 export const callGetRecordsAPI = (challengeId) => {
     return async (dispatch, getState) => {
         try {
-            // const result = await request(
-            //     'GET',
-            //     '/records'
-            // );
+            const queryString = `challengeId=${challengeId}`;
 
-            const result = {
-                status: 200,
-                data: [
-                    {
-                        inputText: "배고파요",
-                        similarity: 25.56
-                    },
-                    {
-                        inputText: "너무 배고파",
-                        similarity: 37.22
-                    }
-                ]
-            }
+            const result = await request(
+                'GET',
+                `/api/v1/challenge/records?${queryString}`
+            );
 
             console.log('callGetRecordsAPI result : ', result.data);
 
@@ -77,7 +56,7 @@ export const callRegisterAnswerAPI = (answerRequest) => {
             console.log("answerRequest: ", answerRequest);
             // const result = await request(
             //     'POST',
-            //     '/check-correct',
+            //     '/api/v1/challenge/result',
             //     {'Content-Type' : 'application/json'},
             //     answerRequest
             // );

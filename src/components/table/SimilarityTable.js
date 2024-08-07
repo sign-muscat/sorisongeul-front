@@ -26,7 +26,7 @@ function SimilarityTable({records}) {
                     </Thead>
                     <Tbody>
                         {
-                            records ?
+                            records && records.length !== 0  ?
                                 records.map((data, index) =>
                                 <SimilarityTableItem key={index} data={data} id={index + 1}/>
                             ) :
