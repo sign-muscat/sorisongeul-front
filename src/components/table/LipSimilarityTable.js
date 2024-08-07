@@ -4,21 +4,11 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import LipSimilarityTableItem from "../item/LipSimilarityTableItem";
 
-function LipSimilarityTable() {
-    const [dataList, setDataList] = useState([]);
+function LipSimilarityTable({ dataList }) {
+    console.log("유사도!!!!! 데이터 넘어오냐???! : ",dataList )
+    const recordGameVoiceResponseList = dataList?.payload?.getVoiceAnswerCheck?.recordGameVoiceResponseList;
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.post('/api/v1/voice/check/');
-                setDataList(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
+    console.log("유사도!!!!! 배열은!!!!???! : ",recordGameVoiceResponseList )
 
     return (
         <Box border='1px' borderColor='gray.200' borderRadius='md' mt={4}>
@@ -40,8 +30,8 @@ function LipSimilarityTable() {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {dataList.length > 0 ? (
-                            dataList.map((data, index) => (
+                        {dataList ? (
+                            recordGameVoiceResponseList.map((data, index) => (
                                 <LipSimilarityTableItem key={index} data={data} id={index + 1} />
                             ))
                         ) : (

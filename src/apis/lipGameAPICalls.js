@@ -18,14 +18,14 @@ export const callGetVoiceAnswerCheck = (recordGameVoiceRequest) => {
     return async (dispatch) => {
         const result = await request(
             'POST',
-            `/api/v1/voice/check`,
+            `/api/v1/voice/checkList`,
             { 'Content-Type': 'application/json' },
             JSON.stringify(recordGameVoiceRequest)
         )
         console.log("callGetVoiceAnswerCheck 응답 결과 : ", result);
 
         if(result.status === 200) {
-            dispatch(getVoiceAnswerCheck(result))
+            return dispatch(getVoiceAnswerCheck(result))
         } else {
             throw new Error("문제를 가져 오는데 실패 했습니다.");
         }

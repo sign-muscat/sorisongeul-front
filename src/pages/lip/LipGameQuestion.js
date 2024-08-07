@@ -34,15 +34,17 @@ function LipGameQuestion({voiceQuestion}) {
             setIsPlaying(false);
             setIconOpacity(1);
         };
-
-        video.addEventListener('timeupdate', handleTimeUpdate);
-        video.addEventListener('loadedmetadata', handleLoadedMetadata);
-        video.addEventListener('ended', handleVideoEnd);
-
+        if(video) {
+            video.addEventListener('timeupdate', handleTimeUpdate);
+            video.addEventListener('loadedmetadata', handleLoadedMetadata);
+            video.addEventListener('ended', handleVideoEnd);
+        }
         return () => {
-            video.removeEventListener('timeupdate', handleTimeUpdate);
-            video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-            video.removeEventListener('ended', handleVideoEnd);
+            if(video) {
+                video.removeEventListener('timeupdate', handleTimeUpdate);
+                video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+                video.removeEventListener('ended', handleVideoEnd);
+            }
         };
     }, []);
 
@@ -53,6 +55,9 @@ function LipGameQuestion({voiceQuestion}) {
     };
 
     const progressBarWidth = duration ? (currentTime / duration) * 100 : 0;
+
+
+    //console.log("문제 컴포넌트에서 문제가 잘 조회되고 있는가? : ",voiceQuestion.answer)
 
     return (
         <Box borderWidth='1px' borderRadius='lg' my={4} p={4}>
@@ -82,7 +87,7 @@ function LipGameQuestion({voiceQuestion}) {
                     </Flex>
                 </Box>
             ) : (
-                <></>
+                <Text>비디오를 로드할 수 없습니다.</Text>
             )}
         </Box>
     );
