@@ -1,27 +1,33 @@
 import { Box, Button, Card, Divider, HStack, Image, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import Difficulty from "../../components/button/Difficulty";
 import LipGamePage from "./LipGamePage";
+import DifficultyButton from "../../components/button/DifficultyButton";
 
 function LipGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
-    const [difficulty, setDifficulty] = useState("easy");
+    const [difficulty, setDifficulty] = useState("LEVEL_1");
 
-    const lipleStartGame = () => {
+    const descriptionText = [
+        "쉬움-쉬운 단어, 짧은 문장, 보통-어려운 단어, 짧은 문장,",
+        "어려움-어려운 단어, 긴 문장으로 이루어진 영상이 출제",
+        "됩니다."
+    ].join('\n');
+
+    const handleStartGame = () => {
         setIsGameStarted(true);
     };
 
-    const lipleQuitGame = () => {
+    const handleQuitGame = () => {
         setIsGameStarted(false);
     };
 
-    const lipleDifficulty = (e) => {
+    const handleDifficulty = (e) => {
         setDifficulty(e.target.value);
     }
 
     return (
         isGameStarted ?
-            <LipGamePage difficulty={difficulty} onQuitGame={lipleQuitGame}/>
+            <LipGamePage difficulty={difficulty} onQuitGame={handleQuitGame}/>
             :
             <>
                 <Card p={4} mb={5}>
@@ -42,11 +48,11 @@ function LipGameInfo() {
                     </HStack>
                 </Card>
 
-                <Button variant='gradient' w="100%" minH="80px" onClick={lipleStartGame}>
+                <Button variant='gradient' w="100%" minH="80px" onClick={handleStartGame}>
                     🙏🤲 게임 시작!
                 </Button>
 
-                <Difficulty difficulty={difficulty} lipleDifficulty={lipleDifficulty}/>
+                <DifficultyButton difficulty={difficulty} handleDifficulty={handleDifficulty} description={descriptionText}/>
 
                 <Divider my={5}/>
             </>

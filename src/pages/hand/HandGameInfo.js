@@ -5,7 +5,12 @@ import HandGamePage from "./HandGamePage";
 
 function HandGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
-    const [difficulty, setDifficulty] = useState("easy");
+    const [difficulty, setDifficulty] = useState("LEVEL_1");
+
+    const descriptionText = [
+        "쉬움은 1~2단계, 보통은 3~4단계, 어려움은 5~6단계로",
+        "이루어진 수어가 출제됩니다."
+    ].join('\n');
 
     const handleStartGame = () => {
         setIsGameStarted(true);
@@ -45,7 +50,7 @@ function HandGameInfo() {
                     🙏🤲 게임 시작!
                 </Button>
 
-                <DifficultyButton difficulty={difficulty} handleDifficulty={handleDifficulty}/>
+                <DifficultyButton difficulty={difficulty} handleDifficulty={handleDifficulty} description={descriptionText}/>
 
                 <Divider my={5}/>
             </>

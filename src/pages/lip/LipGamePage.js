@@ -1,41 +1,58 @@
-import { useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import Confetti from "react-confetti";
 import QuitGame from "../../components/button/QuitGame";
-import LipHeader from "../../components/game/LipHeader";
+import GameHeader from "../../components/game/GameHeader";
 import LipSimilarityTable from "../../components/table/LipSimilarityTable";
 import LipGameAnswer from "./LipGameAnswer";
 import LipGameHint from "./LipGameHint";
 import LipGameQuestion from "./LipGameQuestion";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
+import {getVoiceQuestion} from "../../modules/LipGameReducer";
+import {callGetVoiceQuestionAPI} from "../../apis/lipGameAPICalls";
+import difficulty from "../../components/button/Difficulty";
 
-function LipGamePage({ difficulty, onQuitGame }) {
-    const webcamRef = useRef(null); // Webcam ref를 유지하지만 사용하지 않음
+function LipGamePage({ difficulty }) {
+    const dispatch = useDispatch();
+    const { voiceQuestion } = useSelector(state => state.lipGameReducer);
 
-    const [answer, setAnswer] = useState(""); // 사용자가 입력한 정답
-    const [attempts, setAttempts] = useState([]); // 사용자의 시도 기록
-    const [showConfetti, setShowConfetti] = useState(false);
-
-    const LipSubmit = () => {
-        if (answer.trim() !== "") {
-            setAttempts([...attempts, { answer }]);
-            setAnswer(""); 
-        }
-    };
+    useEffect(()=>{
+        dispatch(callGetVoiceQuestionAPI({difficulty}));
+    },[dispatch, difficulty])
 
     return (
         <>
-            <QuitGame onQuitGame={onQuitGame}/>
-            <LipHeader title='너의 목소리가 보여' difficulty={difficulty}/>
-            <LipGameQuestion/>
-            <LipGameHint/>
-            <LipGameAnswer LipSubmit={LipSubmit} setAnswer={setAnswer} answer={answer} />
-            <LipSimilarityTable dataList={attempts} />
-            {showConfetti &&
-                <Confetti width={window.innerWidth} height={window.innerHeight}
-                          recycle={false}/>
+            {
+                voiceQuestion ?
+                    <>
+                        <GameHeader title='너의 목소리가 보여' difficulty={difficulty}/>
+                        <LipGameQuestion voiceQuestion={voiceQuestion}/>
+                        <LipGameAnswer voiceQuestion={voiceQuestion}/>
+
+                    </>
+                    :
+                    <div>내용이 없옹</div>
             }
         </>
-
     );
 }
+
+
+//     return (
+//         <>
+//             <QuitGame onQuitGame={onQuitGame}/>
+//             <GameHeader title='너의 목소리가 보여' difficulty={difficulty}/>
+//             <LipGameQuestion/>
+//             <LipGameHint/>
+//             <LipGameAnswer LipSubmit={LipSubmit} setAnswer={setAnswer} answer={answer} />
+//             <LipSimilarityTable dataList={attempts} />
+//             {showConfetti &&
+//                 <Confetti width={window.innerWidth} height={window.innerHeight}
+//                           recycle={false}/>
+//             }
+//         </>
+//
+//     );
+// }
 
 export default LipGamePage;

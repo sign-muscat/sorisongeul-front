@@ -64,10 +64,11 @@ function HandGameQuestion({gameInfo, questionList, webcam, capturedImage, countd
                 {!loading && !capturedImage && wordImage &&
                     <Image src={wordImage} alt="Guide"
                            position="absolute"
-                           top={0}
-                           left={0}
-                           width="100%"
-                           height="100%"
+                           top="calc(50% - 400px)"
+                           left="calc(50% - 474px)"
+                           width="200%"
+                           maxW="948px"
+                           height="200%"
                     />
                 }
             </Box>

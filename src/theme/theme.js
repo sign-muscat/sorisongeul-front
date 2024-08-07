@@ -39,6 +39,19 @@ const theme = extendTheme({
             A300: '#FFC400',
             A400: '#FFAB00',
         },
+
+        mint: {
+            50: "#E3F3FB",
+            100: "#C7E6F8",
+            200: "#ABDAF5",
+            300: "#A3D8F4",
+            400: "#7AC9F0",
+            500: "#52BCEC",
+            600: "#2BAFEC",
+            700: "#149BE8",
+            800: "#1386D2",
+            900: "#1173BC"
+        }
     },
     components: {
         Button: {
