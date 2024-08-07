@@ -17,7 +17,7 @@ function HandGameQuestion({gameInfo, questionList, webcam, capturedImage, countd
 
     useEffect(() => {
         dispatch(callGetWordImageAPI(questionList[gameInfo.currentQuestion].riddleId, gameInfo.currentStep));
-    }, [gameInfo.currentStep, dispatch]);
+    }, [gameInfo.currentStep, gameInfo.currentQuestion, dispatch]);
 
     return (
         <Box borderWidth='1px' borderRadius='lg' overflow='visible' position='relative' mt={4}>
@@ -66,6 +66,7 @@ function HandGameQuestion({gameInfo, questionList, webcam, capturedImage, countd
                            position="absolute"
                            top={0}
                            left={0}
+                           opacity={0.3}
                            width="100%"
                            height="100%"
                     />
