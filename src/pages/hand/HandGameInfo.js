@@ -5,7 +5,7 @@ import HandGamePage from "./HandGamePage";
 
 function HandGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
-    const [difficulty, setDifficulty] = useState("easy");
+    const [difficulty, setDifficulty] = useState("LEVEL_1");
 
     const handleStartGame = () => {
         setIsGameStarted(true);
