@@ -5,7 +5,7 @@ import SoundGamePage from "./SoundGamePage";
 
 function SoundGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
-    const [difficulty, setDifficulty] = useState("easy");
+    const [difficulty, setDifficulty] = useState("LEVEL_1");
 
     // TODO: 컴포넌트 제대로 안 뽀개서, DifficultyButton에 맞수수 내용 들어가 있음 ㅎ
 

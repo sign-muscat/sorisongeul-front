@@ -8,20 +8,20 @@ function DifficultyButton({difficulty, handleDifficulty}) {
             <Flex flexDirection="column">
                 <HStack spacing={2} justify="center">
                     <Button w="80px" h="32px" fontSize={14} fontWeight={500}
-                            value="easy" onClick={handleDifficulty}
-                            variant={difficulty === 'easy' ? 'mint' : 'gray'}
+                            value="LEVEL_1" onClick={handleDifficulty}
+                            variant={difficulty === 'LEVEL_1' ? 'mint' : 'gray'}
                     >
                         쉬움
                     </Button>
                     <Button w="80px" h="32px" fontSize={14} fontWeight={500}
-                            value="medium" onClick={handleDifficulty}
-                            variant={difficulty === 'medium' ? 'mint' : 'gray'}
+                            value="LEVEL_2" onClick={handleDifficulty}
+                            variant={difficulty === 'LEVEL_2' ? 'mint' : 'gray'}
                     >
                         보통
                     </Button>
                     <Button w="80px" h="32px" fontSize={14} fontWeight={500}
-                            value="hard" onClick={handleDifficulty}
-                            variant={difficulty === 'hard' ? 'mint' : 'gray'}
+                            value="LEVEL_3" onClick={handleDifficulty}
+                            variant={difficulty === 'LEVEL_3' ? 'mint' : 'gray'}
                     >
                         어려움
                     </Button>

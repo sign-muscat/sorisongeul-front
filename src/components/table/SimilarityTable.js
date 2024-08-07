@@ -2,13 +2,15 @@ import {Badge, Box, HStack, Table, TableContainer, Tbody, Td, Text, Thead, Tr} f
 import SimilarityTableItem from "../item/SimilarityTableItem";
 import IonIcon from "@reacticons/ionicons";
 
-function SimilarityTable({dataList}) {
+function SimilarityTable({records}) {
+
     return (
         <Box border='1px' borderColor='gray.200' borderRadius='md'>
             <TableContainer>
                 <Table variant='simple'>
                     <Thead>
                         <Tr fontWeight={600} color='gray.700'>
+                            <Td>#</Td>
                             <Td>제출한 답안</Td>
                             <Td>유사도</Td>
                             <Td>
@@ -24,8 +26,8 @@ function SimilarityTable({dataList}) {
                     </Thead>
                     <Tbody>
                         {
-                            dataList ?
-                            dataList.map((data, index) =>
+                            records && records.length !== 0  ?
+                                records.map((data, index) =>
                                 <SimilarityTableItem key={index} data={data} id={index + 1}/>
                             ) :
                                 <Tr>
