@@ -17,7 +17,7 @@ import HandGameFinish from "./HandGameFinish";
 function HandGamePage({difficulty, onQuitGame}) {
 
     const [gameInfo, setGameInfo] = useState({
-        totalQuestion: 5,       // 총 문제 개수
+        totalQuestion: 3,       // 총 문제 개수
         currentQuestion: 0,     // 현재 문제 순번
         currentStep: 1,         // 현재 문제의 Step
         correctedAnswer: 0,     // 정답 개수
@@ -55,10 +55,6 @@ function HandGamePage({difficulty, onQuitGame}) {
             reset();
         }
     }, [isCorrect, dispatch]);
-
-    useEffect(() => {
-
-    }, [isGameFinished, dispatch]);
 
     const nextStep = () => {
         setGameInfo({

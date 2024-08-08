@@ -7,41 +7,10 @@ export const callGetWordsAPI = (difficulty, totalQuestion) => {
         try {
             const queryString = `difficulty=${difficulty}&totalQuestion=${totalQuestion}`;
 
-            // const result = await request(
-            //     'GET',
-            //     `/get-words?${queryString}`
-            // );
-
-            const result = {
-                status: 200,
-                data: [
-                    {
-                        riddleId: 1,        // 문제 식별 번호
-                        question: '바나나',  // 문제(단어) 이름
-                        totalStep: 2        // 문제의 step 개수
-                    },
-                    {
-                        riddleId: 4,
-                        question: '안녕하세요',
-                        totalStep: 3
-                    },
-                    {
-                        riddleId: 6,
-                        question: '금연',
-                        totalStep: 3
-                    },
-                    {
-                        riddleId: 5,
-                        question: '빵집',
-                        totalStep: 2
-                    },
-                    {
-                        riddleId: 9,
-                        question: '소방관',
-                        totalStep: 4
-                    },
-                ]
-            }
+            const result = await request(
+                'GET',
+                `/api/v1/sign/game-start?${queryString}`
+            );
 
             console.log('callGetWordsAPI result : ', result.data);
 
@@ -59,24 +28,12 @@ export const callGetWordsAPI = (difficulty, totalQuestion) => {
 export const callGetWordImageAPI = (riddleId, currentStep) => {
     return async (dispatch, getState) => {
         try {
-            const requestData = {
-                riddleId: riddleId,
-                step: currentStep
-            };
+            const queryString = `riddleId=${riddleId}&step=${currentStep}`;
 
-            // const result = await request(
-            //     'POST',
-            //     `/gameStart`,
-            //     'Content-Type: application/x-www-form-urlencoded',
-            //     requestData
-            // );
-
-            const result = {
-                status: 200,
-                data: {
-                    guide: '/images/no_smoking_2.png'
-                }
-            }
+            const result = await request(
+                'GET',
+                `/api/v1/sign/question-image?${queryString}`
+            );
 
             console.log('callGetWordImageAPI result : ', result);
 
@@ -95,19 +52,13 @@ export const callGetWordImageAPI = (riddleId, currentStep) => {
 export const callGetWordVideoAPI = (riddleId) => {
     return async (dispatch, getState) => {
         try {
-            const queryString = `wordDes=${riddleId}`;
+            const queryString = `riddleId=${riddleId}`;
 
-            // const result = await request(
-            //     'GET',
-            //     `/get-video-link?${queryString}`
-            // );
+            const result = await request(
+                'GET',
+                `/api/v1/sign/question-video?${queryString}`
+            );
 
-            const result = {
-                status: 200,
-                data: {
-                    videoLink: 'http://sldict.korean.go.kr/multimedia/multimedia_files/convert/20200821/732937/MOV000257072_700X466.mp4'
-                }
-            }
             console.log('callGetWordVideoAPI result : ', result);
 
             if (result.status === 200) {

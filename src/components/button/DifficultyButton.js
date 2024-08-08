@@ -26,6 +26,7 @@ function DifficultyButton({difficulty, handleDifficulty, description}) {
                         어려움
                     </Button>
                 </HStack>
+
                 <Flex mt={3}>
                     <InfoOutlineIcon mr={2} />
                     <Text whiteSpace="pre-wrap" fontSize="12" fontWeight="500">
