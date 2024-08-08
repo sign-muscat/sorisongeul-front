@@ -14,12 +14,15 @@ function LipGameAnswer({ voiceQuestion , setAnswerData }) {
 
     const onChangeHandler = e => setInputText(e.target.value);
 
-    const handleKeyPress = (e) => {
+    function handleKeyPress(e) {
+        if (e.isComposing || e.keyCode === 229) return;
+
         if (e.key === 'Enter') {
             e.preventDefault(); // 폼 제출 방지
             handleSubmit();
         }
-    };
+
+    }
 
     const handleClearInput = () => {
         setInputText("")
@@ -35,18 +38,16 @@ function LipGameAnswer({ voiceQuestion , setAnswerData }) {
 
 
     const handleSubmit = useCallback(() => {
-        if(!voiceId) {
-            console.error("보이스 아이디 없데 ㅠㅠㅠㅠ")
+        if(!voiceId) { //  voiceId 없을 때
             return;
         }
         const formData = { playerId, voiceId, inputText };
-        console.log("제출할 데이터 : ", formData); // 디버깅용
+        //console.log("제출할 데이터 : ", formData); // 디버깅용
 
-        // dispatch(callGetVoiceAnswerCheck(formData));
         dispatch(callGetVoiceAnswerCheck(formData)).then(result => {
             setAnswerData(result);
         });
-        console.log("상위에서 받아온 문제 데이터 : ",voiceId)
+        //console.log("상위에서 받아온 문제 데이터 : ",voiceId)
         handleClearInput();
     }, [dispatch, inputText, playerId, voiceId, setAnswerData]);
 

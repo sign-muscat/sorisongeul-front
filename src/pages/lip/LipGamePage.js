@@ -6,12 +6,27 @@ import {useDispatch, useSelector} from "react-redux";
 import {callGetVoiceQuestionAPI} from "../../apis/lipGameAPICalls";
 import LipSimilarityTable from "../../components/table/LipSimilarityTable";
 import QuitGame from "../../components/button/QuitGame";
+import SuccessModal from "./SuccessModal";
+import Confetti from "react-confetti";
 
 function LipGamePage({ difficulty, onQuitGame }) {
     const dispatch = useDispatch();
     const { voiceQuestion } = useSelector(state => state.lipGameReducer);
     const [currentVoiceQuestion, setCurrentVoiceQuestion] = useState(null);
     const [answerData, setAnswerData] = useState(null);
+    const [showConfetti, setShowConfetti] = useState(null);
+
+    const memoizedAnswerData = useMemo(() => answerData, [answerData]);
+
+    useEffect(() => {
+        console.log("정답 : ",memoizedAnswerData)
+        if (memoizedAnswerData !== null && memoizedAnswerData.payload?.getVoiceAnswerCheck.similarity === 0) {
+            setShowConfetti(true);
+            //console.log("정답 : ",memoizedAnswerData.similarity === 0)
+
+            setTimeout(() => setShowConfetti(false), 5000);
+        }
+    }, [memoizedAnswerData]);
 
     useEffect(()=>{
         dispatch(callGetVoiceQuestionAPI({difficulty}));
@@ -24,7 +39,7 @@ function LipGamePage({ difficulty, onQuitGame }) {
         }
     }, [voiceQuestion]);
 
-    const memoizedAnswerData = useMemo(() => answerData, [answerData]); // 변경된 부분
+    // 변경된 부분
 
     //console.log("상위 컴포넌트에서 확인하는 정답 값! : ",memoizedAnswerData)
     return (
@@ -37,6 +52,10 @@ function LipGamePage({ difficulty, onQuitGame }) {
                         <LipGameQuestion voiceQuestion={currentVoiceQuestion}/>
                         <LipGameAnswer voiceQuestion={currentVoiceQuestion} setAnswerData={setAnswerData}/>
                         <LipSimilarityTable dataList={memoizedAnswerData} />
+                        {showConfetti &&
+                            <Confetti width={window.innerWidth} height={window.innerHeight}
+                                      recycle={false}/>
+                        }
                     </>
                     :
                     <div>문제가 조회되지 않았어요.</div>
@@ -45,6 +64,9 @@ function LipGamePage({ difficulty, onQuitGame }) {
     );
 }
 
+// {isModalOpen && (
+//     <SuccessModal isOpen={isModalOpen} onClose={handleCloseModal}/>
+// )}
 //             <LipGameHint/>
 //             {showConfetti &&
 //                 <Confetti width={window.innerWidth} height={window.innerHeight}

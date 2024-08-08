@@ -21,6 +21,7 @@ function LipGameQuestion({voiceQuestion}) {
 
     useEffect(() => {
         const video = videoRef.current;
+        video.playbackRate = 0.5;
 
         const handleTimeUpdate = () => {
             setCurrentTime(video.currentTime);
