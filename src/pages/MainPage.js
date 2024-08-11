@@ -1,13 +1,9 @@
-import { Box, Button, Divider, HStack } from "@chakra-ui/react";
+import { Box, Divider, HStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import GameCard from "../components/card/GameCard";
 
 function MainPage() {
     const navigate = useNavigate(); // useNavigate 훅을 호출하여 navigate 함수를 얻습니다
-
-    const handleNavigateToInsertForm = () => {
-        navigate('/users/insert'); // 버튼 클릭 시 MemberInsertForm으로 이동합니다
-    };
 
     const handGame = {
         title: '맞혀라! 수수께끼',
