@@ -1,5 +1,4 @@
 import { Box, Divider, HStack } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 import GameCard from "../components/card/GameCard";
 
 function MainPage() {
