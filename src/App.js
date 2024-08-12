@@ -1,9 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout.js';
 import MainPage from "./pages/MainPage";
 import HandGameInfo from "./pages/hand/HandGameInfo";
+import LipGameInfo from "./pages/lip/LipGameInfo";
 import SoundGameInfo from "./pages/sound/SoundGameInfo";
-import LipGameInfo from "./pages/LipGameInfo";
 
 function App() {
     return (
@@ -16,7 +16,6 @@ function App() {
                     <Route path="lip" element={<LipGameInfo/>}/>
                 </Route>
             </Route>
-
         </Routes>
     );
 }

@@ -1,7 +1,8 @@
-import {Box, Divider, HStack} from "@chakra-ui/react";
+import { Box, Divider, HStack } from "@chakra-ui/react";
 import GameCard from "../components/card/GameCard";
 
 function MainPage() {
+
     const handGame = {
         title: '맞혀라! 수수께끼',
         desc: '포인트 동작으로 가볍게 배우는 수어',
@@ -23,14 +24,14 @@ function MainPage() {
 
     return (
         <Box h="2000">
-            <Box pb={10}>
-                메인 페이지
+            <Box pb={10} display="flex" justifyContent="space-between" alignItems="center">
+                <span>메인 페이지</span>
             </Box>
-            <Divider mb={10}/>
+            <Divider mb={10} />
             <HStack spacing={2}>
-                <GameCard game={handGame}/>
-                <GameCard game={soundGame}/>
-                <GameCard game={lipGame}/>
+                <GameCard game={handGame} />
+                <GameCard game={soundGame} />
+                <GameCard game={lipGame} />
             </HStack>
         </Box>
     );
