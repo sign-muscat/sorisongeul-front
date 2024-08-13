@@ -1,18 +1,17 @@
-import {useState} from "react";
-import {Box, Button, Card, Divider, HStack, Image, Text} from "@chakra-ui/react";
+import { Box, Button, Card, Divider, HStack, Image, Text } from "@chakra-ui/react";
+import { useState } from "react";
+import LipGamePage from "./LipGamePage";
 import DifficultyButton from "../../components/button/DifficultyButton";
-import SoundGamePage from "./SoundGamePage";
 
-function SoundGameInfo() {
+function LipGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [difficulty, setDifficulty] = useState("LEVEL_1");
 
     const descriptionText = [
-        "쉬움은 1~2단계, 보통은 3~4단계, 어려움은 5~6단계로",
-        "이루어진 수어가 출제됩니다."
+        "쉬움-쉬운 단어, 짧은 문장, 보통-어려운 단어, 짧은 문장,",
+        "어려움-어려운 단어, 긴 문장으로 이루어진 영상이 출제",
+        "됩니다."
     ].join('\n');
-
-    // TODO: 컴포넌트 제대로 안 뽀개서, DifficultyButton에 맞수수 내용 들어가 있음 ㅎ
 
     const handleStartGame = () => {
         setIsGameStarted(true);
@@ -28,28 +27,29 @@ function SoundGameInfo() {
 
     return (
         isGameStarted ?
-            <SoundGamePage difficulty={difficulty} onQuitGame={handleQuitGame}/>
+            <LipGamePage difficulty={difficulty} onQuitGame={handleQuitGame}/>
             :
             <>
                 <Card p={4} mb={5}>
                     <HStack>
                         <Box>
-                            <Image src='/images/main_sound.png' w='300px'/>
+                            <Image src='/images/main_lip.png' w='300px'/>
                         </Box>
                         <Box>
-                            <Text fontWeight={600}>발음이 조금 달라도 소리 탐정에겐 문제 없다</Text>
+                            <Text fontWeight={600}>들리지 않아도 알 수 있어요</Text>
                             <Text fontWeight={800} fontSize='20px'>
-                                도전! 소리 탐정
+                                너의 목소리가 보여
                             </Text>
                             <Text>
-                                도전! 소리 탐정은 AI로 생성된 농인의 말소리를 듣고, 문장을 맞히는 게임입니다.
-                                농인의 발음도 한 번에 알아 맞히는 소리 탐정이 되어 보세요.
+                                너의 목소리가 보여는 하루에 한 문제씩 오늘의 문제가 제시됩니다.
+                                소리가 없는 입모양 영상이 제시되고 입모양을 읽어 정답의 문장이 무엇인지 맞추는 게임입니다. 
                             </Text>
                         </Box>
                     </HStack>
                 </Card>
+
                 <Button variant='gradient' w="100%" minH="80px" onClick={handleStartGame}>
-                    🔊👂게임 시작!
+                    🙏🤲 게임 시작!
                 </Button>
 
                 <DifficultyButton difficulty={difficulty} handleDifficulty={handleDifficulty} description={descriptionText}/>
@@ -59,4 +59,5 @@ function SoundGameInfo() {
     );
 }
 
-export default SoundGameInfo
+
+export default LipGameInfo
