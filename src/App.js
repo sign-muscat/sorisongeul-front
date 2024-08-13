@@ -3,7 +3,7 @@ import MainLayout from './layouts/MainLayout.js';
 import MainPage from "./pages/MainPage";
 import HandGameInfo from "./pages/hand/HandGameInfo";
 import SoundGameInfo from "./pages/sound/SoundGameInfo";
-import LipGameInfo from "./pages/LipGameInfo";
+import LipGameInfo from "./pages/lip/LipGameInfo";
 import WideLayout from "./layouts/WideLayout";
 import PricingPage from "./pages/pricing/PricingPage";
 
