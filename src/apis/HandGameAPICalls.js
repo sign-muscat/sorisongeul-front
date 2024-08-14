@@ -1,4 +1,5 @@
 import {request} from "./api";
+import { fastApiRequest } from "./fastapi";
 import {statusToastAlert} from "../utils/ToastUtils";
 import {checkCorrect, getWordImage, getWords, getWordVideo} from "../modules/HandGameReducer";
 
@@ -73,32 +74,32 @@ export const callGetWordVideoAPI = (riddleId) => {
 }
 
 export const callCheckCorrect = (formData) => {
-    return async (dispatch, getState) => {
+    return async (dispatch) => {
         try {
-            // const result = await request(
-            //     'POST',
-            //     '/result',
-            //     {'Content-Type' : 'multipart/form-data'},
-            //     formData
-            // );
+            const result = await fastApiRequest(
+                'POST',
+                '/api/v1/sign/predict',
+                {
+                    'Content-Type': 'multipart/form-data',
+                    'Accept': 'application/json'
+                },
+                formData
+            );
 
-            const value = Math.random() < 0.5;
-            const result = {
-                status: 200,
-                data: {
-                    isCorrect: value
-                }
-            }
+            console.log('Full server response:', result);
 
-            console.log('callCheckCorrect result : ', result);
-
-            if (result.status === 200) {
+            if (result && result.data) {
                 dispatch(checkCorrect(result));
+            } else {
+                console.error('Invalid or unexpected server response:', result);
+                throw new Error('Invalid or unexpected response from server');
             }
-        } catch {
+        } catch (error) {
+            console.error('Error in callCheckCorrect:', error);
             const title = '문제가 발생했어요.';
             const desc = '다시 시도해주세요.';
             statusToastAlert(title, desc, 'error');
+            throw error;
         }
     }
 }
