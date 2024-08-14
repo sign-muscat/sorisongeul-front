@@ -103,18 +103,28 @@ function HandGamePage({difficulty, onQuitGame}) {
     };
 
     const captureImage = async () => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        setCapturedImage(imageSrc);
-
-        const imageBlob = await fetch(imageSrc).then(res => res.blob());
-
-        const formData = new FormData();
-        formData.append('file', imageBlob, 'capture.jpg');
-        formData.append('riddleId', questionList[gameInfo.currentQuestion].riddleId);
-        formData.append('step', gameInfo.currentStep);
-
-        dispatch(callCheckCorrect(formData));
+        try {
+            // 웹캠에서 스크린샷을 캡처
+            const imageSrc = webcamRef.current.getScreenshot();
+            setCapturedImage(imageSrc);
+    
+            // Data URL을 Blob으로 변환
+            const base64Data = imageSrc.split(',')[1];
+            const blob = await fetch(`data:image/jpeg;base64,${base64Data}`).then(res => res.blob());
+    
+            // FormData에 이미지와 추가 데이터 추가
+            const formData = new FormData();
+            formData.append('file', blob, 'capture.jpg');
+            formData.append('riddle_id', questionList[gameInfo.currentQuestion].riddleId);
+            formData.append('current_step', gameInfo.currentStep);
+    
+            // 서버로 데이터 전송
+            dispatch(callCheckCorrect(formData));
+        } catch (error) {
+            console.error('Error capturing image or sending data:', error);
+        }
     }
+    
 
     const increaseSkipCount = (count) => {
         setGameInfo({
