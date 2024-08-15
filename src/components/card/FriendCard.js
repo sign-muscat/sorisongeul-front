@@ -10,10 +10,18 @@ import {
 } from "@chakra-ui/react";
 import {SmallCloseIcon} from "@chakra-ui/icons";
 import {useRef} from "react";
+import {callDeleteFriendAPI} from "../../apis/FriendAPICalls";
+import {useDispatch} from "react-redux";
 
 function FriendCard({friend}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef();
+    const dispatch = useDispatch();
+
+    const handleDeleteFriend = () => {
+        dispatch(callDeleteFriendAPI(friend.friendId));
+        onClose();
+    }
 
     return (
         friend &&
@@ -59,7 +67,7 @@ function FriendCard({friend}) {
                             <Button width='50%' size='md' ref={cancelRef} onClick={onClose} borderRadius='0 0 0 10px'>
                                 취소
                             </Button>
-                            <Button width='50%' size='md' colorScheme='red' onClick={onClose} borderRadius='0 0 10px 0' >
+                            <Button width='50%' size='md' colorScheme='red' onClick={handleDeleteFriend} borderRadius='0 0 10px 0' >
                                 삭제
                             </Button>
                         </AlertDialogFooter>

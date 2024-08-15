@@ -3,8 +3,19 @@ import {
 } from "@chakra-ui/react";
 import {SmallCloseIcon} from "@chakra-ui/icons";
 import {useRef} from "react";
+import {useDispatch} from "react-redux";
+import {callHandleFriendRequestAPI} from "../../apis/FriendAPICalls";
 
 function FriendApplyCard({apply}) {
+
+    const dispatch = useDispatch();
+    const acceptRequest = () => {
+        dispatch(callHandleFriendRequestAPI(apply.friendId, 'ACCEPTED'));
+    }
+
+    const rejectRequest = () => {
+        dispatch(callHandleFriendRequestAPI(apply.friendId, 'REJECTED'));
+    }
 
     return (
         apply &&
@@ -19,8 +30,12 @@ function FriendApplyCard({apply}) {
                                 <Text fontSize='12px'>{apply.applyDate}</Text>
                             </Box>
                             <VStack>
-                                <Button colorScheme='mint' size='xs' borderRadius='full'>수락</Button>
-                                <Button colorScheme='gray' size='xs' borderRadius='full'>거절</Button>
+                                <Button colorScheme='mint' size='xs' borderRadius='full' onClick={acceptRequest}>
+                                    수락
+                                </Button>
+                                <Button colorScheme='gray' size='xs' borderRadius='full' onClick={rejectRequest}>
+                                    거절
+                                </Button>
 
                             </VStack>
                         </Flex>
