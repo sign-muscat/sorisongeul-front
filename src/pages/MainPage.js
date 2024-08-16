@@ -3,15 +3,14 @@ import { useNavigate } from "react-router-dom";
 import GameCard from "../components/card/GameCard";
 
 function MainPage() {
-    const navigate = useNavigate(); // useNavigate 훅을 호출하여 navigate 함수를 얻습니다
+    const navigate = useNavigate(); 
 
     const handleNavigateToInsertForm = () => {
-        navigate('/users/insert'); // 버튼 클릭 시 MemberInsertForm으로 이동합니다
+        navigate('/users/insert'); 
     };
     const handleNavigateToMyPage = () => {
-        navigate('/myPage/mypageHome'); // 버튼 클릭 시 MemberInsertForm으로 이동합니다
+        navigate('/myPage/mypageHome'); 
     };
-
 
     const handGame = {
         title: '맞혀라! 수수께끼',
@@ -36,19 +35,20 @@ function MainPage() {
         <Box h="2000">
             <Box pb={10} display="flex" justifyContent="space-between" alignItems="center">
                 <span>메인 페이지</span>
-                <Button onClick={handleNavigateToMyPage} colorScheme="teal">
-                    마이페이지
-                </Button>
-                <Button onClick={handleNavigateToInsertForm} colorScheme="teal">
-                    회원가입
-                </Button>
-
             </Box>
-            <Divider mb={10}/>
+
+            <Button onClick={handleNavigateToMyPage} colorScheme="teal">
+                마이페이지
+            </Button>
+            <Button onClick={handleNavigateToInsertForm} colorScheme="teal">
+                회원가입
+            </Button>
+
+            <Divider mb={10} />
             <HStack spacing={2}>
-                <GameCard game={handGame}/>
-                <GameCard game={soundGame}/>
-                <GameCard game={lipGame}/>
+                <GameCard game={handGame} />
+                <GameCard game={soundGame} />
+                <GameCard game={lipGame} />
             </HStack>
         </Box>
     );

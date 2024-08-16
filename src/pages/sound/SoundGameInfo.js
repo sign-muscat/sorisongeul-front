@@ -7,6 +7,11 @@ function SoundGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [difficulty, setDifficulty] = useState("LEVEL_1");
 
+    const descriptionText = [
+        "쉬움은 1~2단계, 보통은 3~4단계, 어려움은 5~6단계로",
+        "이루어진 수어가 출제됩니다."
+    ].join('\n');
+
     // TODO: 컴포넌트 제대로 안 뽀개서, DifficultyButton에 맞수수 내용 들어가 있음 ㅎ
 
     const handleStartGame = () => {
@@ -47,7 +52,7 @@ function SoundGameInfo() {
                     🔊👂게임 시작!
                 </Button>
 
-                <DifficultyButton difficulty={difficulty} handleDifficulty={handleDifficulty}/>
+                <DifficultyButton difficulty={difficulty} handleDifficulty={handleDifficulty} description={descriptionText}/>
 
                 <Divider my={5}/>
             </>

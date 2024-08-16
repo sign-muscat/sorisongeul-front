@@ -1,7 +1,7 @@
-import {Text, Button, Flex, HStack} from "@chakra-ui/react";
-import {InfoOutlineIcon} from "@chakra-ui/icons";
+import { InfoOutlineIcon } from "@chakra-ui/icons";
+import { Button, Flex, HStack, Text } from "@chakra-ui/react";
 
-function DifficultyButton({difficulty, handleDifficulty}) {
+function DifficultyButton({difficulty, handleDifficulty, description}) {
     return (
         <Flex borderRadius="md" justifyContent="space-between" mt={5}>
             <Text fontWeight="bold">• 난이도</Text>
@@ -28,10 +28,9 @@ function DifficultyButton({difficulty, handleDifficulty}) {
                 </HStack>
 
                 <Flex mt={3}>
-                    <InfoOutlineIcon mr={2}/>
+                    <InfoOutlineIcon mr={2} />
                     <Text whiteSpace="pre-wrap" fontSize="12" fontWeight="500">
-                        쉬움은 1~2단계, 보통은 3~4단계, 어려움은 5~6단계로{"\n"}
-                        이루어진 수어가 출제됩니다.
+                        {description}
                     </Text>
                 </Flex>
             </Flex>

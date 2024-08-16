@@ -1,9 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout.js';
-import LipGameInfo from "./pages/LipGameInfo";
-import MainPage from "./pages/MainPage";
+import WideLayout from "./layouts/WideLayout";
 import HandGameInfo from "./pages/hand/HandGameInfo";
+import LipGameInfo from "./pages/lip/LipGameInfo";
+import MainPage from "./pages/MainPage";
 import MypageHomePage from "./pages/myPage/MypageHomePage.js";
+import PricingPage from "./pages/pricing/PricingPage";
 import SoundGameInfo from "./pages/sound/SoundGameInfo";
 import EditUsersInfo from "./pages/users/EditUsersInfo.js";
 import IndividualSignUp from "./pages/users/IndividualSignUp.js";
@@ -33,7 +35,9 @@ function App() {
                     <Route path="mypageHome" element={<MypageHomePage />} />
                 </Route>
             </Route>
-
+            <Route path="/pricing" element={<WideLayout/>}>
+                <Route index element={<PricingPage/>}/>
+            </Route>
         </Routes>
     );
 }
