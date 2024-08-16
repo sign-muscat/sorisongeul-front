@@ -11,14 +11,18 @@ function GameHeader({title, difficulty, gameInfo}) {
                     <Text>{title}</Text>
                 </Box>
 
-                <Box borderLeft='1px solid white' px={4}>
-                    <HStack gap={2}>
-                        <Text>난이도</Text>
-                        <Badge variant='outline' colorScheme='gray'>
-                            {getDifficultyKor(difficulty)}
-                        </Badge>
-                    </HStack>
-                </Box>
+                {
+                    difficulty &&
+                    <Box borderLeft='1px solid white' px={4}>
+                        <HStack gap={2}>
+                            <Text>난이도</Text>
+                            <Badge variant='outline' colorScheme='gray'>
+                                {getDifficultyKor(difficulty)}
+                            </Badge>
+                        </HStack>
+                    </Box>
+                }
+
                 {
                     gameInfo &&
                     <Box borderLeft='1px solid white' px={3}>
