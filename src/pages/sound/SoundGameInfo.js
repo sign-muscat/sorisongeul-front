@@ -1,18 +1,36 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Box, Button, Card, Divider, HStack, Image, Text} from "@chakra-ui/react";
-import DifficultyButton from "../../components/button/DifficultyButton";
 import SoundGamePage from "./SoundGamePage";
+import {useDispatch, useSelector} from "react-redux";
+import {callCheckCorrectAPI} from "../../apis/SoundGameAPICalls";
+import CountdownButton from "../../components/button/CountdownButton";
 
 function SoundGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
-    const [difficulty, setDifficulty] = useState("LEVEL_1");
+    const [todayDate, setTodayDate] = useState(() => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return today;
+    });
 
-    const descriptionText = [
-        "쉬움은 1~2단계, 보통은 3~4단계, 어려움은 5~6단계로",
-        "이루어진 수어가 출제됩니다."
-    ].join('\n');
+    const dispatch = useDispatch();
+    const {checkPlay} = useSelector(state => state.soundGameReducer);
 
-    // TODO: 컴포넌트 제대로 안 뽀개서, DifficultyButton에 맞수수 내용 들어가 있음 ㅎ
+    useEffect(() => {
+        dispatch(callCheckCorrectAPI());
+    }, [todayDate, isGameStarted, dispatch]);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            const now = new Date();
+            if (now.getDate() !== todayDate.getDate()) {
+                setTodayDate(new Date(now.setHours(0, 0, 0, 0)));
+            }
+        }, 60000);
+
+        return () => clearInterval(intervalId);
+    }, [todayDate]);
+
 
     const handleStartGame = () => {
         setIsGameStarted(true);
@@ -22,14 +40,12 @@ function SoundGameInfo() {
         setIsGameStarted(false);
     };
 
-    const handleDifficulty = (e) => {
-        setDifficulty(e.target.value);
-    }
 
     return (
         isGameStarted ?
-            <SoundGamePage difficulty={difficulty} onQuitGame={handleQuitGame}/>
+            <SoundGamePage onQuitGame={handleQuitGame}/>
             :
+            checkPlay &&
             <>
                 <Card p={4} mb={5}>
                     <HStack>
@@ -48,11 +64,14 @@ function SoundGameInfo() {
                         </Box>
                     </HStack>
                 </Card>
-                <Button variant='gradient' w="100%" minH="80px" onClick={handleStartGame}>
-                    🔊👂게임 시작!
-                </Button>
-
-                <DifficultyButton difficulty={difficulty} handleDifficulty={handleDifficulty} description={descriptionText}/>
+                {
+                    checkPlay.isCorrect ?
+                        <CountdownButton today={todayDate}/>
+                        :
+                        <Button variant='gradient' w="100%" minH="80px" onClick={handleStartGame}>
+                            🔊👂게임 시작!
+                        </Button>
+                }
 
                 <Divider my={5}/>
             </>

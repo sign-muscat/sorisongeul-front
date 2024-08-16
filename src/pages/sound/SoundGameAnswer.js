@@ -3,8 +3,9 @@ import {useEffect, useState} from "react";
 import SimilarityTable from "../../components/table/SimilarityTable";
 import {useDispatch, useSelector} from "react-redux";
 import {callGetRecordsAPI, callRegisterAnswerAPI} from "../../apis/SoundGameAPICalls";
+import {resetCorrect} from "../../modules/SoundGameReducer";
 
-function SoundGameAnswer({sound}) {
+function SoundGameAnswer({sound, isCorrect}) {
 
     const dispatch = useDispatch();
     const [answer, setAnswer] = useState();
@@ -13,7 +14,8 @@ function SoundGameAnswer({sound}) {
 
     useEffect(() => {
         dispatch(callGetRecordsAPI(sound.challengeId));
-    }, [dispatch]);
+        dispatch(resetCorrect());
+    }, [isCorrect, dispatch]);
 
     const onChangeHandler = e => setAnswer(e.target.value);
 
@@ -31,7 +33,7 @@ function SoundGameAnswer({sound}) {
                 <Text fontSize='13px'>내 도전 횟수: {records.length}회</Text>
                 <Text fontSize='13px'>
                     내 최대 유사도: {records.length > 0 ?
-                    Math.max(...records.map(item => item.similarity)) : '-'}
+                    Math.max(...records.map(item => item.similarity.toFixed(2))) : '-'}
                 </Text>
             </Box>
             <InputGroup size='md' mb={4}>

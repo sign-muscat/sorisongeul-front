@@ -5,8 +5,12 @@ function SimilarityTableItem({data, id}) {
     return (
         <Tr>
             <Td>{id}</Td>
-            <Td>{data.inputText}</Td>
-            <Td>{data.similarity}</Td>
+            <Td maxW="195px" overflow="scroll">
+                {data.inputText}
+            </Td>
+            <Td>
+                {data.similarity.toFixed(2)}
+            </Td>
         </Tr>
     );
 }
