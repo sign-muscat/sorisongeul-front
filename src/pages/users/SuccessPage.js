@@ -2,7 +2,7 @@ import { Box, Button, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const SuccessPage = () => {
+const SuccessForm = () => {
     const location = useLocation();
 
     const isWithdraw = location.pathname.includes('withdraw');
@@ -30,4 +30,4 @@ const SuccessPage = () => {
     );
 };
 
-export default SuccessPage;
+export default SuccessForm;
