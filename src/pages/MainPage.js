@@ -35,14 +35,15 @@ function MainPage() {
         <Box h="2000">
             <Box pb={10} display="flex" justifyContent="space-between" alignItems="center">
                 <span>메인 페이지</span>
+                <Button onClick={handleNavigateToMyPage} colorScheme="teal">
+                    마이페이지
+                </Button>
+                <Button onClick={handleNavigateToInsertForm} colorScheme="teal">
+                    회원가입
+                </Button>
             </Box>
 
-            <Button onClick={handleNavigateToMyPage} colorScheme="teal">
-                마이페이지
-            </Button>
-            <Button onClick={handleNavigateToInsertForm} colorScheme="teal">
-                회원가입
-            </Button>
+            
 
             <Divider mb={10} />
             <HStack spacing={2}>

@@ -8,8 +8,7 @@ import MypageHomePage from "./pages/myPage/MypageHomePage.js";
 import PricingPage from "./pages/pricing/PricingPage";
 import SoundGameInfo from "./pages/sound/SoundGameInfo";
 import EditUsersInfo from "./pages/users/EditUsersInfo.js";
-import IndividualSignUp from "./pages/users/IndividualSignUp.js";
-import SignUpInfo from "./pages/users/SignUpInfo.js";
+import SignUp from "./pages/users/SignUp.js";
 import SuccessPage from "./pages/users/SuccessPage.js";
 import Withdraw from "./pages/users/Withdraw.js";
 
@@ -25,8 +24,7 @@ function App() {
                     <Route path="lip" element={<LipGameInfo/>}/>
                 </Route>
                 <Route path="users">
-                    <Route path="insert" element={<SignUpInfo />} />
-                    <Route path="individual" element={<IndividualSignUp />} />
+                    <Route path="insert" element={<SignUp />} />
                     <Route path="success" element={<SuccessPage />} />
                     <Route path="delete" element={<Withdraw />} />
                     <Route path="edit" element={<EditUsersInfo />} />
