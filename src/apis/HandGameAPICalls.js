@@ -1,7 +1,7 @@
 import {request} from "./api";
 import { fastApiRequest } from "./fastapi";
 import {statusToastAlert} from "../utils/ToastUtils";
-import {checkCorrect, getWordImage, getWords, getWordVideo, resetCorrect} from "../modules/HandGameReducer";
+import {checkCorrect, getWordImage, getWords, getWordVideo} from "../modules/HandGameReducer";
 
 export const callGetWordsAPI = (difficulty, totalQuestion) => {
     return async (dispatch, getState) => {
