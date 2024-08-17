@@ -1,17 +1,13 @@
 import {
     Flex,
-    Text,
-    Heading,
     Modal,
     ModalContent,
     ModalOverlay,
-    Center,
     Image,
     ModalHeader,
     Button, ModalFooter
 } from "@chakra-ui/react";
 import LoginForm from "../components/form/LoginForm";
-import {X} from "react-bootstrap-icons";
 import {CloseIcon} from "@chakra-ui/icons";
 
 function LoginPage({isOpen, onClose}) {

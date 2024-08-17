@@ -35,7 +35,7 @@ function LoginForm (){
                                 mt={9}
                                 w="100%"
                                 variant='outline'
-                                background="white"
+                                background="#FFF"
                                 overflow="hidden"
                                 fontWeight="normal"
                                 fontSize="12px"
