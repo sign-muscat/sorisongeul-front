@@ -1,4 +1,3 @@
-import {useToast} from "@chakra-ui/react";
 import {authRequest, request} from "./api";
 import {success} from "../modules/UserModules";
 import {removeToken, saveToken} from "../utils/TokenUtils";

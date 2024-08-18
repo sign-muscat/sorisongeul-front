@@ -7,10 +7,10 @@ import {
     Input,
     FormErrorMessage,
     Flex,
-    InputLeftElement, InputGroup, Image, Link as ChakraLink
+    InputLeftElement, InputGroup
 } from "@chakra-ui/react";
 import {Field, Form, Formik} from "formik";
-import {Envelope, Lock, Person} from "react-bootstrap-icons";
+import {Envelope, Person} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
 import {useState} from "react";
 

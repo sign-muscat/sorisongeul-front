@@ -5,7 +5,6 @@ import {
     FormLabel,
     Heading,
     Input,
-    FormErrorMessage,
     Flex,
     InputLeftElement, InputGroup, Image, Link as ChakraLink, useToast
 } from "@chakra-ui/react";
@@ -68,7 +67,7 @@ function LoginForm ({ onForgotPassword, onSuccess }){
                         mt={9}
                         w="100%"
                         variant='outline'
-                        background="#FFF"
+                        background="#FFFFFF"
                         overflow="hidden"
                         fontWeight="normal"
                         fontSize="12px"
