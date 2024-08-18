@@ -7,93 +7,114 @@ import {
     Input,
     FormErrorMessage,
     Flex,
-    InputLeftElement, InputGroup, Image, Link as ChakraLink
+    InputLeftElement, InputGroup, Image, Link as ChakraLink, useToast
 } from "@chakra-ui/react";
-import {Field, Form, Formik} from "formik";
 import {Envelope, Lock} from "react-bootstrap-icons";
-import {Link as ReactRouterLink} from "react-router-dom";
+import {Link as ReactRouterLink, useNavigate} from "react-router-dom";
+import {callLoginAPI} from "../../apis/AuthAPICalls";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
 
-function LoginForm (){
+function LoginForm ({ onForgotPassword, onSuccess }){
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const toast = useToast();
+    const [ form, setForm ] = useState({});
+    const [ formChanged, setFormChanged ] = useState(false);
+
+    const onChangeHandler = e => {
+        setFormChanged(true);
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    function handleKeyPress(e) {
+        if (e.isComposing || e.keyCode === 229) return;
+
+        if (e.key === 'Enter') {
+            e.preventDefault(); // 폼 제출 방지
+            onClickLoginHandler();
+        }
+
+    }
+
+    const handleClearInput = () => {
+        setForm("")
+    }
+
+    const onClickLoginHandler = () => {
+        if (formChanged) {
+            dispatch(callLoginAPI({ loginRequest: form, toast })).then(response => {
+                if(response?.status === 200) {
+                    navigate("/");
+                    onSuccess();
+                    handleClearInput();
+                }
+            });
+        }
+    };
+
     return (
         <>
-            <Formik
-                initialValues={{ id: '', password: '' }} // 초기값 설정
-                onSubmit={(values, actions) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2)); // 폼 제출 후 값 확인
-                        actions.setSubmitting(false); // 서브미션 상태 해제
-                    }, 1000);
-                }}
-            >
-                {(props) => (
-                    <Flex w="100%" maxW="350px">
-                        <Form style={{ width: '100%' }}>
-                            <Heading textAlign="center" color="#90CDF4" mt="55px">로그인</Heading>
-                            <Text textAlign="center" fontSize="12px" color="#828282" mt={2}>소리손글의 다양한 기능을 사용하고 싶다면 로그인해주세요.</Text>
+            <Flex w="100%" maxW="350px">
+                <form style={{ width: '100%' }} onKeyDown={handleKeyPress}>
+                    <Heading textAlign="center" color="#90CDF4" mt="55px">로그인</Heading>
+                    <Text textAlign="center" fontSize="12px" color="#828282" mt={2}>소리손글의 다양한 기능을 사용하고 싶다면 로그인해주세요.</Text>
 
-                            <Button
-                                mt={9}
-                                w="100%"
-                                variant='outline'
-                                background="#FFF"
-                                overflow="hidden"
-                                fontWeight="normal"
-                                fontSize="12px"
-                                color="#333"
-                                isLoading={props.isSubmitting}
-                                type="submit"
-                            >
-                                <Image src="/images/icon_google.png" mr={2}/> Google 로그인
-                            </Button>
+                    <Button
+                        mt={9}
+                        w="100%"
+                        variant='outline'
+                        background="#FFF"
+                        overflow="hidden"
+                        fontWeight="normal"
+                        fontSize="12px"
+                        color="#333"
+                    >
+                        <Image src="/images/icon_google.png" mr={2}/> Google 로그인
+                    </Button>
+                    {/*TODO: 구글 로그인은 시간 나면 추후 구현 예정*/}
 
-                            <Image src="/images/img_line_or.png" mt={10} mb={8}/>
+                    <Image src="/images/img_line_or.png" mt={10} mb={8}/>
 
-                            <Field name="id">
-                                {({ field, form }) => (
-                                    <FormControl isInvalid={form.errors.id && form.touched.id}>
-                                        <FormLabel fontSize="12px" color="#333">아이디</FormLabel>
-                                        <InputGroup>
-                                            <InputLeftElement pointerEvents="none">
-                                                <Envelope color="#BDBDBD" />
-                                            </InputLeftElement>
-                                            <Input {...field} type="text" fontSize="12px" placeholder="아이디를 입력하세요" />
-                                        </InputGroup>
-                                        <FormErrorMessage>{form.errors.id}</FormErrorMessage>
-                                    </FormControl>
-                                )}
-                            </Field>
+                    <FormControl>
+                        <FormLabel fontSize="12px" color="#333">아이디</FormLabel>
+                        <InputGroup>
+                            <InputLeftElement pointerEvents="none">
+                                <Envelope color="#BDBDBD" />
+                            </InputLeftElement>
+                            <Input type="text" fontSize="12px" placeholder="아이디를 입력하세요"
+                                   onChange={onChangeHandler} name="id"/>
+                        </InputGroup>
+                    </FormControl>
 
-                            <Field name="password">
-                                {({ field, form }) => (
-                                    <FormControl isInvalid={form.errors.password && form.touched.password} mt={5}>
-                                        <FormLabel fontSize="12px" color="#333" display="flex" justifyContent="space-between" alignItems="flex-end">비밀번호<ChakraLink fontSize="12px" color="#90CDF4" as={ReactRouterLink} to='/verify/password'> 비밀번호를 잊으셨나요?</ChakraLink></FormLabel>
-                                        <InputGroup>
-                                            <InputLeftElement pointerEvents="none">
-                                                <Lock color="#BDBDBD" />
-                                            </InputLeftElement>
-                                            <Input {...field} type="password" fontSize="12px" placeholder="비밀번호를 입력하세요" />
-                                        </InputGroup>
-                                        <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                                    </FormControl>
-                                )}
-                            </Field>
+                    <FormControl mt={5}>
+                        <FormLabel fontSize="12px" color="#333" display="flex" justifyContent="space-between" alignItems="flex-end">비밀번호<ChakraLink  onClick={onForgotPassword}> 비밀번호를 잊으셨나요?</ChakraLink></FormLabel>
+                        <InputGroup>
+                            <InputLeftElement pointerEvents="none">
+                                <Lock color="#BDBDBD" />
+                            </InputLeftElement>
+                            <Input type="password" fontSize="12px" placeholder="비밀번호를 입력하세요"
+                                   onChange={onChangeHandler} name="password"/>
+                        </InputGroup>
+                    </FormControl>
 
-                            <Button
-                                mt={9}
-                                w="100%"
-                                variant='gradient'
-                                color="white"
-                                isLoading={props.isSubmitting}
-                                type="submit"
-                            >
-                                Login
-                            </Button>
+                    <Button
+                        mt={9}
+                        w="100%"
+                        variant='gradient'
+                        color="white"
+                        onClick={onClickLoginHandler}
+                    >
+                        Login
+                    </Button>
 
-                            <Text textAlign="center" fontSize="12px" color="#4F4F4F" mt={5}>아직 계정이 없으신가요? <ChakraLink color="#90CDF4" as={ReactRouterLink} to='/signup'> 회원가입.</ChakraLink></Text>
-                        </Form>
-                    </Flex>
-                )}
-            </Formik>
+                    <Text textAlign="center" fontSize="12px" color="#4F4F4F" mt={5}>아직 계정이 없으신가요? <ChakraLink color="#90CDF4" as={ReactRouterLink} to='/signup'> 회원가입.</ChakraLink></Text>
+                </form>
+            </Flex>
         </>
     );
 }
