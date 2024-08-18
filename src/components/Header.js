@@ -1,21 +1,17 @@
 import React from 'react';
-import {Heading, Center, Link as ChakraLink, Flex, Button, Image, Text, useDisclosure} from "@chakra-ui/react";
-import { Link as ReactRouterLink } from 'react-router-dom'
-import {PersonPlus, Unlock} from "react-bootstrap-icons";
+import { Heading, Center, Link as ChakraLink, Flex, Button, Image, Text } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from 'react-router-dom';
+import {Lock, PersonCircle, PersonPlus, Unlock} from "react-bootstrap-icons";
+import {isLogin} from "../utils/TokenUtils";
+import {callLogoutAPI} from "../apis/AuthAPICalls";
 import {useDispatch} from "react-redux";
-import LoginPage from "../pages/LoginPage";
 
-function Header() {
+function Header({ onOpenLoginModal }) {
     const dispatch = useDispatch();
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const handleModalClose = () => {
-        onClose();
-    }
-
+    const  loginStatus = isLogin();
 
     return (
-        <Center w="100vw" h={100} class="Header">
+        <Center w="100vw" h={100} className="Header">
             <Flex w="100vw" maxW="800px" justifyContent="space-between" alignItems="center">
                 <Heading>
                     <ChakraLink as={ReactRouterLink} to='/'>
@@ -28,20 +24,30 @@ function Header() {
                     <ChakraLink as={ReactRouterLink} to='/' ml="35px">수어 찾기</ChakraLink>
                     <ChakraLink as={ReactRouterLink} to='/' ml="35px">커뮤니티</ChakraLink>
                     <Flex ml="35px" alignItems="center">
-                        <Button height="30px" fontSize="12px" px={3} onClick={onOpen}>
-                            {/*<ChakraLink display="flex" as={ReactRouterLink} to='/login'>*/}
-                                <Unlock/><Text ml={1}>로그인</Text>
-                            {/*</ChakraLink>*/}
-                        </Button>
-                        <Button height="30px" fontSize="12px" px={3} ml={3}>
-                            <ChakraLink display="flex" as={ReactRouterLink} to='/'><PersonPlus mr={1}/><Text ml={1}>회원가입</Text></ChakraLink>
-                        </Button>
+                        {loginStatus ? (
+                            <>
+                                <Button height="30px" fontSize="12px" px={3} >
+                                    <PersonCircle /><Text ml={1}>마이 페이지</Text>
+                                </Button>
+                                <Button height="30px" fontSize="12px" px={3} ml={3}  onClick={() => dispatch(callLogoutAPI())}>
+                                    <ChakraLink display="flex" as={ReactRouterLink} to='/'><Lock mr={1}/><Text ml={1}>로그아웃</Text></ChakraLink>
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button height="30px" fontSize="12px" px={3} onClick={onOpenLoginModal}>
+                                    <Unlock /><Text ml={1}>로그인</Text>
+                                </Button>
+                                <Button height="30px" fontSize="12px" px={3} ml={3}>
+                                    <ChakraLink display="flex" as={ReactRouterLink} to='/'><PersonPlus mr={1}/><Text ml={1}>회원가입</Text></ChakraLink>
+                                </Button>
+                            </>
+                        )}
                     </Flex>
                 </Flex>
             </Flex>
-            <LoginPage isOpen={isOpen} onClose={handleModalClose}/>
         </Center>
-    )
+    );
 }
 
 export default Header;
