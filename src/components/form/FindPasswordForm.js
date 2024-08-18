@@ -11,12 +11,11 @@ import {
 } from "@chakra-ui/react";
 import {Field, Form, Formik} from "formik";
 import {Envelope, Person} from "react-bootstrap-icons";
-import {useDispatch} from "react-redux";
 import {useState} from "react";
 
 function FindPasswordForm (){
 
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const [ form, setForm ] = useState({});
     const [ formChanged, setFormChanged ] = useState(false);
 
