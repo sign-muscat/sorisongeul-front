@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { isLogin, isAdmin, isFreeUser, isPremiumUser } from '../../utils/TokenUtils';
 
 function ProtectedRoute({ isAuthenticated, isAdminOnly, role, onRequireLogin, children }) {
