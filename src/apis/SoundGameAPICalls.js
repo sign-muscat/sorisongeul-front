@@ -1,15 +1,35 @@
 import {request} from "./api";
 import {statusToastAlert} from "../utils/ToastUtils";
-import {checkCorrect, getSoundQuestion, getSoundRecords} from "../modules/SoundGameReducer";
+import {checkCorrect, getSoundQuestion, getSoundRecords, isAlreadyCorrect} from "../modules/SoundGameReducer";
 
-export const callGetSoundAPI = (difficulty) => {
+export const callCheckCorrectAPI = () => {
     return async (dispatch, getState) => {
         try {
-            const queryString = `difficulty=${difficulty}`;
-
             const result = await request(
                 'GET',
-                `/api/v1/challenge/game-start?${queryString}`
+                `/api/v1/challenge/check-correct`
+            );
+
+            console.log('callCheckCorrectAPI result : ', result.data);
+
+            if(result.status === 200) {
+                dispatch(isAlreadyCorrect(result));
+            }
+
+        } catch {
+            const title = '문제가 발생했어요.';
+            const desc = '다시 시도해주세요.';
+            statusToastAlert(title, desc, 'error');
+        }
+    }
+}
+
+export const callGetSoundAPI = () => {
+    return async (dispatch, getState) => {
+        try {
+            const result = await request(
+                'GET',
+                `/api/v1/challenge/game-start`
             );
 
             console.log('callGetSoundAPI result : ', result.data);
@@ -53,22 +73,12 @@ export const callGetRecordsAPI = (challengeId) => {
 export const callRegisterAnswerAPI = (answerRequest) => {
     return async (dispatch, getState) => {
         try {
-            console.log("answerRequest: ", answerRequest);
-            // const result = await request(
-            //     'POST',
-            //     '/api/v1/challenge/result',
-            //     {'Content-Type' : 'application/json'},
-            //     answerRequest
-            // );
-
-            const value = Math.random();
-            const result = {
-                status: 200,
-                data: {
-                    isCorrect: false,
-                    similarity: value
-                }
-            };
+            const result = await request(
+                'POST',
+                '/api/v1/challenge/result',
+                {'Content-Type' : 'application/json'},
+                answerRequest
+            );
 
             console.log('callRegisterAnswerAPI result : ', result.data);
 

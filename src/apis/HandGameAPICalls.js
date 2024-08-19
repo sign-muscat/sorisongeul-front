@@ -99,7 +99,26 @@ export const callCheckCorrect = (formData) => {
             const title = '문제가 발생했어요.';
             const desc = '다시 시도해주세요.';
             statusToastAlert(title, desc, 'error');
-            throw error;
+        }
+    }
+}
+
+export const callRegisterResult = (finishRequest) => {
+    return async (dispatch) => {
+        try {
+            const result = await request(
+                'POST',
+                `/api/v1/sign/game-finish`,
+                {'Content-Type' : 'application/json'},
+                finishRequest
+            )
+
+            console.log('callRegisterResult result : ', result);
+
+        } catch {
+            const title = '문제가 발생했어요.';
+            const desc = '다시 시도해주세요.';
+            statusToastAlert(title, desc, 'error');
         }
     }
 }
