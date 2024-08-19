@@ -1,7 +1,7 @@
 import { Box, Divider, HStack, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DashboardSection from "./DashboardSection";
+import DashboardSection from "./dashboard/DashboardSection";
 import GuestBookSection from "./guestBook/GuestBookSection";
 import MedalSection from "./MedalSection";
 import ProfileSection from "./ProfileSection";

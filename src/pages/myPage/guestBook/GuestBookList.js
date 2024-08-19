@@ -1,6 +1,8 @@
+import { Button } from "@chakra-ui/react";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import CreateGuestBook from './CreateGuestBook';
 
 // 포스트잇 스타일 정의
 const PostIt = styled.div`
@@ -32,6 +34,15 @@ const PostItList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  position: relative;
+  padding-bottom: 60px;
+`;
+
+// 버튼 스타일 정의
+const AddButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;
 
 const PostItItem = ({ message }) => (
@@ -41,19 +52,21 @@ const PostItItem = ({ message }) => (
   </PostIt>
 );
 
-const GestBookList = () => {
+const GestBookList = ({ showAddButton = true }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   useEffect(() => {
-    // 방명록 데이터를 가져오는 함수
     const fetchMessages = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/v1/page/guestBook/list'); // 서버의 전체 URL을 사용
+        const response = await axios.get('http://localhost:8080/api/v1/page/guestBook/list', {
+          params: { limit: 1000 }
+        });
         setMessages(response.data);
       } catch (err) {
-        console.error('Error fetching messages:', err);
+        console.error('방명록을 가져오는 데 실패했습니다:', err);
         setError('방명록을 가져오는 데 실패했습니다.');
       } finally {
         setLoading(false);
@@ -63,21 +76,52 @@ const GestBookList = () => {
     fetchMessages();
   }, []);
 
+  const handleOpenModal = () => setIsModalOpen(true); // 모달 열기
+  const handleCloseModal = () => setIsModalOpen(false); // 모달 닫기
+
+  const handleModalSubmit = async () => {
+    // 모달 제출 후 메시지 리스트를 새로 고침
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/page/guestBook/list', {
+        params: { limit: 1000 }
+      });
+      setMessages(response.data);
+    } catch (err) {
+      console.error('방명록을 가져오는 데 실패했습니다:', err);
+    }
+  };
+
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
   return (
-    <PostItList>
-      {messages.length > 0 ? (
-        messages.map((msg) => (
-          <PostItItem key={msg.guestbookId} message={msg.content} />
-        ))
-      ) : (
-        <div>
-          <p>방명록이 없습니다.</p>
-        </div>
+    <div>
+      <PostItList>
+        {messages.length > 0 ? (
+          messages.map((msg) => (
+            <PostItItem key={msg.guestbookId} message={msg.content} />
+          ))
+        ) : (
+          <div>
+            <p>방명록이 없습니다.</p>
+          </div>
+        )}
+      </PostItList>
+      {showAddButton && (
+        <AddButtonContainer>
+          <Button colorScheme="teal" onClick={handleOpenModal}>
+            새 방명록 추가
+          </Button>
+        </AddButtonContainer>
       )}
-    </PostItList>
+      <CreateGuestBook
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        senderId={1} // 실제 senderId로 교체
+        receiverId={2} // 실제 receiverId로 교체
+        onSubmit={handleModalSubmit} // 제출 후 메시지 새로 고침 함수
+      />
+    </div>
   );
 };
 

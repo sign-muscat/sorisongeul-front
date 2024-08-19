@@ -20,9 +20,9 @@ const IndividualForm = () => {
         emailNotVerified: false
     });
 
-    const [isEmailSent, setIsEmailSent] = useState(false); // 이메일이 발송되었는지 여부
+    const [isEmailSent, setIsEmailSent] = useState(false); 
 
-    const navigate = useNavigate(); // 페이지 이동을 위한 훅
+    const navigate = useNavigate(); 
 
     const handleChange = (e) => {
         setFormData({
@@ -35,7 +35,7 @@ const IndividualForm = () => {
         const errors = {
             passwordMismatch: formData.password !== formData.confirmPassword,
             emailInvalid: !/\S+@\S+\.\S+/.test(formData.email),
-            emailNotVerified: !isEmailSent // 이메일 인증이 완료되지 않은 경우
+            emailNotVerified: !isEmailSent 
         };
 
         setFormErrors(errors);
@@ -57,10 +57,10 @@ const IndividualForm = () => {
         try {
             console.log('Sending data to backend:', formData);
             const response = await axios.post('http://localhost:8080/api/v1/users/new', formData, {
-                withCredentials: true // 자격 증명을 포함
+                withCredentials: true 
             });
             console.log('Response:', response.data);
-            navigate('/users/success'); // 회원가입 성공 후 이동할 페이지
+            navigate('/users/success'); 
         } catch (error) {
             if (error.response) {
                 console.error('Error response:', error.response.data);

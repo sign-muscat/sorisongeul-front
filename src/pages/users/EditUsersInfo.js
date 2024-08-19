@@ -7,7 +7,7 @@ function EditUsersInfo() {
     const [nickname, setNickname] = useState("");
     const [profileImage, setProfileImage] = useState(null);
     const [keyword, setKeyword] = useState("");
-    const [userId, setUserId] = useState(null); // userId 상태 추가
+    const [userId, setUserId] = useState(null); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,7 +16,7 @@ function EditUsersInfo() {
                 const response = await fetch("/api/v1/users/me");
                 if (response.ok) {
                     const data = await response.json();
-                    setUserId(data.id); // userId를 상태로 저장
+                    setUserId(data.id); 
                     setNickname(data.nickname);
                     setKeyword(data.keyword);
                 } else {
@@ -38,7 +38,6 @@ function EditUsersInfo() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // userId가 없으면 요청하지 않도록 처리
         if (!userId) {
             alert("사용자 ID를 찾을 수 없습니다.");
             return;
@@ -53,7 +52,7 @@ function EditUsersInfo() {
         }
 
         try {
-            const response = await fetch(`/api/users/${userId}`, { // userId를 URL에 포함
+            const response = await fetch(`/api/users/${userId}`, { 
                 method: "PUT",
                 body: formData,
             });

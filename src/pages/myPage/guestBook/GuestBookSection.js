@@ -1,13 +1,13 @@
 import { Box, HStack, Switch, Text, VStack } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
-import GestBookList from './GuestBookList';
+import GestBookList from './GuestBookList'; // GestBookList import
 
 function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
     const navigate = useNavigate();
 
     const handleTextClick = () => {
-        navigate('/myPage/gestBookList'); // 클릭 시 이동할 경로
-    }
+        navigate('/myPage/gestBookList'); 
+    };
 
     return (
         <Box
@@ -36,7 +36,7 @@ function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
             </HStack>
             {guestBookVisible ? (
                 <VStack align="stretch" spacing={2}>
-                    <GestBookList /> {/* 메시지 데이터는 GestBookList 내에서 정의 */}
+                    <GestBookList showAddButton={false} /> {}
                 </VStack>
             ) : (
                 <Text color="gray.500" fontStyle="italic">
