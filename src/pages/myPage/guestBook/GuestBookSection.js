@@ -1,6 +1,14 @@
 import { Box, HStack, Switch, Text, VStack } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
+import GestBookList from './GuestBookList';
 
 function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
+    const navigate = useNavigate();
+
+    const handleTextClick = () => {
+        navigate('/myPage/gestBookList'); // 클릭 시 이동할 경로
+    }
+
     return (
         <Box
             border="1px solid"
@@ -9,10 +17,15 @@ function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
             borderRadius="md"
             boxShadow="sm"
             minW="250px"
-            minH="300px" // Ensure the same height
+            minH="300px"
         >
             <HStack justifyContent="space-between" mb={3}>
-                <Text fontWeight="bold" fontSize="lg">
+                <Text 
+                    fontWeight="bold" 
+                    fontSize="lg"
+                    onClick={handleTextClick} 
+                    cursor="pointer" 
+                >
                     ❤️ 방명록
                 </Text>
                 <Switch
@@ -23,21 +36,7 @@ function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
             </HStack>
             {guestBookVisible ? (
                 <VStack align="stretch" spacing={2}>
-                    {[
-                        { username: "asdf12", comment: "점수 많이 올랐다~ 화이팅해!" },
-                        { username: "qwe983", comment: "오늘 같이 해서 재미있었어~~" },
-                    ].map((entry, index) => (
-                        <Box
-                            key={index}
-                            p={3}
-                            bg="white"
-                            borderRadius="md"
-                            boxShadow="sm"
-                        >
-                            <Text fontWeight="bold">{entry.username}</Text>
-                            <Text>{entry.comment}</Text>
-                        </Box>
-                    ))}
+                    <GestBookList /> {/* 메시지 데이터는 GestBookList 내에서 정의 */}
                 </VStack>
             ) : (
                 <Text color="gray.500" fontStyle="italic">

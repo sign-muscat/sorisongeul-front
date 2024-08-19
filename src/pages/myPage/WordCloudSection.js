@@ -1,7 +1,10 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import { Box, Collapse, HStack, IconButton, Text } from "@chakra-ui/react";
+import { Box, Collapse, HStack, IconButton, Image, Text } from "@chakra-ui/react";
 
-function WordCloudSection({ wordCloudVisible, setWordCloudVisible }) {
+function WordCloudSection({ wordCloudVisible, setWordCloudVisible, keywords }) {
+    // 워드 클라우드 이미지 URL 생성
+    const wordCloudImageUrl = keywords ? `/images/${keywords}_wordcloud.png` : '';
+
     return (
         <Box
             bg="gray.50"
@@ -23,11 +26,20 @@ function WordCloudSection({ wordCloudVisible, setWordCloudVisible }) {
                 />
             </HStack>
             <Collapse in={wordCloudVisible}>
-                <Box h="150px" bg="white" borderRadius="md" boxShadow="sm">
-                    {/* Placeholder for Word Cloud */}
-                    <Text color="gray.500" fontStyle="italic" p={5}>
-                        워드 클라우드 자리입니다.
-                    </Text>
+                <Box h="150px" bg="white" borderRadius="md" boxShadow="sm" p={2}>
+                    {wordCloudImageUrl ? (
+                        <Image
+                            src={wordCloudImageUrl}
+                            alt="워드 클라우드 이미지"
+                            objectFit="cover"
+                            w="full"
+                            h="full"
+                        />
+                    ) : (
+                        <Text color="gray.500" fontStyle="italic">
+                            관심사를 입력하면 워드 클라우드가 생성됩니다.
+                        </Text>
+                    )}
                 </Box>
             </Collapse>
         </Box>

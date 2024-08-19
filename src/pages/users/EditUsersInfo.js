@@ -5,16 +5,18 @@ import { useNavigate } from "react-router-dom";
 function EditUsersInfo() {
     const [password, setPassword] = useState("");
     const [nickname, setNickname] = useState("");
-    const [profileImage, setProfileImage] = useState(null); // 프로필 이미지 파일
+    const [profileImage, setProfileImage] = useState(null);
     const [keyword, setKeyword] = useState("");
+    const [userId, setUserId] = useState(null); // userId 상태 추가
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch("/api/users/me");
+                const response = await fetch("/api/v1/users/me");
                 if (response.ok) {
                     const data = await response.json();
+                    setUserId(data.id); // userId를 상태로 저장
                     setNickname(data.nickname);
                     setKeyword(data.keyword);
                 } else {
@@ -30,33 +32,36 @@ function EditUsersInfo() {
     }, []);
 
     const handleFileChange = (e) => {
-        setProfileImage(e.target.files[0]); // 선택된 파일을 상태에 저장
+        setProfileImage(e.target.files[0]);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // 폼 데이터 객체 생성
+        // userId가 없으면 요청하지 않도록 처리
+        if (!userId) {
+            alert("사용자 ID를 찾을 수 없습니다.");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("password", password);
         formData.append("nickname", nickname);
-        formData.append("keyword", keyword);
+        formData.append("keywords", keyword);
         if (profileImage) {
-            formData.append("profileImage", profileImage); // 파일 추가
+            formData.append("profileImage", profileImage);
         }
 
         try {
-            const response = await fetch("/api/users/update", {
+            const response = await fetch(`/api/users/${userId}`, { // userId를 URL에 포함
                 method: "PUT",
-                body: formData, // FormData 객체 전송
+                body: formData,
             });
 
             if (response.ok) {
-                // 성공적으로 수정된 경우
                 alert("회원정보가 성공적으로 수정되었습니다.");
-                navigate("/mypage/mypageHome"); // 성공 후 리다이렉트
+                navigate("/mypage/mypageHome");
             } else {
-                // 오류 처리
                 alert("회원정보 수정에 실패했습니다.");
             }
         } catch (error) {

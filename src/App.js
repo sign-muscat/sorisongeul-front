@@ -4,6 +4,7 @@ import WideLayout from "./layouts/WideLayout";
 import HandGameInfo from "./pages/hand/HandGameInfo";
 import LipGameInfo from "./pages/lip/LipGameInfo";
 import MainPage from "./pages/MainPage";
+import GestBookList from "./pages/myPage/guestBook/GuestBookList.js";
 import MypageHomePage from "./pages/myPage/MypageHomePage.js";
 import PricingPage from "./pages/pricing/PricingPage";
 import SoundGameInfo from "./pages/sound/SoundGameInfo";
@@ -31,6 +32,7 @@ function App() {
                 </Route>
                 <Route path="mypage">
                     <Route path="mypageHome" element={<MypageHomePage />} />
+                    <Route path="gestBookList" element={<GestBookList />} />
                 </Route>
             </Route>
             <Route path="/pricing" element={<WideLayout/>}>
