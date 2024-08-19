@@ -10,8 +10,11 @@ import {
 import {CloseIcon} from "@chakra-ui/icons";
 import FindPasswordForm from "../../components/form/FindPasswordForm";
 
-function FindPasswordPage({isOpen, onClose}) {
-
+function FindPasswordPage({isOpen, onClose, openLoginModal}) {
+    const handleSuccess = () => {
+        onClose();
+        openLoginModal();
+    };
     return(
         <>
             <Modal trapFocus={false} onClose={onClose} isOpen={isOpen} closeOnOverlayClick={false} closeOnEsc={false} className="findPasswordPage" >
@@ -20,7 +23,7 @@ function FindPasswordPage({isOpen, onClose}) {
                     <Flex w="1125px" h="800px" justifyContent="space-between">
                         <Flex w="595px" flexDirection="column" px="40px" py="30px" alignItems="center">
                             <ModalHeader w="100%" p={0}><Image src="/images/logo.png" alt="소리손순 로고 이미지"/></ModalHeader>
-                            <FindPasswordForm/>
+                            <FindPasswordForm onSuccess={handleSuccess}/>
                         </Flex>
                         <Flex w="530px" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" backgroundImage="/images/login_benner_img.png">
                         </Flex>

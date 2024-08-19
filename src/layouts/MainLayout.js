@@ -12,14 +12,14 @@ function MainLayout() {
     const [isLoginModalOpen, setLoginModalOpen] = useState(false);
     const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
     const openLoginModal = () => {
-        setPasswordModalOpen(false); // 비밀번호 모달을 닫고
-        setLoginModalOpen(true); // 로그인 모달을 연다
+        setPasswordModalOpen(false);
+        setLoginModalOpen(true);
     };
     const closeLoginModal = () => setLoginModalOpen(false);
 
     const openPasswordModal = () => {
-        setLoginModalOpen(false); // 로그인 모달을 닫고
-        setPasswordModalOpen(true); // 비밀번호 찾기 모달을 연다
+        setLoginModalOpen(false);
+        setPasswordModalOpen(true);
     };
 
     const closePasswordModal = () => setPasswordModalOpen(false);
@@ -42,7 +42,7 @@ function MainLayout() {
                 <LoginPage isOpen={isLoginModalOpen} onClose={closeLoginModal} onForgotPassword={openPasswordModal} />
             )}
             {isPasswordModalOpen && (
-                <FindPasswordPage isOpen={isPasswordModalOpen} onClose={closePasswordModal} />
+                <FindPasswordPage isOpen={isPasswordModalOpen} onClose={closePasswordModal} openLoginModal={openLoginModal}/>
             )}
         </>
 

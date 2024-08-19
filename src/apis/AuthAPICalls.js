@@ -44,6 +44,20 @@ export const callLoginAPI = ({ loginRequest, toast }) => {
 }
 
 // 이메일 인증 코드 요청 API
+export const callSendVerificationCodeAPI = (email) => {
+    return async (dispatch, getState) => {
+        const response = await request(
+            'POST',
+            `/api/v1/email/send`,
+            { 'Content-Type': 'application/x-www-form-urlencoded' },
+            { email: email }
+        );
+
+        return response.data;
+    };
+};
+
+// 이메일 인증 코드 검증 API
 export const callCheckVerificationCodeAPI = (verifyToken, codeValue, emailValue) => {
     return async (dispatch, getState) => {
         const response = await request(
@@ -56,6 +70,21 @@ export const callCheckVerificationCodeAPI = (verifyToken, codeValue, emailValue)
         return response.data;
     };
 };
+
+// 비밀번호 재설정 요청 API
+export const callResetPasswordAPI = (email, passwordRequest) => {
+    return async (dispatch, getState) => {
+        const response = await request(
+            'POST',
+            `/api/v1/verify/password?email=${encodeURIComponent(email)}`,
+            { 'Content-Type': 'application/json' },
+            JSON.stringify(passwordRequest)
+        );
+
+        return response.data;
+    };
+};
+
 
 // 로그아웃 요청 API
 export const callLogoutAPI = () => {
