@@ -25,7 +25,7 @@ function FindPasswordPage({isOpen, onClose, openLoginModal}) {
                             <ModalHeader w="100%" p={0}><Image src="/images/logo.png" alt="소리손순 로고 이미지"/></ModalHeader>
                             <FindPasswordForm onSuccess={handleSuccess}/>
                         </Flex>
-                        <Flex w="530px" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" backgroundImage="/images/login_benner_img.png">
+                        <Flex w="530px" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" backgroundImage="/images/img_login_banner.png">
                         </Flex>
                     </Flex>
                     <ModalFooter position="absolute" right="10px" top="10px">
