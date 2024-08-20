@@ -1,5 +1,5 @@
 import {authRequest, request} from "./api";
-import {success} from "../modules/UserModules";
+import {success} from "../modules/AuthModules";
 import {removeToken, saveToken} from "../utils/TokenUtils";
 
 // 로그인 요청 API
