@@ -96,7 +96,7 @@ function LoginForm ({ onForgotPassword, onSuccess }){
                             <InputLeftElement pointerEvents="none">
                                 <Lock color="#BDBDBD" />
                             </InputLeftElement>
-                            <Input type="password" fontSize="12px" placeholder="비밀번호를 입력하세요"
+                            <Input type="password" autoComplete="current-password" fontSize="12px" placeholder="비밀번호를 입력하세요"
                                    onChange={onChangeHandler} name="password"/>
                         </InputGroup>
                     </FormControl>

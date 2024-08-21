@@ -10,7 +10,12 @@ import {
 } from "@chakra-ui/react";
 import {Envelope, Key} from "react-bootstrap-icons";
 import {useState} from "react";
-import {callCheckVerificationCodeAPI, callSendVerificationCodeAPI, callResetPasswordAPI} from "../../apis/AuthAPICalls";
+import {
+    callCheckVerificationCodeAPI,
+    callSendVerificationCodeAPI,
+    callResetPasswordAPI,
+    callLoginAPI
+} from "../../apis/AuthAPICalls";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
@@ -90,26 +95,69 @@ function FindPasswordForm({onSuccess}) {
     };
 
     const checkVerificationCode = async () => {
-        const response = await dispatch(callCheckVerificationCodeAPI(verifyToken, code, email));
-        if (response.success) {
-            toast({
-                title: "이메일 인증 성공",
-                description: "이메일 인증이 완료되었습니다.",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-            });
-            setVerifiedEmail(true);
-            setShowPasswordInput(true);
-        } else {
-            toast({
-                title: "인증 실패",
-                description: "인증 코드가 올바르지 않습니다.",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
-            setErrors({ ...errors, code: "인증 코드가 올바르지 않습니다." });
+        try {
+            const response = await dispatch(callCheckVerificationCodeAPI(verifyToken, code, email));
+
+            if (response && response.status === 200) {
+                toast({
+                    title: "이메일 인증 성공",
+                    description: "이메일 인증이 완료되었습니다.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                });
+                setVerifiedEmail(true);
+                setShowPasswordInput(true);
+            }
+        } catch (error) {
+            console.log("에러를 잡았냐! error:", error);
+            if (error.response) {
+                console.log("에러쪽 상태 코드내놔!! : ", error.response.status);
+                // 응답 코드에 따라 토스트 메시지 다르게 표시
+                switch (error.response.status) {
+                    case 404:
+                        toast({
+                            title: "인증 실패",
+                            description: "해당 이메일로 가입된 회원이 존재하지 않습니다.",
+                            status: "error",
+                            duration: 5000,
+                            isClosable: true,
+                        });
+                        setErrors({ ...errors, email: "해당 이메일로 가입된 회원이 존재하지 않습니다." });
+                        setEmail('');
+                        setCode('');
+                        break;
+                    case 400:
+                        toast({
+                            title: "인증 실패",
+                            description: "인증 코드가 올바르지 않거나 유효 시간이 만료되었습니다.",
+                            status: "error",
+                            duration: 5000,
+                            isClosable: true,
+                        });
+                        setErrors({ ...errors, code: "인증 코드가 올바르지 않습니다." });
+                        break;
+                    default:
+                        toast({
+                            title: "인증 실패",
+                            description: "인증에 실패했습니다. 다시 시도해 주세요.",
+                            status: "error",
+                            duration: 5000,
+                            isClosable: true,
+                        });
+                        break;
+                }
+            } else {
+                console.log("error.response가 아예 없음! 네트워크 오류로 보임");
+                // 네트워크 오류 등 처리
+                toast({
+                    title: "오류 발생",
+                    description: "서버와의 통신 중 오류가 발생했습니다.",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                });
+            }
         }
     };
 
@@ -188,7 +236,7 @@ function FindPasswordForm({onSuccess}) {
                         <FormControl mt={5}>
                             <FormLabel fontSize="12px" color="#333">새 비밀번호</FormLabel>
                             <InputGroup>
-                                <Input type="password" fontSize="12px" placeholder="새 비밀번호를 입력하세요" value={newPassword}
+                                <Input type="password" autoComplete="new-password" fontSize="12px" placeholder="새 비밀번호를 입력하세요" value={newPassword}
                                        onChange={handleNewPasswordChange}/>
                             </InputGroup>
                         </FormControl>
@@ -196,7 +244,7 @@ function FindPasswordForm({onSuccess}) {
                         <FormControl mt={5}>
                             <FormLabel fontSize="12px" color="#333">비밀번호 확인</FormLabel>
                             <InputGroup>
-                                <Input type="password" fontSize="12px" placeholder="비밀번호를 다시 입력하세요" value={confirmPassword}
+                                <Input type="password" autoComplete="new-password" fontSize="12px" placeholder="비밀번호를 다시 입력하세요" value={confirmPassword}
                                        onChange={handleConfirmPasswordChange}/>
                             </InputGroup>
                         </FormControl>

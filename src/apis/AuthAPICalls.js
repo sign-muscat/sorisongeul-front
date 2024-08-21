@@ -60,6 +60,7 @@ export const callSendVerificationCodeAPI = (email) => {
 // 이메일 인증 코드 검증 API
 export const callCheckVerificationCodeAPI = (verifyToken, codeValue, emailValue) => {
     return async (dispatch, getState) => {
+
         const response = await request(
             'POST',
             `/api/v1/email/verify`,
@@ -67,9 +68,18 @@ export const callCheckVerificationCodeAPI = (verifyToken, codeValue, emailValue)
             new URLSearchParams({ token: verifyToken, code: codeValue, email: emailValue })
         );
 
-        return response.data;
+        if(response.status !== 200) {
+            const error = new Error (`에러 상태코드 : ${response.status}`)
+            error.response = response;
+            throw error;
+        }
+
+        return response;
+
     };
 };
+
+
 
 // 비밀번호 재설정 요청 API
 export const callResetPasswordAPI = (email, passwordRequest) => {
