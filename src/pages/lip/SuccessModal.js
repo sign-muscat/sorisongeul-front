@@ -15,6 +15,11 @@ function SuccessModal({nextQuestion, isOpen, onClose, riddleId}) {
     const {wordVideo} = useSelector(state => state.handGameReducer);
 
     useEffect(() => {
+        // isOpen 상태가 변경될 때마다 로그 출력
+        console.log("isOpen 상태:", isOpen);
+    }, [isOpen]);
+
+    useEffect(() => {
         if(riddleId)
             dispatch(callGetWordVideoAPI(riddleId));
     }, [riddleId, dispatch]);

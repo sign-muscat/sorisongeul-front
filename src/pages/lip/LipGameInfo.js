@@ -1,17 +1,9 @@
 import { Box, Button, Card, Divider, HStack, Image, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import LipGamePage from "./LipGamePage";
-import DifficultyButton from "../../components/button/DifficultyButton";
 
 function LipGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
-    const [difficulty, setDifficulty] = useState("LEVEL_1");
-
-    const descriptionText = [
-        "쉬움-쉬운 단어, 짧은 문장, 보통-어려운 단어, 짧은 문장,",
-        "어려움-어려운 단어, 긴 문장으로 이루어진 영상이 출제",
-        "됩니다."
-    ].join('\n');
 
     const handleStartGame = () => {
         setIsGameStarted(true);
@@ -21,13 +13,9 @@ function LipGameInfo() {
         setIsGameStarted(false);
     };
 
-    const handleDifficulty = (e) => {
-        setDifficulty(e.target.value);
-    }
-
     return (
         isGameStarted ?
-            <LipGamePage difficulty={difficulty} onQuitGame={handleQuitGame}/>
+            <LipGamePage onQuitGame={handleQuitGame}/>
             :
             <>
                 <Card p={4} mb={5}>
@@ -51,10 +39,6 @@ function LipGameInfo() {
                 <Button variant='gradient' w="100%" minH="80px" onClick={handleStartGame}>
                     🙏🤲 게임 시작!
                 </Button>
-
-                <DifficultyButton difficulty={difficulty} handleDifficulty={handleDifficulty} description={descriptionText}/>
-
-                <Divider my={5}/>
             </>
     );
 }

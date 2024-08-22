@@ -8,9 +8,11 @@ import LipSimilarityTable from "../../components/table/LipSimilarityTable";
 import QuitGame from "../../components/button/QuitGame";
 import SuccessModal from "./SuccessModal";
 import Confetti from "react-confetti";
+import {useDisclosure} from "@chakra-ui/react";
 
 function LipGamePage({ difficulty, onQuitGame }) {
     const dispatch = useDispatch();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const { voiceQuestion } = useSelector(state => state.lipGameReducer);
     const [currentVoiceQuestion, setCurrentVoiceQuestion] = useState(null);
     const [answerData, setAnswerData] = useState(null);
@@ -25,12 +27,14 @@ function LipGamePage({ difficulty, onQuitGame }) {
             //console.log("정답 : ",memoizedAnswerData.similarity === 0)
 
             setTimeout(() => setShowConfetti(false), 5000);
+            onOpen();
+            console.log("모달 열림 상태: ", isOpen);
         }
     }, [memoizedAnswerData]);
 
     useEffect(()=>{
-        dispatch(callGetVoiceQuestionAPI({difficulty}));
-    },[dispatch, difficulty])
+        dispatch(callGetVoiceQuestionAPI());
+    },[dispatch])
 
     // const memoizedVoiceQuestion = useMemo(() => voiceQuestion, [voiceQuestion]);
     useEffect(() => {
@@ -39,6 +43,10 @@ function LipGamePage({ difficulty, onQuitGame }) {
         }
     }, [voiceQuestion]);
 
+    const handleModalClose = () => {
+        onClose();
+        onQuitGame();
+    }
     // 변경된 부분
 
     //console.log("상위 컴포넌트에서 확인하는 정답 값! : ",memoizedAnswerData)
@@ -48,14 +56,17 @@ function LipGamePage({ difficulty, onQuitGame }) {
                 currentVoiceQuestion ?
                     <>
                         <QuitGame onQuitGame={onQuitGame}/>
-                        <GameHeader title='너의 목소리가 보여' difficulty={difficulty}/>
+                        <GameHeader title='너의 목소리가 보여'/>
                         <LipGameQuestion voiceQuestion={currentVoiceQuestion}/>
                         <LipGameAnswer voiceQuestion={currentVoiceQuestion} setAnswerData={setAnswerData}/>
                         <LipSimilarityTable dataList={memoizedAnswerData} />
                         {showConfetti &&
-                            <Confetti width={window.innerWidth} height={window.innerHeight}
-                                      recycle={false}/>
+                            <>
+                                <Confetti width={window.innerWidth} height={window.innerHeight}
+                                          recycle={false}/>
+                            </>
                         }
+                        <SuccessModal isOpen={isOpen} onClose={handleModalClose}/>
                     </>
                     :
                     <div>문제가 조회되지 않았어요.</div>

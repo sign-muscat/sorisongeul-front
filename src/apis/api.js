@@ -34,7 +34,8 @@ export const authRequest = axios.create({
 });
 
 authRequest.interceptors.request.use(config => {
-    config.headers['Access-Token'] = getAccessTokenHeader();
+    console.log("Authorization 헤더: ", config.headers['Authorization']);
+    config.headers['Authorization'] = getAccessTokenHeader();
     return config;
 });
 
@@ -55,7 +56,7 @@ authRequest.interceptors.response.use(
                 // 토큰 재발급에 성공했을 때
                 saveToken(response.headers);
                 // 실패했던 요청을 다시 요청
-                originRequest.headers['Access-Token'] = getAccessTokenHeader();
+                originRequest.headers['Authorization'] = getAccessTokenHeader();
                 return axios(originRequest);
             }
         }

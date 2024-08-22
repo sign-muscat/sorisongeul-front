@@ -2,6 +2,7 @@ import {Box, Button, Input, InputGroup, InputRightElement, Text} from "@chakra-u
 import React, {useCallback, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {callGetVoiceAnswerCheck} from "../../apis/lipGameAPICalls";
+import {getUserId, isLogin} from "../../utils/TokenUtils";
 
 function LipGameAnswer({ voiceQuestion , setAnswerData }) {
     const dispatch = useDispatch();
@@ -9,9 +10,10 @@ function LipGameAnswer({ voiceQuestion , setAnswerData }) {
     const { getVoiceAnswerCheck } = useSelector(state => state.lipGameReducer)
 
     //임시 테스트용 플레이어 아이디와, 문제 아이디
-    const playerId = 1;
+    // const playerId = 1;
+    const playerId = isLogin() ? getUserId() : null;
     const voiceId = voiceQuestion?.voiceId;
-
+    console.log("현재 로그인 되어 있어?? 로그인 되어 있는 사람은 몇번 이닝? : ", playerId);
     const onChangeHandler = e => setInputText(e.target.value);
 
     function handleKeyPress(e) {
