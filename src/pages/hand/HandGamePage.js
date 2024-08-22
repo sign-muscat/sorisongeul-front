@@ -1,32 +1,31 @@
-import {Button, Flex, useDisclosure} from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Flex, useDisclosure } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import Confetti from 'react-confetti';
+
 import QuitGame from "../../components/button/QuitGame";
 import SkipButton from "../../components/button/SkipButton";
 import GameHeader from "../../components/game/GameHeader";
-import {useEffect, useRef, useState} from "react";
 import HandGameHint from "./HandGameHint";
 import HandGameQuestion from "./HandGameQuestion";
-import {useDispatch, useSelector} from "react-redux";
-import {callCheckCorrect, callGetWordsAPI} from "../../apis/HandGameAPICalls";
-import {statusToastAlert} from "../../utils/ToastUtils";
-import { resetCorrect, updateCorrect} from "../../modules/HandGameReducer";
 import SuccessModal from "./SuccessModal";
-import Confetti from 'react-confetti';
 import HandGameFinish from "./HandGameFinish";
 
+import { callCheckCorrect, callGetWordsAPI, callGetWordImageAPI } from "../../apis/HandGameAPICalls";
+import { statusToastAlert } from "../../utils/ToastUtils";
+import { resetCorrect, updateCorrect, resetAll } from "../../modules/HandGameReducer";
 
 function HandGamePage({difficulty, onQuitGame}) {
-
     const [gameInfo, setGameInfo] = useState({
-        totalQuestion: 3,       // 총 문제 개수
-        currentQuestion: 0,     // 현재 문제 순번
-        currentStep: 1,         // 현재 문제의 Step
-        correctedAnswer: 0,     // 정답 개수
-        skipCount: 0,           // 건너 뛴 횟수
+        totalQuestion: 3, // 총 문제 개수
+        currentQuestion: 0,  // 현재 문제 순번
+        currentStep: 1,  // 현재 문제의 Step
+        correctedAnswer: 0,  // 정답 개수
+        skipCount: 0,  // 건너 뛴 횟수
     });
 
     const webcamRef = useRef(null);
     const dispatch = useDispatch();
-
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [capturedImage, setCapturedImage] = useState(null);
@@ -37,8 +36,22 @@ function HandGamePage({difficulty, onQuitGame}) {
     const {questionList, isCorrect} = useSelector(state => state.handGameReducer);
 
     useEffect(() => {
-        dispatch(callGetWordsAPI(difficulty, gameInfo.totalQuestion));
+        dispatch(resetAll());
+        setGameInfo({
+            totalQuestion: 3,
+            currentQuestion: 0,
+            currentStep: 1,
+            correctedAnswer: 0,
+            skipCount: 0,
+        });
+        dispatch(callGetWordsAPI(difficulty, 3));
     }, [difficulty, dispatch]);
+
+    useEffect(() => {
+        if (questionList.length > 0) {
+            dispatch(callGetWordImageAPI(questionList[gameInfo.currentQuestion].riddleId, gameInfo.currentStep));
+        }
+    }, [questionList, gameInfo.currentQuestion, gameInfo.currentStep, dispatch]);
 
     useEffect(() => {
         if (isCorrect !== null && isCorrect) {
@@ -54,13 +67,13 @@ function HandGamePage({difficulty, onQuitGame}) {
             );
             reset();
         }
-    }, [isCorrect, dispatch]);
+    }, [isCorrect, gameInfo.currentStep, gameInfo.currentQuestion, questionList, onOpen]);
 
     const nextStep = () => {
-        setGameInfo({
-            ...gameInfo,
-            currentStep: gameInfo.currentStep + 1
-        });
+        setGameInfo(prev => ({
+            ...prev,
+            currentStep: prev.currentStep + 1
+        }));
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 5000);
         reset();
@@ -72,12 +85,12 @@ function HandGamePage({difficulty, onQuitGame}) {
         if(gameInfo.currentQuestion === gameInfo.totalQuestion - 1) {
             setIsGameFinished(true);
         } else {
-            setGameInfo({
-                ...gameInfo,
-                currentQuestion: gameInfo.currentQuestion + 1,
+            setGameInfo(prev => ({
+                ...prev,
+                currentQuestion: prev.currentQuestion + 1,
                 currentStep: 1,
-                correctedAnswer: correctValue ? gameInfo.correctedAnswer + 1 : gameInfo.correctedAnswer
-            });
+                correctedAnswer: correctValue ? prev.correctedAnswer + 1 : prev.correctedAnswer
+            }));
         }
         reset();
     }
@@ -107,35 +120,37 @@ function HandGamePage({difficulty, onQuitGame}) {
             // 웹캠에서 스크린샷을 캡처
             const imageSrc = webcamRef.current.getScreenshot();
             setCapturedImage(imageSrc);
-    
+
             // Data URL을 Blob으로 변환
             const base64Data = imageSrc.split(',')[1];
             const blob = await fetch(`data:image/jpeg;base64,${base64Data}`).then(res => res.blob());
-    
+
             // FormData에 이미지와 추가 데이터 추가
             const formData = new FormData();
             formData.append('file', blob, 'capture.jpg');
             formData.append('riddle_id', questionList[gameInfo.currentQuestion].riddleId);
             formData.append('current_step', gameInfo.currentStep);
-    
+
             // 서버로 데이터 전송
             dispatch(callCheckCorrect(formData));
         } catch (error) {
             console.error('Error capturing image or sending data:', error);
         }
     }
-    
 
     const increaseSkipCount = (count) => {
-        setGameInfo({
-            ...gameInfo,
+        setGameInfo(prev => ({
+            ...prev,
             skipCount: count
-        });
+        }));
         nextQuestion(false);
     };
 
+    if (!questionList || questionList.length === 0) {
+        return <div>Loading...</div>;
+    }
+
     return (
-        questionList && questionList.length > 0 &&
         <>
             {isGameFinished ? <HandGameFinish questionList={questionList} difficulty={difficulty}/>
             :
@@ -164,7 +179,6 @@ function HandGamePage({difficulty, onQuitGame}) {
                     }
                 </>
             }
-
         </>
     );
 }

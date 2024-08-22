@@ -18,8 +18,9 @@ const GET_WORD_VIDEO = 'game/GET_WORD_VIDEO';
 const CHECK_CORRECT = 'game/CHECK_CORRECT';
 const RESET_CORRECT = 'game/RESET_CORRECT';
 const UPDATE_CORRECT = 'game/UPDATE_CORRECT';
+const RESET_ALL = 'game/RESET_ALL';
 
-export const { game : {getWords, getWordImage, getWordVideo, checkCorrect, resetCorrect, updateCorrect}} = createActions({
+export const { game : {getWords, getWordImage, getWordVideo, checkCorrect, resetCorrect, updateCorrect, resetAll}} = createActions({
     [GET_WORDS] : result => ({ questionList : result.data }),
     [GET_WORD_IMAGE] : result => ({ wordImage : result.data }),
     [GET_WORD_VIDEO] : result => ({ wordVideo : result.data }),
@@ -31,6 +32,7 @@ export const { game : {getWords, getWordImage, getWordVideo, checkCorrect, reset
     }),
     [RESET_CORRECT] : () => ({ isCorrect: null, currentStep: null, totalSteps: null, feedback: null }),
     [UPDATE_CORRECT] : (index, isCorrect) => ({ index, isCorrect }),
+    [RESET_ALL]: () => initialState,
 });
 
 /* 리듀서 */
@@ -59,7 +61,8 @@ const handGameReducer = handleActions({
                 ? { ...item, isCorrect: payload.isCorrect }
                 : item
         )
-    })
+    }),
+    [RESET_ALL]: () => initialState,
 }, initialState);
 
 export default handGameReducer;
