@@ -70,3 +70,10 @@ function SoundGamePage({onQuitGame}) {
 }
 
 export default SoundGamePage;
+
+
+
+
+
+
+
