@@ -4,9 +4,20 @@ import 'pretendard/dist/web/static/pretendard.css'
 const theme = extendTheme({
     styles: {
         global: () => ({
+            '@font-face': [
+                {
+                    fontFamily: 'GangwonEduPower',
+                    src: "url('https://cdn.jsdelivr.net/gh/fonts-archive/GangwonEduPower/GangwonEduPower.css') format('woff2')",
+                    fontWeight: '400',
+                    fontStyle: 'normal',
+                },
+            ],
             '*' : {
                 fontFamily: 'Pretendard, sans-serif !important'
-            }
+            },
+            '.Gangwon': {
+                fontFamily: 'GangwonEduPower, sans-serif !important',
+            },
         }),
     },
     colors: {

@@ -7,7 +7,7 @@ function EditUsersInfo() {
     const [nickname, setNickname] = useState("");
     const [profileImage, setProfileImage] = useState(null);
     const [keyword, setKeyword] = useState("");
-    const [userId, setUserId] = useState(null); 
+    const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,7 +16,7 @@ function EditUsersInfo() {
                 const response = await fetch("/api/v1/users/me");
                 if (response.ok) {
                     const data = await response.json();
-                    setUserId(data.id); 
+                    setUserId(data.id);
                     setNickname(data.nickname);
                     setKeyword(data.keyword);
                 } else {
@@ -52,7 +52,7 @@ function EditUsersInfo() {
         }
 
         try {
-            const response = await fetch(`/api/users/${userId}`, { 
+            const response = await fetch(`/api/users/${userId}`, {
                 method: "PUT",
                 body: formData,
             });
