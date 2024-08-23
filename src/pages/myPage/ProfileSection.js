@@ -49,17 +49,17 @@ function ProfileSection() {
                                 🔑 인증 완료
                             </Badge>
                             <Button
-                                size="sm" // 크기를 조정합니다
-                                colorScheme="red" // 빨간색으로 설정
-                                variant="solid" // 배경색을 채우기
+                                size="sm" 
+                                colorScheme="red" 
+                                variant="solid" 
                                 onClick={handleDeleteClick}
-                                px={2} // 패딩을 조정하여 크기 맞추기
-                                py={1.5} // 패딩을 조정하여 크기 맞추기
-                                fontSize="xs" // 폰트 사이즈 조정
-                                fontWeight="normal" // 텍스트의 굵기를 일반으로 설정
-                                borderRadius="md" // 모서리 둥글게
-                                minWidth="auto" // 버튼 너비 조정
-                                height="auto" // 버튼 높이 조정
+                                px={2} 
+                                py={1.5} 
+                                fontSize="xs" 
+                                fontWeight="normal" 
+                                borderRadius="md" 
+                                minWidth="auto" 
+                                height="auto"
                             >
                                 회원탈퇴
                             </Button>

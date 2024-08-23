@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import MainPage from "./pages/MainPage";
+import WideLayout from "./layouts/WideLayout";
 import HandGameInfo from "./pages/hand/HandGameInfo";
 import SoundGameInfo from "./pages/sound/SoundGameInfo";
 import LipGameInfo from "./pages/lip/LipGameInfo";
+import GuestBookList from "./pages/myPage/guestBook/GuestBookList.js";
+import MypageHomePage from "./pages/myPage/MypageHomePage.js";
 import PricingPage from "./pages/pricing/PricingPage";
 import EditUsersInfo from "./pages/users/EditUsersInfo.js";
 import SignUp from "./pages/users/SignUp.js";
@@ -46,6 +49,7 @@ function App() {
                     </Route>
                     <Route path="mypage">
                         <Route path="mypageHome" element={<MypageHomePage />} />
+                        <Route path="guestBookList" element={<GuestBookList />} />
                     </Route>
                 </Route>
                 <Route path="/pricing" element={<WideLayout/>}>

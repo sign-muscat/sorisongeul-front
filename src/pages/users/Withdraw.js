@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const DeleteForm = ({ loggedInUser }) => { // loggedInUser: 로그인된 사용자의 정보
+const DeleteForm = ({ loggedInUser }) => { 
   const [email, setEmail] = useState('');
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
@@ -14,8 +14,8 @@ const DeleteForm = ({ loggedInUser }) => { // loggedInUser: 로그인된 사용�
 
   useEffect(() => {
     if (loggedInUser) {
-      setEmail(loggedInUser.email); // 로그인된 사용자의 이메일 설정
-      setUserId(loggedInUser.id); // 로그인된 사용자의 아이디 설정
+      setEmail(loggedInUser.email); 
+      setUserId(loggedInUser.id); 
     }
   }, [loggedInUser]);
 
@@ -29,7 +29,7 @@ const DeleteForm = ({ loggedInUser }) => { // loggedInUser: 로그인된 사용�
   
     try {
       const response = await axios.delete(`/api/v1/users/delete`, {
-        data: { email, userId, password }, // 이메일, 아이디, 비밀번호를 데이터로 전송
+        data: { email, userId, password }, 
       });
     
       if (response.status === 200) {
@@ -40,7 +40,7 @@ const DeleteForm = ({ loggedInUser }) => { // loggedInUser: 로그인된 사용�
           duration: 5000,
           isClosable: true,
         });
-        navigate('/users/success'); // 메인 페이지로 이동
+        navigate('/users/success'); 
       } else if (response.status === 404) {
         toast({
           title: "오류",
@@ -85,7 +85,7 @@ const DeleteForm = ({ loggedInUser }) => { // loggedInUser: 로그인된 사용�
           <FormLabel>이메일</FormLabel>
           <Input
             type="email"
-            value={email} // 이메일 자동 입력
+            value={email} 
             readOnly
           />
         </FormControl>
@@ -93,7 +93,7 @@ const DeleteForm = ({ loggedInUser }) => { // loggedInUser: 로그인된 사용�
           <FormLabel>아이디</FormLabel>
           <Input
             type="text"
-            value={userId} // 아이디 자동 입력
+            value={userId} 
             readOnly
           />
         </FormControl>

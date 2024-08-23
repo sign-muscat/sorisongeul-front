@@ -19,8 +19,8 @@ function Header({ onOpenLoginModal }) {
                     </ChakraLink>
                 </Heading>
                 <Flex alignItems="center" fontSize="14px" fontWeight="600">
-                    <ChakraLink as={ReactRouterLink} to='/'>소리손글 소개</ChakraLink>
-                    <ChakraLink as={ReactRouterLink} to='/' ml="35px">요금제</ChakraLink>
+                    <ChakraLink as={ReactRouterLink} to='/'>소리손순 소개</ChakraLink>
+                    <ChakraLink as={ReactRouterLink} to='/pricing' ml="35px">요금제</ChakraLink>
                     <ChakraLink as={ReactRouterLink} to='/' ml="35px">수어 찾기</ChakraLink>
                     <ChakraLink as={ReactRouterLink} to='/' ml="35px">커뮤니티</ChakraLink>
                     <Flex ml="35px" alignItems="center">
@@ -39,7 +39,7 @@ function Header({ onOpenLoginModal }) {
                                     <Unlock /><Text ml={1}>로그인</Text>
                                 </Button>
                                 <Button height="30px" fontSize="12px" px={3} ml={3}>
-                                    <ChakraLink display="flex" as={ReactRouterLink} to='/'><PersonPlus mr={1}/><Text ml={1}>회원가입</Text></ChakraLink>
+                                    <ChakraLink display="flex" as={ReactRouterLink} to='/users/insert'><PersonPlus mr={1}/><Text ml={1}>회원가입</Text></ChakraLink>
                                 </Button>
                             </>
                         )}
