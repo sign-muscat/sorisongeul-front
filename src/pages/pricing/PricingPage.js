@@ -7,30 +7,26 @@ import {
     CardHeader,
     Text,
     Heading,
-    SimpleGrid,
-    Flex,
-    VStack,
     HStack,
     Container,
     Center,
     Stack,
     Divider,
-    TableCaption,
     Thead,
     Tr,
     Th,
     Td,
     Tbody,
-    Tfoot,
     TableContainer,
-    Table, Image, Checkbox
+    Table, Image
 } from "@chakra-ui/react";
 import {CheckCircleIcon, CheckIcon} from "@chakra-ui/icons";
-import {Outlet} from "react-router-dom";
-import Sidebar from "../../components/Sidebar";
 import IonIcon from "@reacticons/ionicons";
+import {useNavigate} from "react-router-dom";
 
 function PricingPage() {
+    const navigate = useNavigate();
+
     return (
         <>
             <Box
@@ -71,7 +67,10 @@ function PricingPage() {
                             </Stack>
                         </CardBody>
                         <CardFooter p='unset'>
-                            <Button bg="red.100" borderRadius='full' w='100%'>무료로 시작하기</Button>
+                            <Button bg="red.100" borderRadius='full' w='100%'
+                                    onClick={() => navigate('/users/insert')}
+                            >
+                                무료로 시작하기</Button>
                         </CardFooter>
                     </Card>
                     <Center w="50%" h="350px"
@@ -141,7 +140,7 @@ function PricingPage() {
                             </Tr>
                             <Tr>
                                 <Th>도전! 소리 탐정</Th>
-                                <Td>맛보기 게임 플레이 가능</Td>
+                                <Td>플레이 불가능</Td>
                                 <Td>데일리 문제 플레이 가능</Td>
                             </Tr>
                             <Tr>

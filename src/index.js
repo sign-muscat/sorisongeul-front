@@ -7,6 +7,7 @@ import {ChakraProvider, createStandaloneToast} from "@chakra-ui/react";
 import customTheme from "./theme/theme.js"
 import store from "./store";
 import App from './App';
+import ScrollToTop from "./components/ScrollTop";
 
 const { ToastContainer } = createStandaloneToast();
 
@@ -16,6 +17,7 @@ root.render(
         <ChakraProvider theme={customTheme}>
             <Provider store={store}>
                 <BrowserRouter>
+                    <ScrollToTop/>
                     <App/>
                 </BrowserRouter>
             </Provider>
