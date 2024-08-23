@@ -5,8 +5,11 @@ import MainPage from "./pages/MainPage";
 import HandGameInfo from "./pages/hand/HandGameInfo";
 import SoundGameInfo from "./pages/sound/SoundGameInfo";
 import LipGameInfo from "./pages/lip/LipGameInfo";
-import WideLayout from "./layouts/WideLayout";
 import PricingPage from "./pages/pricing/PricingPage";
+import EditUsersInfo from "./pages/users/EditUsersInfo.js";
+import SignUp from "./pages/users/SignUp.js";
+import SuccessPage from "./pages/users/SuccessPage.js";
+import Withdraw from "./pages/users/Withdraw.js";
 import ProtectedRoute from "./components/router/ProtectedRoute";
 import LoginPage from './pages/auth/LoginPage';
 import FindPasswordPage from "./pages/auth/FindPasswordPage";
@@ -35,6 +38,15 @@ function App() {
                         <Route path="sound" element={<SoundGameInfo/>}/>
                         <Route path="lip" element={<LipGameInfo/>}/>
                     </Route>
+                    <Route path="users">
+                        <Route path="insert" element={<SignUp />} />
+                        <Route path="success" element={<SuccessPage />} />
+                        <Route path="delete" element={<Withdraw />} />
+                        <Route path="edit" element={<EditUsersInfo />} />
+                    </Route>
+                    <Route path="mypage">
+                        <Route path="mypageHome" element={<MypageHomePage />} />
+                    </Route>
                 </Route>
                 <Route path="/pricing" element={<WideLayout/>}>
                     <Route index element={<PricingPage/>}/>
@@ -46,4 +58,3 @@ function App() {
 }
 
 export default App;
-

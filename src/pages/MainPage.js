@@ -1,7 +1,16 @@
-import { Box, Divider, HStack } from "@chakra-ui/react";
+import { Box, Button, Divider, HStack } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import GameCard from "../components/card/GameCard";
 
 function MainPage() {
+    const navigate = useNavigate(); 
+
+    const handleNavigateToInsertForm = () => {
+        navigate('/users/insert'); 
+    };
+    const handleNavigateToMyPage = () => {
+        navigate('/myPage/mypageHome'); 
+    };
 
     const handGame = {
         title: '맞혀라! 수수께끼',
@@ -26,7 +35,16 @@ function MainPage() {
         <Box h="2000">
             <Box pb={10} display="flex" justifyContent="space-between" alignItems="center">
                 <span>메인 페이지</span>
+                <Button onClick={handleNavigateToMyPage} colorScheme="teal">
+                    마이페이지
+                </Button>
+                <Button onClick={handleNavigateToInsertForm} colorScheme="teal">
+                    회원가입
+                </Button>
             </Box>
+
+            
+
             <Divider mb={10} />
             <HStack spacing={2}>
                 <GameCard game={handGame} />
