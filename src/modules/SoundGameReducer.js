@@ -34,3 +34,10 @@ const soundGameReducer = handleActions({
 }, initialState);
 
 export default soundGameReducer;
+
+
+
+
+
+
+

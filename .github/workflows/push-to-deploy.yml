@@ -10,6 +10,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
         
       - name: Pushes to another repository
         id: push_directory
@@ -21,5 +23,5 @@ jobs:
           destination-github-username: ppyye
           destination-repository-name: sorisonsoon-front
           user-email: ${{ secrets.GIT_EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
+          commit-message: ${{ github.event.head_commit.message }}
           target-branch: main

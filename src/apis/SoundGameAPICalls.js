@@ -93,3 +93,28 @@ export const callRegisterAnswerAPI = (answerRequest) => {
         }
     }
 }
+
+export const callResetAnswerAPI = () => {
+    return async (dispatch, getState) => {
+        try {
+            const result = await request(
+                'POST',
+                `/api/v1/challenge/reset-answer`
+            );
+
+            console.log('callResetAnswerAPI result : ', result);
+
+            if(result.status === 200) {
+                console.log('Answer reset successfully');
+                // 필요한 경우 여기에 추가적인 디스패치 로직을 넣을 수 있습니다.
+            }
+
+        } catch (error) {
+            console.error('Failed to reset answer:', error);
+            // 에러 처리를 조용히 하고 싶다면 아래 코드는 주석 처리하거나 제거할 수 있습니다.
+            const title = '답변 초기화 중 문제가 발생했어요.';
+            const desc = '다시 시도해주세요.';
+            statusToastAlert(title, desc, 'error');
+        }
+    }
+}
