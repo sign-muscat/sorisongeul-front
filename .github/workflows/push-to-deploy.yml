@@ -1,0 +1,25 @@
+name: git push into personal repo to deploy using vercel
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.GIT_REPO_TOKEN }}
+        with:
+          source-directory: '.'
+          destination-github-username: ppyye
+          destination-repository-name: sorisonsoon-front
+          user-email: ${{ secrets.GIT_EMAIL }}
+          commit-message: ${{ github.event.commits[0].message }}
+          target-branch: main

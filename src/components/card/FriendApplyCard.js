@@ -5,8 +5,9 @@ import {SmallCloseIcon} from "@chakra-ui/icons";
 import {useRef} from "react";
 import {useDispatch} from "react-redux";
 import {callHandleFriendRequestAPI} from "../../apis/FriendAPICalls";
+import CancelApplyButton from "../button/CancelApplyButton";
 
-function FriendApplyCard({apply}) {
+function FriendApplyCard({apply, isFromMe}) {
 
     const dispatch = useDispatch();
     const acceptRequest = () => {
@@ -29,17 +30,21 @@ function FriendApplyCard({apply}) {
                                 <Heading size='sm'>{apply.nickname}</Heading>
                                 <Text fontSize='12px'>{apply.applyDate}</Text>
                             </Box>
-                            <VStack>
-                                <Button colorScheme='mint' size='xs' borderRadius='full' onClick={acceptRequest}>
-                                    수락
-                                </Button>
-                                <Button colorScheme='gray' size='xs' borderRadius='full' onClick={rejectRequest}>
-                                    거절
-                                </Button>
-
-                            </VStack>
+                            {
+                                !isFromMe &&
+                                    <VStack>
+                                        <Button colorScheme='mint' size='xs' borderRadius='full' onClick={acceptRequest}>
+                                            수락
+                                        </Button>
+                                        <Button colorScheme='gray' size='xs' borderRadius='full' onClick={rejectRequest}>
+                                            거절
+                                        </Button>
+                                    </VStack>
+                            }
                         </Flex>
-
+                        {
+                            isFromMe && <CancelApplyButton apply={apply}/>
+                        }
                     </Flex>
                 </Card>
             </>

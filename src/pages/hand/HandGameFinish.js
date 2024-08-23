@@ -1,10 +1,19 @@
 import {Box, Button, Flex, Text} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import QuestionTable from "../../components/table/QuestionTable";
-import RegistRank from "../../components/button/RegistRank";
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {callRegisterResult} from "../../apis/HandGameAPICalls";
 
 function HandGameFinish({questionList, difficulty}) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if(questionList) {
+            dispatch(callRegisterResult(questionList));
+        }
+    }, [questionList]);
 
     const getCorrectNum = (questions) => {
         let count = 0;
@@ -31,7 +40,6 @@ function HandGameFinish({questionList, difficulty}) {
                 <Button colorScheme='gray' size='sm' mx='5px' onClick={() => navigate('/')}>
                     메인으로
                 </Button>
-                <RegistRank difficulty={difficulty} correctNum={correctNum} questionList={questionList}/>
             </Flex>
         </>
     );

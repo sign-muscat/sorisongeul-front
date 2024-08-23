@@ -27,7 +27,8 @@ function SuccessModal({nextQuestion, isOpen, onClose, riddleId}) {
     return(
         wordVideo &&
         <>
-            <Modal onClose={onClose} isOpen={isOpen} isCentered size='lg'>
+            <Modal onClose={onClose} isOpen={isOpen} isCentered size='lg'
+                   closeOnOverlayClick={false} closeOnEsc={false}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalBody mt={10} mx={5}>

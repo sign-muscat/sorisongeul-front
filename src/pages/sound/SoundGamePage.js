@@ -6,32 +6,47 @@ import SoundGameQuestion from "./SoundGameQuestion";
 import SoundGameAnswer from "./SoundGameAnswer";
 import {callGetSoundAPI} from "../../apis/SoundGameAPICalls";
 import {useDispatch, useSelector} from "react-redux";
+import SoundSuccessModal from "./SoundSuccessModal";
+import {useDisclosure} from "@chakra-ui/react";
 
-function SoundGamePage({difficulty, onQuitGame}) {
+function SoundGamePage({onQuitGame}) {
 
     const dispatch = useDispatch();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
-    // TODO: 정답일 경우 처리 로직
     const [showConfetti, setShowConfetti] = useState(false);
 
-    const {sound} = useSelector(state => state.soundGameReducer);
-
+    const {sound, isCorrect} = useSelector(state => state.soundGameReducer);
 
     useEffect(() => {
-        dispatch(callGetSoundAPI(difficulty));
-    }, [difficulty, dispatch]);
+        dispatch(callGetSoundAPI());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if(isCorrect) {
+            setShowConfetti(true);
+            setTimeout(() => setShowConfetti(false), 5000);
+            onOpen();
+        }
+    }, [isCorrect]);
+
+    const handleModalClose = () => {
+        onClose();
+        onQuitGame();
+    }
 
     return (
         sound &&
         <>
             <QuitGame onQuitGame={onQuitGame}/>
-            <GameHeader title='도전! 소리 탐정' difficulty={difficulty}/>
+            <GameHeader title='도전! 소리 탐정'/>
             <SoundGameQuestion url={sound.url}/>
-            <SoundGameAnswer sound={sound}/>
+            <SoundGameAnswer sound={sound} isCorrect={isCorrect}/>
             {showConfetti &&
                 <Confetti width={window.innerWidth} height={window.innerHeight}
                           recycle={false}/>
             }
+            <SoundSuccessModal isOpen={isOpen} onClose={handleModalClose}/>
         </>
 
     );
