@@ -1,38 +1,25 @@
 import {
-    Button, Center, Heading, Text, Box, Image,
+    Button, Center, Heading, Text, Image,
     Modal,
     ModalBody,
     ModalContent,
     ModalFooter,
     ModalOverlay
 } from "@chakra-ui/react";
-import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {callGetWordVideoAPI} from "../../apis/HandGameAPICalls";
+import {useNavigate} from "react-router-dom";
 
-function SuccessModal({nextQuestion, isOpen, onClose, riddleId}) {
-    const dispatch = useDispatch();
-    const {wordVideo} = useSelector(state => state.handGameReducer);
+function SuccessModal({isOpen, onClose,  currentVoiceQuestion}) {
 
-    useEffect(() => {
-        // isOpen 상태가 변경될 때마다 로그 출력
-        console.log("isOpen 상태:", isOpen);
-    }, [isOpen]);
-
-    useEffect(() => {
-        if(riddleId)
-            dispatch(callGetWordVideoAPI(riddleId));
-    }, [riddleId, dispatch]);
-
+    const navigate = useNavigate();
     const onClickHandler = () => {
         onClose();
-        nextQuestion(true);
+        navigate('/game/lip');
     }
 
     return(
-        wordVideo &&
         <>
-            <Modal onClose={onClose} isOpen={isOpen} isCentered size='lg'>
+            <Modal onClose={onClose} isOpen={isOpen} isCentered size='lg'
+                   closeOnOverlayClick={false} closeOnEsc={false}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalBody mt={10} mx={5}>
@@ -40,23 +27,18 @@ function SuccessModal({nextQuestion, isOpen, onClose, riddleId}) {
                             <Image boxSize='80px' objectFit='cover' src='/images/birthday-emoji.png'/>
                         </Center>
                         <Heading textAlign='center' my={4}>축하합니다!</Heading>
-                        <Text textAlign='center' fontWeight='semibold'>
-                            수어 동작을 완벽하게 수행했습니다!
+                        <Text textAlign='center' fontWeight='semibold' mb={2}>
+                            너의 목소리가 보여, 오늘의 문제를 맞혔어요! 대단해요!
                         </Text>
-                        <Text textAlign='center' fontWeight='semibold'>
-                            이제 완성된 수어 동작 영상을 확인해보세요.
+                        <Text textAlign='center' color='gray.500' fontSize='sm'>
+                            오늘의 문제를 성공적으로 풀었어요. 입모양 읽기 실력이 점점 늘고 있어요!
                         </Text>
-                        <Box
-                            as='video'
-                            controls
-                            src={wordVideo.videoLink}
-                            objectFit='contain'
-                            mt={8}
-                            borderRadius='md'
-                        />
+                        <Text textAlign='center' fontWeight='semibold' mt={4}>
+                            새로운 문제는 자정에 업데이트돼요. 내일 다시 도전하세요!
+                        </Text>
                     </ModalBody>
                     <ModalFooter justifyContent='center' my={5}>
-                        <Button colorScheme='yellow' onClick={onClickHandler}>다음 문제</Button>
+                        <Button colorScheme='yellow' onClick={onClickHandler}>확인</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
