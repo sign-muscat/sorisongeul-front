@@ -12,17 +12,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-        
-      - name: Pushes to another repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.GIT_REPO_TOKEN }}
+
+
+      - name: Push to another repository
+        uses: ad-m/github-push-action@master
         with:
-          source-directory: '.'
-          destination-github-username: ppyye
-          destination-repository-name: sorisonsoon-front
-          user-email: ${{ secrets.GIT_EMAIL }}
-          commit-message: ${{ github.event.head_commit.message }}
-          target-branch: main
+          github_token: ${{ secrets.GIT_REPO_TOKEN }}
+          repository: ppyye/sorisonsoon-front
+          branch: main
           force: true
