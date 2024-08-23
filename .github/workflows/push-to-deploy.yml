@@ -17,7 +17,7 @@ jobs:
       - name: Push to another repository
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GIT_REPO_TOKEN }}
+          ssh-key: ${{ secrets.GIT_DEPLOY_KEY }}
           repository: ppyye/sorisonsoon-front
           branch: main
           force: true
