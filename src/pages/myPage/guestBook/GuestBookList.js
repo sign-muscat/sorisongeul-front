@@ -52,7 +52,7 @@ const PostItItem = ({ message }) => (
   </PostIt>
 );
 
-const GestBookList = ({ showAddButton = true }) => {
+const GuestBookList = ({ showAddButton = true }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -125,4 +125,4 @@ const GestBookList = ({ showAddButton = true }) => {
   );
 };
 
-export default GestBookList;
+export default GuestBookList;

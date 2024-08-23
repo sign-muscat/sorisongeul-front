@@ -10,7 +10,7 @@ function Footer() {
         >
             <VStack align='left'>
                 <Text color="gray.400" fontSize='12px'>
-                    (주) 소리손글
+                    (주) 소리손순
                     <IonIcon name="logo-github"/>
                 </Text>
                 <Text color="gray.400" fontSize='10px'>

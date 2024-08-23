@@ -61,7 +61,7 @@ function LoginForm ({ onForgotPassword, onSuccess }){
             <Flex w="100%" maxW="350px">
                 <form style={{ width: '100%' }} onKeyDown={handleKeyPress}>
                     <Heading textAlign="center" color="#90CDF4" mt="55px">로그인</Heading>
-                    <Text textAlign="center" fontSize="12px" color="#828282" mt={2}>소리손글의 다양한 기능을 사용하고 싶다면 로그인해주세요.</Text>
+                    <Text textAlign="center" fontSize="12px" color="#828282" mt={2}>소리손순의 다양한 기능을 사용하고 싶다면 로그인해주세요.</Text>
 
                     <Button
                         mt={9}
