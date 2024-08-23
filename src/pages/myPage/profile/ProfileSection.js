@@ -1,8 +1,43 @@
 import { Badge, Box, Button, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { authRequest } from '../../../apis/api';
 
 function ProfileSection() {
+    const [nickname, setNickname] = useState("");
+    const [profileImage, setProfileImage] = useState(null);
+    const [userId, setUserId] = useState(null); 
+    const [email, setEmail] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await authRequest.get("http://localhost:8080/api/v1/users/profile", {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (response.status === 200) {
+                    const data = response.data;
+                    console.log("Fetched user data:", data);
+                    setUserId(data.userId); 
+                    setNickname(data.nickname);
+                    setEmail(data.email); 
+                    setProfileImage(data.profileImage);
+
+                } else {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                alert("사용자 정보를 가져오는 중 오류가 발생했습니다.");
+            }
+        };
+
+        fetchUserData();
+    }, []);
 
     const handleDeleteClick = () => {
         navigate("/users/delete");
@@ -12,18 +47,22 @@ function ProfileSection() {
         navigate("/users/edit");
     };
 
+    // if (!user) {
+    //     return <Text>Loading...</Text>; // 로딩 중 표시
+    // }
+
     return (
         <Box border="1px solid" borderColor="gray.300" p={5} borderRadius="md" boxShadow="sm">
             <HStack spacing={5} align="center">
                 <Box position="relative">
-                    <Image
-                        boxSize="100px"
-                        borderRadius="full"
-                        src="/path/to/avatar.png"
-                        alt="Profile Picture"
-                        border="2px solid"
-                        borderColor="gray.200"
-                    />
+                <Image
+                    boxSize="100px"
+                    borderRadius="full"
+                    src={profileImage}
+                    alt="Profile Picture"
+                    border="2px solid"
+                    borderColor="gray.200"
+                />
                     <Button
                         size="xs"
                         position="absolute"
@@ -68,19 +107,19 @@ function ProfileSection() {
                     <Text fontWeight="bold" fontSize="md">
                         아이디:{" "}
                         <Text as="span" color="gray.700">
-                            cococoding_123
+                            {userId}
                         </Text>
                     </Text>
                     <Text fontWeight="bold" fontSize="md">
                         닉네임:{" "}
                         <Text as="span" color="gray.700">
-                            코코코딩
+                            {nickname}
                         </Text>
                     </Text>
                     <Text fontWeight="bold" fontSize="md">
                         이메일:{" "}
                         <Text as="span" color="gray.700">
-                            email@gmail.com
+                            {email}
                         </Text>
                     </Text>
                 </VStack>

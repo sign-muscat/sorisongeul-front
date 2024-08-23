@@ -1,7 +1,19 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import { Box, Collapse, HStack, IconButton, Text } from "@chakra-ui/react";
+import { Box, Collapse, Flex, IconButton, Switch, Text } from "@chakra-ui/react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import DashBoardGraph from "./DashBoardGraph";
 
-function DashboardSection({ dashBordVisible, setDashBordVisible }) {
+const DashboardSection = () => {
+    const [dashBordVisible, setDashBordVisible] = useState(true);
+    const [dashboardPublic, setDashboardPublic] = useState(true);
+
+    const toggleDashboardVisibility = () => {
+        setDashBordVisible(!dashBordVisible);
+    };
+
+    const navigate = useNavigate();
+
     return (
         <Box
             bg="gray.50"
@@ -12,23 +24,51 @@ function DashboardSection({ dashBordVisible, setDashBordVisible }) {
             border="1px solid"
             borderColor="gray.200"
         >
-            <HStack justifyContent="space-between" mb={3}>
-                <Text fontWeight="bold" fontSize="lg">
-                    대시보드
-                </Text>
+            <Flex justify="space-between" align="center" mb={3}>
+                <Flex align="center">
+                    <Text fontWeight="bold" fontSize="lg" mr={4}>
+                        대시보드
+                    </Text>
+                    <Switch
+                        colorScheme="teal"
+                        isChecked={dashboardPublic}
+                        onChange={() => setDashboardPublic(!dashboardPublic)}
+                    />
+                </Flex>
                 <IconButton
                     aria-label="Toggle dashboard"
                     icon={dashBordVisible ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                    onClick={() => setDashBordVisible(!dashBordVisible)}
+                    onClick={toggleDashboardVisibility}
                 />
-            </HStack>
+            </Flex>
             <Collapse in={dashBordVisible}>
-                <Box h="150px" bg="white" borderRadius="md" boxShadow="sm">
-                    {/* Placeholder for Dashboard */}
-                    <Text color="gray.500" fontStyle="italic" p={5}>
-                        대시보드 자리입니다.
-                    </Text>
-                </Box>
+                {dashboardPublic ? (
+                    <Box
+                        h="150px"
+                        bg="white"
+                        borderRadius="md"
+                        boxShadow="sm"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <DashBoardGraph />
+                    </Box>
+                ) : (
+                    <Box
+                        h="150px"
+                        bg="white"
+                        borderRadius="md"
+                        boxShadow="sm"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <Text color="gray.500" fontStyle="italic" p={5}>
+                            비공개입니다.
+                        </Text>
+                    </Box>
+                )}
             </Collapse>
         </Box>
     );

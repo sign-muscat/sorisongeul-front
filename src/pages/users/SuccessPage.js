@@ -10,7 +10,7 @@ const SuccessForm = () => {
     return (
         <Box border="1px solid black" borderRadius="md" p={6}>
             <VStack spacing={6}>
-                <Text fontSize="4xl" fontWeight="bold">소리·손·순</Text>
+                <Text fontSize="4xl" fontWeight="bold">소리·손·글</Text>
                 {isWithdraw ? (
                     <>
                         <Text fontSize="xl">회원 탈퇴가 완료되었습니다.</Text>
@@ -19,7 +19,7 @@ const SuccessForm = () => {
                 ) : (
                     <>
                         <Text fontSize="xl">회원 가입이 완료되었습니다.</Text>
-                        <Text fontSize="md">소리손순 회원가입을 축하드립니다.</Text>
+                        <Text fontSize="md">소리손글 회원가입을 축하드립니다.</Text>
                     </>
                 )}
                 <Button colorScheme="teal" as={Link} to="/">

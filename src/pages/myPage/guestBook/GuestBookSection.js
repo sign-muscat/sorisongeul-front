@@ -1,12 +1,12 @@
 import { Box, HStack, Switch, Text, VStack } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
-import GuestBookList from './GuestBookList';
+import GestBookList from './GuestBookList';
 
 function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
     const navigate = useNavigate();
 
     const handleTextClick = () => {
-        navigate('/myPage/guestBookList');
+        navigate('/myPage/gestBookList'); 
     };
 
     return (
@@ -16,8 +16,9 @@ function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
             p={5}
             borderRadius="md"
             boxShadow="sm"
-            minW="250px"
-            minH="300px"
+            width="250px"
+            height="300px"
+            overflow="auto"
         >
             <HStack justifyContent="space-between" mb={3}>
                 <Text 
@@ -36,7 +37,7 @@ function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
             </HStack>
             {guestBookVisible ? (
                 <VStack align="stretch" spacing={2}>
-                    <GuestBookList showAddButton={false} /> {}
+                    <GestBookList showAddButton={false} /> {}
                 </VStack>
             ) : (
                 <Text color="gray.500" fontStyle="italic">

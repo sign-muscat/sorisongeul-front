@@ -1,13 +1,12 @@
 import { Box, Divider, HStack, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DashboardSection from "./dashboard/DashboardSection";
+import React, { useState } from 'react';
+import DashBoardSection from "./dashBoard/DashBoardSection";
+import QuestSection from "./friend/FriendSection";
 import GuestBookSection from "./guestBook/GuestBookSection";
-import MedalSection from "./MedalSection";
-import ProfileSection from "./ProfileSection";
-import QuestSection from "./QuestSection";
-import RankingSection from "./RankingSection";
-import WordCloudSection from "./WordCloudSection";
+import MedalSection from "./medal/MedalSection";
+import ProfileSection from "./profile/ProfileSection";
+import RankingSection from "./ranking/RankingSection";
+import WordCloudSection from "./wordCloud/WordCloudSection";
 
 function MypageHomePage() {
     const [questVisible, setQuestVisible] = useState(true);
@@ -17,12 +16,9 @@ function MypageHomePage() {
     const [wordCloudVisible, setWordCloudVisible] = useState(false);
     const [dashBordVisible, setDashBordVisible] = useState(false);
 
-    const navigate = useNavigate();
-
-
 
     return (
-        <Box bg="gray.100" p={5} minH="100vh">
+        <Box bg="gray.100" p={5} minH="100vh" borderRadius="lg">
             <Text
                 fontWeight="bold"
                 fontSize="2xl"
@@ -66,10 +62,10 @@ function MypageHomePage() {
                 <WordCloudSection
                     wordCloudVisible={wordCloudVisible}
                     setWordCloudVisible={setWordCloudVisible}
-                    mb={6} // Add margin bottom to separate from below section
+                    mb={6} 
                 />
 
-                <DashboardSection
+                <DashBoardSection
                     dashBordVisible={dashBordVisible}
                     setDashBordVisible={setDashBordVisible}
                 />

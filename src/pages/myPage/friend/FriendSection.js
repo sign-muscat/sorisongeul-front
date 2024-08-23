@@ -1,6 +1,6 @@
 import { Box, HStack, Switch, Text, VStack } from "@chakra-ui/react";
 
-function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
+function QuestSection({ questVisible, setQuestVisible }) {
     return (
         <Box
             border="1px solid"
@@ -13,30 +13,26 @@ function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
         >
             <HStack justifyContent="space-between" mb={3}>
                 <Text fontWeight="bold" fontSize="lg">
-                    ❤️ 방명록
+                    🔥 불타오르는 우정
                 </Text>
                 <Switch
                     colorScheme="teal"
-                    isChecked={guestBookVisible}
-                    onChange={() => setGuestBookVisible(!guestBookVisible)}
+                    isChecked={questVisible}
+                    onChange={() => setQuestVisible(!questVisible)}
                 />
             </HStack>
-            {guestBookVisible ? (
+            {questVisible ? (
                 <VStack align="stretch" spacing={2}>
-                    {[
-                        { username: "asdf12", comment: "점수 많이 올랐다~ 화이팅해!" },
-                        { username: "qwe983", comment: "오늘 같이 해서 재미있었어~~" },
-                    ].map((entry, index) => (
-                        <Box
+                    {["칭구1", "칭구2", "칭구3", "칭구4"].map((quest, index) => (
+                        <HStack
                             key={index}
                             p={3}
                             bg="white"
                             borderRadius="md"
                             boxShadow="sm"
                         >
-                            <Text fontWeight="bold">{entry.username}</Text>
-                            <Text>{entry.comment}</Text>
-                        </Box>
+                            <Text>{quest}</Text>
+                        </HStack>
                     ))}
                 </VStack>
             ) : (
@@ -48,4 +44,4 @@ function GuestBookSection({ guestBookVisible, setGuestBookVisible }) {
     );
 }
 
-export default GuestBookSection;
+export default QuestSection;
