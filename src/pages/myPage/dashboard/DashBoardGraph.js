@@ -1,7 +1,7 @@
 import { Box, Spinner, Text } from '@chakra-ui/react';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {authRequest} from "../../../apis/api";
 
 const DashBoardGraph = () => {
   const [rankingData, setRankingData] = useState([]);
@@ -10,7 +10,7 @@ const DashBoardGraph = () => {
   useEffect(() => {
     const fetchRankingData = async () => {
       try {
-        const response = await axios.get('/api/v1/ranking');
+        const response = await authRequest.get('/api/v1/ranking');
         setRankingData(response.data);
       } catch (error) {
         console.error("Error fetching ranking data:", error);

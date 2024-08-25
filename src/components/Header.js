@@ -36,8 +36,8 @@ function Header() {
                         </ChakraLink>
                     </Heading>
                     <Flex alignItems="center" fontSize="14px" fontWeight="600">
-                        <ChakraLink as={ReactRouterLink} to='/'>소리손글 소개</ChakraLink>
-                        <ChakraLink as={ReactRouterLink} to='/' ml="35px">요금제</ChakraLink>
+                        <ChakraLink as={ReactRouterLink} to='/'>소리손순 소개</ChakraLink>
+                        <ChakraLink as={ReactRouterLink} to='/pricing' ml="35px">요금제</ChakraLink>
                         <ChakraLink as={ReactRouterLink} to='/' ml="35px">수어 찾기</ChakraLink>
                         <ChakraLink as={ReactRouterLink} to='/' ml="35px">커뮤니티</ChakraLink>
                         <Flex ml="35px" alignItems="center">

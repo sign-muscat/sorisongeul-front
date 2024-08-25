@@ -1,7 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { Box, Collapse, Flex, IconButton, Image, Switch, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from 'react';
-import { authRequest } from '../../../apis/api';
+import {authRequest} from '../../../apis/api';
 
 function WordCloudSection({ wordCloudVisible, setWordCloudVisible, keywords }) {
     const [wordCloudUrl, setWordCloudUrl] = useState('');
@@ -10,7 +10,7 @@ function WordCloudSection({ wordCloudVisible, setWordCloudVisible, keywords }) {
     useEffect(() => {
         const fetchWordCloud = async () => {
             try {
-                const response = await authRequest.get(`http://localhost:8080/api/v1/page/wordcloud`);
+                const response = await authRequest.get(`/api/v1/page/wordcloud`);
                 setWordCloudUrl(response.data);
             } catch (error) {
                 console.error('Error fetching word cloud:', error);

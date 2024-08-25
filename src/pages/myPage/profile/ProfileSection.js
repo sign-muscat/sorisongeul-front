@@ -1,19 +1,20 @@
 import { Badge, Box, Button, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authRequest } from '../../../apis/api';
+import {authRequest} from '../../../apis/api';
 
 function ProfileSection() {
     const [nickname, setNickname] = useState("");
     const [profileImage, setProfileImage] = useState(null);
     const [userId, setUserId] = useState(null); 
+    const [id, setId] = useState(null);
     const [email, setEmail] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await authRequest.get("http://localhost:8080/api/v1/users/profile", {
+                const response = await authRequest.get(`/api/v1/users/profile`, {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -22,6 +23,7 @@ function ProfileSection() {
                 if (response.status === 200) {
                     const data = response.data;
                     console.log("Fetched user data:", data);
+                    setId(data.id);
                     setUserId(data.userId); 
                     setNickname(data.nickname);
                     setEmail(data.email); 
@@ -107,7 +109,7 @@ function ProfileSection() {
                     <Text fontWeight="bold" fontSize="md">
                         아이디:{" "}
                         <Text as="span" color="gray.700">
-                            {userId}
+                            {id}
                         </Text>
                     </Text>
                     <Text fontWeight="bold" fontSize="md">

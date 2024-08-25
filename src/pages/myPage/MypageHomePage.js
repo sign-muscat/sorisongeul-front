@@ -1,6 +1,6 @@
 import { Box, Divider, HStack, Text } from "@chakra-ui/react";
 import React, { useState } from 'react';
-import DashBoardSection from "./dashBoard/DashBoardSection";
+import DashBoardSection from "./dashboard/DashBoardSection";
 import QuestSection from "./friend/FriendSection";
 import GuestBookSection from "./guestBook/GuestBookSection";
 import MedalSection from "./medal/MedalSection";

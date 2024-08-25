@@ -1,4 +1,4 @@
-import {request} from "./api";
+import {authRequest, request} from "./api";
 import { fastApiRequest } from "./fastapi";
 import {statusToastAlert} from "../utils/ToastUtils";
 import {checkCorrect, getWordImage, getWords, getWordVideo} from "../modules/HandGameReducer";
@@ -106,10 +106,8 @@ export const callCheckCorrect = (formData) => {
 export const callRegisterResult = (finishRequest) => {
     return async (dispatch) => {
         try {
-            const result = await request(
-                'POST',
+            const result = await authRequest.post(
                 `/api/v1/sign/game-finish`,
-                {'Content-Type' : 'application/json'},
                 finishRequest
             )
 

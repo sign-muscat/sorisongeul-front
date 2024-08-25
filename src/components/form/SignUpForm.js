@@ -14,6 +14,7 @@ import {
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {DEFAULT_URL} from "../../apis/api";
 
 const SignUpForm = ({ onSuccess }) => {
     const [formData, setFormData] = useState({
@@ -68,7 +69,7 @@ const SignUpForm = ({ onSuccess }) => {
 
         try {
             console.log('Sending data to backend:', formData);
-            const response = await axios.post('http://localhost:8080/api/v1/users/new', formData, {
+            const response = await axios.post(`${DEFAULT_URL}/api/v1/users/new`, formData, {
                 withCredentials: true
             });
             console.log('Response:', response.data);
@@ -104,7 +105,7 @@ const SignUpForm = ({ onSuccess }) => {
     const handleSendVerificationEmail = async () => {
         try {
             const { data, status } = await axios.post(
-                'http://localhost:8080/api/v1/users/mailConfirm',
+                `${DEFAULT_URL}/api/v1/users/mailConfirm`,
                 { email: formData.email },
                 {
                     headers: {
@@ -157,7 +158,7 @@ const SignUpForm = ({ onSuccess }) => {
     const handleVerifyCode = async () => {
         try {
             const { data } = await axios.post(
-                'http://localhost:8080/api/v1/users/verifyCode',
+                `${DEFAULT_URL}/api/v1/users/verifyCode`,
                 { code: formData.verificationCode },
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -208,7 +209,7 @@ const SignUpForm = ({ onSuccess }) => {
             <Box w="100%" p={4}>
                 <Heading textAlign="center" color="#90CDF4">회원가입</Heading>
                 <Text textAlign="center" fontSize="12px" color="#828282" mt={2}>
-                    소리손글의 다양한 기능을 사용하려면 회원가입을 해주세요.
+                    소리손순의 다양한 기능을 사용하려면 회원가입을 해주세요.
                 </Text>
                 <form onSubmit={handleSubmit}>
                     <FormControl mt={9} mb={4} isRequired>

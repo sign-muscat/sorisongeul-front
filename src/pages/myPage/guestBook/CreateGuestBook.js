@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import axios from 'axios';
 import React, { useState } from 'react';
+import {DEFAULT_URL} from "../../../apis/api";
 
 const CreateGuestBook = ({ isOpen, onClose, senderId, receiverId, onSubmit }) => {
   const [content, setContent] = useState('');
@@ -28,7 +29,7 @@ const CreateGuestBook = ({ isOpen, onClose, senderId, receiverId, onSubmit }) =>
 
     try {
         console.log('Sending data to backend:', formData);
-        await axios.post('http://localhost:8080/api/v1/page/guestBook/new', formData);
+        await axios.post(`${DEFAULT_URL}/api/v1/page/guestBook/new`, formData);
         setContent('');
         onSubmit(); // 성공적으로 제출된 후 onSubmit 콜백 호출
         onClose();

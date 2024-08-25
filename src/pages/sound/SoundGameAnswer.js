@@ -90,15 +90,24 @@ function SoundGameAnswer({ sound, isCorrect }) {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {records.map((record, index) => (
-                                <Tr key={index}>
-                                    <Td maxW="300px" whiteSpace="normal" wordBreak="break-all">{record.inputText}</Td>
-                                    <Td>{formatSimilarity(record.similarity)}</Td>
-                                    <Td>
-                                        <Button size="sm" onClick={() => handleAIHint(record.inputText)}>AI 힌트</Button>
-                                    </Td>
-                                </Tr>
-                            ))}
+                            {
+                                records && records.length !== 0  ?
+                                    records.map((record, index) => (
+                                    <Tr key={index}>
+                                        <Td maxW="300px" whiteSpace="normal" wordBreak="break-all">{record.inputText}</Td>
+                                        <Td>{formatSimilarity(record.similarity)}</Td>
+                                        <Td>
+                                            <Button size="sm" onClick={() => handleAIHint(record.inputText)}>AI 힌트</Button>
+                                        </Td>
+                                    </Tr>
+                                    ))
+                                        :
+                                    <Tr>
+                                        <Td colSpan={3}>
+                                            아직 제출한 답안이 없습니다.
+                                        </Td>
+                                    </Tr>
+                            }
                         </Tbody>
                     </Table>
                 </TableContainer>

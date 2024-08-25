@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashBoardGraph from "./DashBoardGraph";
 
-const DashboardSection = () => {
+const DashBoardSection = () => {
     const [dashBordVisible, setDashBordVisible] = useState(true);
     const [dashboardPublic, setDashboardPublic] = useState(true);
 
@@ -74,4 +74,4 @@ const DashboardSection = () => {
     );
 }
 
-export default DashboardSection;
+export default DashBoardSection;

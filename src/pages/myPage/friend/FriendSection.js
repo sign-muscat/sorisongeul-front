@@ -1,6 +1,19 @@
 import { Box, HStack, Switch, Text, VStack } from "@chakra-ui/react";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {callGetFriendsAPI} from "../../../apis/FriendAPICalls";
+import FriendCard from "../../../components/card/FriendCard";
 
 function QuestSection({ questVisible, setQuestVisible }) {
+
+    const dispatch = useDispatch();
+
+    const { friends } = useSelector(state => state.friendReducer);
+
+    useEffect(() => {
+        dispatch(callGetFriendsAPI());
+    }, []);
+
     return (
         <Box
             border="1px solid"
@@ -23,16 +36,10 @@ function QuestSection({ questVisible, setQuestVisible }) {
             </HStack>
             {questVisible ? (
                 <VStack align="stretch" spacing={2}>
-                    {["칭구1", "칭구2", "칭구3", "칭구4"].map((quest, index) => (
-                        <HStack
-                            key={index}
-                            p={3}
-                            bg="white"
-                            borderRadius="md"
-                            boxShadow="sm"
-                        >
-                            <Text>{quest}</Text>
-                        </HStack>
+                    {
+                        friends &&
+                        friends.map((friend, index) => (
+                            <FriendCard key={index} friend={friend}/>
                     ))}
                 </VStack>
             ) : (

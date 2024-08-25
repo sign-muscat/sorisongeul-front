@@ -9,6 +9,7 @@ import {
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import CreateGuestBook from './CreateGuestBook';
+import {authRequest} from "../../../apis/api";
 
 // 포스트잇 색상 배열
 const postItColors = [
@@ -126,7 +127,7 @@ const GestBookList = ({ showAddButton = true }) => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/v1/page/guestBook/list', {
+        const response = await authRequest.get(`/api/v1/page/guestBook/list`, {
           
         });
         setMessages(response.data);
@@ -143,7 +144,7 @@ const GestBookList = ({ showAddButton = true }) => {
 
   const handleModalSubmit = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/v1/page/guestBook/list', {
+      const response = await authRequest.get(`/api/v1/page/guestBook/list`, {
         params: { limit: 1000 }
       });
       setMessages(response.data);

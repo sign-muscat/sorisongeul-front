@@ -56,7 +56,7 @@ function App() {
                     </Route>
                 </Route>
                 <Route path="/pricing" element={<WideLayout/>}>
-                    <Route index element={<PricingPage/>}/>
+                    <Route index element={<PricingPage openLogin={openLoginModal}/>}/>
                 </Route>
             </Routes>
             <LoginPage isOpen={isLoginModalOpen} onClose={closeLoginModal} />
