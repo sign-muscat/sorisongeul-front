@@ -1,7 +1,7 @@
 import {Badge, Flex, HStack, Text, VStack} from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {callTodayMyRanksAPI, callTodayRanksAPI} from "../../apis/RankAPICalls";
+import {callTodayMyRanksAPI} from "../../apis/RankAPICalls";
 import {isLogin} from "../../utils/TokenUtils";
 
 function MyPageRanking() {
@@ -9,7 +9,6 @@ function MyPageRanking() {
     const dispatch = useDispatch();
     const [todayMyRankings, setTodayMyRankings] = useState(null);
     const { myRanks } = useSelector(state => state.rankReducer);
-    const limit = 3;
 
     useEffect(() => {
         dispatch(callTodayMyRanksAPI());
