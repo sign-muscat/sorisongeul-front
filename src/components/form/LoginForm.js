@@ -50,6 +50,7 @@ function LoginForm ({ onForgotPassword, onSuccess }){
                 if(response?.status === 200) {
                     navigate("/");
                     onSuccess();
+                    window.location.reload();
                     handleClearInput();
                 }
             });
