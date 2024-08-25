@@ -1,5 +1,5 @@
-import {request} from "./api";
-import {getRanks, success} from "../modules/RankReducer";
+import {authRequest, request} from "./api";
+import {getRanks, getTodayRanks, success} from "../modules/RankReducer";
 import {statusToastAlert} from "../utils/ToastUtils";
 
 export const callRanksAPI = () => {
@@ -17,15 +17,26 @@ export const callRanksAPI = () => {
     }
 }
 
-export const callRegisterRankAPI = ({rankRequest}) => {
+export const callTodayRanksAPI = () => {
+    return async (dispatch, getState) => {
+        const result = await request('GET', '/api/rankings/today');
+        console.log('callRanksAPI result:', result.data);
+
+        if (result.status === 200) {
+            // getRanks에 정확히 맞는 구조로 데이터 전달
+            dispatch(getTodayRanks(result));
+        }
+    };
+};
+
+export const callRegisterRankAPI = ({userId, category, score}) => {
     return async (dispatch, getState) => {
         try {
-            console.log("rankRequest: ", rankRequest);
-            const result = await request(
-                'POST',
-                '/result',
-                {'Content-Type' : 'application/json'},
-                rankRequest
+            //console.log("rankRequest: ", rankRequest);
+            console.log("값 잘 넘어옴?? userId: ", userId + ", category: ", category + ", score: " + score);
+            const result = await authRequest.post(
+                `/api/rankings?category=${category}&score=${score}`,
+                {'Content-Type' : 'application/json'}
             );
             console.log('callRegisterRankAPI result : ', result);
 

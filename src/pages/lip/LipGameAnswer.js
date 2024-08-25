@@ -4,11 +4,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {callGetVoiceAnswerCheck} from "../../apis/lipGameAPICalls";
 import {getUserId, isLogin} from "../../utils/TokenUtils";
 
-function LipGameAnswer({ voiceQuestion , setAnswerData }) {
+function LipGameAnswer({ voiceQuestion , setAnswerData, setAttemptCount }) {
     const dispatch = useDispatch();
     const [inputText, setInputText] = useState("");
     const { getVoiceAnswerCheck } = useSelector(state => state.lipGameReducer)
-    const [attemptCount, setAttemptCount] = useState(0);
+    const [attemptCount, updateAttemptCount] = useState(0);
     const [maxSimilarity, setMaxSimilarity] = useState(0);
 
     const playerId = isLogin() ? getUserId() : null;
@@ -37,7 +37,10 @@ function LipGameAnswer({ voiceQuestion , setAnswerData }) {
 
         dispatch(callGetVoiceAnswerCheck(formData)).then(result => {
             setAnswerData(result);
-            setAttemptCount(prev => prev + 1);
+            //setAttemptCount(prev => prev + 1);
+            const newAttemptCount = attemptCount + 1;
+            updateAttemptCount(newAttemptCount);
+            setAttemptCount(newAttemptCount);
 
             const similarity = result.payload?.getVoiceAnswerCheck.similarity;
             if (similarity > maxSimilarity) {
@@ -46,7 +49,7 @@ function LipGameAnswer({ voiceQuestion , setAnswerData }) {
         });
 
         handleClearInput();
-    }, [dispatch, inputText, playerId, voiceId, setAnswerData, maxSimilarity]);
+    }, [dispatch, inputText, playerId, voiceId, attemptCount, setAnswerData, maxSimilarity, setAttemptCount]);
 
 
     return (
