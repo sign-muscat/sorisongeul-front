@@ -1,4 +1,4 @@
-import {Card, Flex, Heading, Table, Tbody, Td, Text, Th, Thead, Tr} from "@chakra-ui/react";
+import {Badge, Card, Flex, Heading, Table, Tbody, Td, Text, Th, Thead, Tr} from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {callTodayMyRanksAPI, callTodayRanksAPI} from "../../apis/RankAPICalls";
@@ -56,7 +56,11 @@ function MainRanking() {
                                     todayMyRankings.map((data, index) =>
                                         <Flex key={index} flexDirection="column" justifyContent="center" alignItems="center" px="40px">
                                             <Heading fontSize="14px" color="#4F4F4">{getCategoryName(data.category)}</Heading>
-                                            <Text fontSize="12px" mt={2}>🥇 {data.score} 점</Text>
+                                            <Flex alignItems="center" mt={2}>
+                                                <Text fontSize="12px" mr={2}>{data.score}점</Text>
+                                                <Badge display="flex" justifyContent="center" borderRadius="4px" fontSize="10px" variant='outline' colorScheme='blue'>{data.myRank}등</Badge>
+                                            </Flex>
+
                                         </Flex>
                                     ) : <Text>랭킹 데이터가 없습니다.</Text>
                                 }
@@ -89,20 +93,22 @@ function MainRanking() {
                                             (_, rankIndex) => (
                                                 <Tr key={rankIndex}>
                                                     <Td textAlign="center" fontSize="12px" border="none" p={2}>
-                                                        {rankIndex + 1 === 1
-                                                            ? "🥇"
-                                                            : rankIndex + 1 === 2
-                                                                ? "🥈"
-                                                                : rankIndex + 1 === 3
-                                                                    ? "🥉"
-                                                                    : rankIndex + 1}
+                                                        <Flex mt={2}>
+                                                            {rankIndex + 1 === 1
+                                                                ? "🥇"
+                                                                : rankIndex + 1 === 2
+                                                                    ? "🥈"
+                                                                    : rankIndex + 1 === 3
+                                                                        ? "🥉"
+                                                                        : rankIndex + 1}
+                                                        </Flex>
                                                     </Td>
                                                     {Object.entries(todayRankings).map(([category, ranks], index) => (
                                                         <Td key={index} textAlign="center" fontSize="12px" border="none" py={2} px={10}>
                                                             {ranks[rankIndex] ?
-                                                                <Flex justifyContent="center">
-                                                                    <Text color="#4F4F4F" fontWeight={600} mr={1}>{ranks[rankIndex].nickname}</Text>
-                                                                    <Text color="#4F4F4F">/ {ranks[rankIndex].score}점</Text>
+                                                                <Flex justifyContent="center" alignItems="center" mt={2}>
+                                                                    <Text fontSize="12px" mr={2}>{ranks[rankIndex].nickname}</Text>
+                                                                    <Text fontSize="10px" color='mint.600'>{ranks[rankIndex].score}점</Text>
                                                                 </Flex>
                                                                   : "-"}
                                                         </Td>
