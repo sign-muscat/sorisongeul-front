@@ -45,6 +45,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, HStack, Switch, Text, VStack } from "@chakra-ui/react";
 import {authRequest} from "../../../apis/api";
+import MyPageRanking from "../../../components/temporary/MyPageRanking";
 
 function RankingSection({ rankingVisible, setRankingVisible, userId }) {
     const [scores, setScores] = useState({
@@ -114,23 +115,7 @@ function RankingSection({ rankingVisible, setRankingVisible, userId }) {
                 />
             </HStack>
             {rankingVisible ? (
-                <HStack justifyContent="space-between" spacing={10}>
-                    <VStack>
-                        <Text fontWeight="bold">맞.수.수</Text>
-                        <Text>🥇 {scores.riddle.score}</Text>
-                        <Text>{scores.riddle.rank}</Text>
-                    </VStack>
-                    <VStack>
-                        <Text fontWeight="bold">도.소.탐</Text>
-                        <Text>🥇 {scores.challenge.score}</Text>
-                        <Text>{scores.challenge.rank}</Text>
-                    </VStack>
-                    <VStack>
-                        <Text fontWeight="bold">너.목.보</Text>
-                        <Text>{scores.voice.score}</Text>
-                        <Text>{scores.voice.rank}</Text>
-                    </VStack>
-                </HStack>
+                <MyPageRanking/>
             ) : (
                 <Text color="gray.500" fontStyle="italic">
                     비공개입니다.
