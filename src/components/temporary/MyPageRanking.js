@@ -1,4 +1,4 @@
-import {Badge, Card, Flex, Heading, HStack, Table, Tbody, Td, Text, Th, Thead, Tr, VStack} from "@chakra-ui/react";
+import {Badge, Flex, HStack, Text, VStack} from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {callTodayMyRanksAPI, callTodayRanksAPI} from "../../apis/RankAPICalls";
@@ -7,23 +7,13 @@ import {isLogin} from "../../utils/TokenUtils";
 function MyPageRanking() {
 
     const dispatch = useDispatch();
-    const [todayRankings, setTodayRankings] = useState(null);
     const [todayMyRankings, setTodayMyRankings] = useState(null);
-    const { today, myRanks } = useSelector(state => state.rankReducer);
+    const { myRanks } = useSelector(state => state.rankReducer);
     const limit = 3;
 
     useEffect(() => {
-        // 처음 렌더링 시 랭킹 API 호출
-        dispatch(callTodayRanksAPI({limit}));
         dispatch(callTodayMyRanksAPI());
     }, [dispatch]);
-
-
-    useEffect(() => {
-        if (today) {
-            setTodayRankings(today);
-        }
-    }, [today]);
 
     useEffect(() => {
         if (myRanks) {
