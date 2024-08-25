@@ -43,12 +43,16 @@ function MainPage() {
         <Box>
             <Banner/>
             <Divider my="35px"/>
-            {isLogin() &&
-                <Flex justifyContent="space-between">
-                    <MainUserInfo/>
-                    <MainRanking/>
-                </Flex>
-            }
+            <Flex justifyContent="space-between">
+                {isLogin() ?
+                    <>
+                        <MainUserInfo/>
+                        <MainRanking w="420px"/>
+                    </>
+                    :
+                        <MainRanking/>
+                }
+            </Flex>
             <Heading fontSize="28px" color="#4F4F4F" mb="16px" mt="35px">소리손글로 통하는 우리 대화</Heading>
             <Flex justifyContent="space-between">
                 <GameCard game={handGame} />

@@ -1,5 +1,5 @@
 import {authRequest, request} from "./api";
-import {getRanks, getTodayRanks, success} from "../modules/RankReducer";
+import {getRanks, getTodayMyRanks, getTodayRanks, success} from "../modules/RankReducer";
 import {statusToastAlert} from "../utils/ToastUtils";
 
 export const callRanksAPI = () => {
@@ -16,18 +16,6 @@ export const callRanksAPI = () => {
         }
     }
 }
-
-export const callTodayRanksAPI = () => {
-    return async (dispatch, getState) => {
-        const result = await request('GET', '/api/rankings/today');
-        console.log('callRanksAPI result:', result.data);
-
-        if (result.status === 200) {
-            // getRanks에 정확히 맞는 구조로 데이터 전달
-            dispatch(getTodayRanks(result));
-        }
-    };
-};
 
 export const callRegisterRankAPI = ({userId, category, score}) => {
     return async (dispatch, getState) => {
@@ -50,6 +38,28 @@ export const callRegisterRankAPI = ({userId, category, score}) => {
             const desc = '다시 시도해주세요.';
             statusToastAlert(title, desc, 'error');
         }
-
     }
 }
+
+
+export const callTodayRanksAPI = ({limit}) => {
+    return async (dispatch, getState) => {
+        const result = await request('GET', `/api/rankings/today?limit=${limit}`);
+        console.log('callTodayRanksAPI [오늘의 랭킹] result:', result.data);
+
+        if (result.status === 200) {
+            dispatch(getTodayRanks(result));
+        }
+    };
+};
+
+export const callTodayMyRanksAPI = () => {
+    return async (dispatch, getState) => {
+        const result = await authRequest.get(`/api/rankings/myRank`);
+        console.log('callTodayMyRanksAPI [오늘 나의 랭킹] result:', result.data);
+
+        if (result.status === 200) {
+            dispatch(getTodayMyRanks(result));
+        }
+    };
+};

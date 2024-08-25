@@ -45,7 +45,7 @@ function MainUserInfo() {
 
     return(
         <>
-            <Card w="200px" h="90px" border="1px solid #E2E8F0" boxShadow="none" backgroundColor="#F7FAFC" borderRadius="8px" >
+            <Card w="200px" minH="90px" flexShrink="0" border="1px solid #E2E8F0" boxShadow="none" backgroundColor="#F7FAFC" borderRadius="8px" mr={5} py={4}>
                 <Flex w="100%" h="100%" alignItems="center" justifyContent="center">
                     <Image
                         boxSize="100px"
