@@ -4,6 +4,8 @@ import SoundGamePage from "./SoundGamePage";
 import {useDispatch, useSelector} from "react-redux";
 import {callCheckCorrectAPI} from "../../apis/SoundGameAPICalls";
 import CountdownButton from "../../components/button/CountdownButton";
+import {isLogin} from "../../utils/TokenUtils";
+import {useNavigate} from "react-router-dom";
 
 function SoundGameInfo() {
     const [isGameStarted, setIsGameStarted] = useState(false);
@@ -14,6 +16,7 @@ function SoundGameInfo() {
     });
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {checkPlay} = useSelector(state => state.soundGameReducer);
 
     useEffect(() => {
@@ -45,7 +48,6 @@ function SoundGameInfo() {
         isGameStarted ?
             <SoundGamePage onQuitGame={handleQuitGame}/>
             :
-            checkPlay &&
             <>
                 <Card p={4} mb={5}>
                     <HStack>
@@ -64,12 +66,19 @@ function SoundGameInfo() {
                         </Box>
                     </HStack>
                 </Card>
+
                 {
-                    checkPlay.isCorrect ?
-                        <CountdownButton today={todayDate}/>
+                    isLogin() ?
+                        checkPlay &&
+                            checkPlay.isCorrect ?
+                                <CountdownButton today={todayDate}/>
+                                :
+                                <Button variant='gradient' w="100%" minH="80px" onClick={handleStartGame}>
+                                    🔊👂게임 시작!
+                                </Button>
                         :
-                        <Button variant='gradient' w="100%" minH="80px" onClick={handleStartGame}>
-                            🔊👂게임 시작!
+                        <Button variant='gradient' w="100%" minH="80px">
+                            지금 로그인 해서 도전! 소리 탐정을 플레이 하세요.
                         </Button>
                 }
 

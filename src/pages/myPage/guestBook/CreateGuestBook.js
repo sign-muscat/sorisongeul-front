@@ -1,128 +1,97 @@
+import {
+  Box,
+  Button,
+  FormControl,
+  Heading,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
+  Textarea
+} from "@chakra-ui/react";
 import axios from 'axios';
 import React, { useState } from 'react';
-import styled from 'styled-components';
-
-// 모달 배경 스타일 정의
-const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-// 모달 콘텐츠 스타일 정의
-const ModalContent = styled.div`
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-`;
-
-// 닫기 버튼 스타일 정의
-const CloseButton = styled.button`
-  background-color: #f44336;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-`;
-
-// 제출 버튼 스타일 정의
-const SubmitButton = styled.button`
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 20px;
-  width: 100%;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 20px;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-`;
-
-const Textarea = styled.textarea`
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-`;
+import {DEFAULT_URL} from "../../../apis/api";
 
 const CreateGuestBook = ({ isOpen, onClose, senderId, receiverId, onSubmit }) => {
-    const [content, setContent] = useState('');
-    const [error, setError] = useState(null);
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        await axios.post('http://localhost:8080/api/v1/page/guestBook', {
-          senderId, 
-          receiverId, 
-          content,
-          createdAt: new Date().toISOString(), 
-          status: 'ACTIVATE' 
-        });
+  const [content, setContent] = useState('');
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+        senderId,
+        receiverId,
+        content,
+        createdAt: new Date().toISOString(),
+        status: 'ACTIVATE'
+    };
+
+    try {
+        console.log('Sending data to backend:', formData);
+        await axios.post(`${DEFAULT_URL}/api/v1/page/guestBook/new`, formData);
         setContent('');
         onSubmit(); // 성공적으로 제출된 후 onSubmit 콜백 호출
-        onClose(); 
-      } catch (err) {
-        console.error('방명록 작성에 실패했습니다:', err);
-        setError('방명록 작성에 실패했습니다.');
-      }
-    };
-  
-    if (!isOpen) return null;
-  
-    return (
-      <ModalBackground>
-        <ModalContent>
-          <CloseButton onClick={onClose}>X</CloseButton>
-          <h2>방명록 작성</h2>
-          <form onSubmit={handleSubmit}>
-            <FormGroup>
-              <Label>메시지</Label>
-              <Textarea
-                rows="4"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                required
-              />
-            </FormGroup>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <SubmitButton type="submit">작성</SubmitButton>
-          </form>
-        </ModalContent>
-      </ModalBackground>
-    );
+        onClose();
+    } catch (err) {
+        if (err.response) {
+            // 서버의 응답이 있을 때
+            console.error('Error response:', err.response.data);
+            setError(`방명록 작성에 실패했습니다: ${err.response.data.message || '알 수 없는 오류'}`);
+        } else if (err.request) {
+            // 서버의 응답이 없을 때
+            console.error('Error request:', err.request);
+            setError('방명록 작성에 실패했습니다. 서버 응답이 없습니다.');
+        } else {
+            // 요청 설정 중 오류가 발생했을 때
+            console.error('Error message:', err.message);
+            setError(`방명록 작성에 실패했습니다: ${err.message}`);
+        }
+    }
   };
-  
-  export default CreateGuestBook;
+
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalBody>
+          <Box position="relative">
+            <Button
+              position="absolute"
+              top="10px"
+              right="10px"
+              bg="red.500"
+              color="white"
+              _hover={{ bg: 'red.400' }}
+              onClick={onClose}
+            >
+              X
+            </Button>
+            <Heading mb={4}>방명록 작성</Heading>
+            <form onSubmit={handleSubmit}>
+              <FormControl mb={4}>
+                <Textarea
+                  rows="4"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  required
+                />
+              </FormControl>
+              {error && <Box color="red.500" mb={4}>{error}</Box>}
+              <Button
+                type="submit"
+                colorScheme="green"
+                width="100%"
+              >
+                작성
+              </Button>
+            </form>
+          </Box>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+export default CreateGuestBook;

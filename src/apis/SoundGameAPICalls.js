@@ -1,12 +1,11 @@
-import {request} from "./api";
+import {authRequest, request} from "./api";
 import {statusToastAlert} from "../utils/ToastUtils";
 import {checkCorrect, getSoundQuestion, getSoundRecords, isAlreadyCorrect} from "../modules/SoundGameReducer";
 
 export const callCheckCorrectAPI = () => {
     return async (dispatch, getState) => {
         try {
-            const result = await request(
-                'GET',
+            const result = await authRequest.get(
                 `/api/v1/challenge/check-correct`
             );
 
@@ -51,8 +50,7 @@ export const callGetRecordsAPI = (challengeId) => {
         try {
             const queryString = `challengeId=${challengeId}`;
 
-            const result = await request(
-                'GET',
+            const result = await authRequest.get(
                 `/api/v1/challenge/records?${queryString}`
             );
 
@@ -73,10 +71,8 @@ export const callGetRecordsAPI = (challengeId) => {
 export const callRegisterAnswerAPI = (answerRequest) => {
     return async (dispatch, getState) => {
         try {
-            const result = await request(
-                'POST',
+            const result = await authRequest.post(
                 '/api/v1/challenge/result',
-                {'Content-Type' : 'application/json'},
                 answerRequest
             );
 
@@ -97,8 +93,7 @@ export const callRegisterAnswerAPI = (answerRequest) => {
 export const callResetAnswerAPI = () => {
     return async (dispatch, getState) => {
         try {
-            const result = await request(
-                'POST',
+            const result = await authRequest.post(
                 `/api/v1/challenge/reset-answer`
             );
 

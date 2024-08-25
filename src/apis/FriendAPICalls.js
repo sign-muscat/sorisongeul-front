@@ -1,12 +1,11 @@
 import {statusToastAlert} from "../utils/ToastUtils";
-import {request} from "./api";
+import {authRequest, request} from "./api";
 import {getFriendApplies, getFriends, success} from "../modules/FriendReducer";
 
 export const callGetFriendsAPI = () => {
     return async (dispatch, getState) => {
         try {
-            const result = await request(
-                'GET',
+            const result = await authRequest.get(
                 `/api/v1/friends`
             );
 
@@ -29,8 +28,7 @@ export const callGetFriendAppliesAPI = (applyType) => {
         try {
             const queryString = `applyType=${applyType}`;
 
-            const result = await request(
-                'GET',
+            const result = await authRequest.get(
                 `/api/v1/friends-apply?${queryString}`
             );
 
@@ -51,8 +49,7 @@ export const callGetFriendAppliesAPI = (applyType) => {
 export const callRequestFriendAPI = (toUser) => {
     return async (dispatch, getState) => {
         try {
-            const result = await request(
-                'POST',
+            const result = await authRequest.post(
                 `/api/v1/friends/${toUser}`
             );
 
@@ -73,8 +70,7 @@ export const callHandleFriendRequestAPI = (friendId, friendStatus) => {
     return async (dispatch, getState) => {
         try {
             const queryString = `status=${friendStatus}`;
-            const result = await request(
-                'PUT',
+            const result = await authRequest.put(
                 `/api/v1/friends/${friendId}?${queryString}`
             );
 
@@ -94,8 +90,7 @@ export const callHandleFriendRequestAPI = (friendId, friendStatus) => {
 export const callCancelFriendApplyAPI = (friendId) => {
     return async (dispatch, getState) => {
         try {
-            const result = await request(
-                'DELETE',
+            const result = await authRequest.delete(
                 `/api/v1/friends-apply/${friendId}`
             );
 
@@ -115,8 +110,7 @@ export const callCancelFriendApplyAPI = (friendId) => {
 export const callDeleteFriendAPI = (friendId) => {
     return async (dispatch, getState) => {
         try {
-            const result = await request(
-                'DELETE',
+            const result = await authRequest.delete(
                 `/api/v1/friends/${friendId}`
             );
 
