@@ -1,35 +1,61 @@
-import { Box, Button, FormControl, FormLabel, Input, Stack, Textarea } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    Input,
+    Stack,
+    Text,
+    Textarea,
+    useToast
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { authRequest } from '../../apis/api';
 
 function EditUsersInfo() {
     const [password, setPassword] = useState("");
     const [nickname, setNickname] = useState("");
     const [profileImage, setProfileImage] = useState(null);
-    const [keyword, setKeyword] = useState("");
-    const [userId, setUserId] = useState(null);
+    const [keyword, setkeyword] = useState("");
+    const [userId, setUserId] = useState(null); 
     const navigate = useNavigate();
+    const toast = useToast();
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch("/api/v1/users/me");
-                if (response.ok) {
-                    const data = await response.json();
-                    setUserId(data.id);
+                const response = await authRequest.get("/api/v1/users/me", {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (response.status === 200) {
+                    const data = response.data;
+                    console.log("Fetched user data:", data);
+                    setUserId(data.userId);  // userId를 설정합니다.
                     setNickname(data.nickname);
-                    setKeyword(data.keyword);
+                    setkeyword(data.keyword);  // 변수명 일치시킴
                 } else {
-                    alert("사용자 정보를 가져오는 데 실패했습니다.");
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
             } catch (error) {
                 console.error("Error fetching user data:", error);
-                alert("사용자 정보를 가져오는 중 오류가 발생했습니다.");
+                toast({
+                    title: '사용자 정보 가져오기 실패',
+                    description: '사용자 정보를 가져오는 중 오류가 발생했습니다.',
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                });
             }
         };
 
         fetchUserData();
-    }, []);
+    }, [toast]);
 
     const handleFileChange = (e) => {
         setProfileImage(e.target.files[0]);
@@ -39,84 +65,124 @@ function EditUsersInfo() {
         e.preventDefault();
 
         if (!userId) {
-            alert("사용자 ID를 찾을 수 없습니다.");
+            toast({
+                title: '사용자 ID 없음',
+                description: '사용자 ID를 찾을 수 없습니다.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
             return;
         }
 
         const formData = new FormData();
+        formData.append("userId", userId);  // userId를 FormData에 추가합니다.
         formData.append("password", password);
         formData.append("nickname", nickname);
-        formData.append("keywords", keyword);
+
+        if (keyword) {
+            formData.append("keyword", keyword);  // 키워드가 있을 때만 추가
+        }
+
         if (profileImage) {
-            formData.append("profileImage", profileImage);
+            formData.append("profileImage", profileImage);  // 프로필 이미지가 있을 때만 추가
         }
 
         try {
-            const response = await fetch(`/api/users/${userId}`, {
-                method: "PUT",
-                body: formData,
+            const response = await authRequest.put(`/api/v1/users/${userId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
             });
-
-            if (response.ok) {
-                alert("회원정보가 성공적으로 수정되었습니다.");
+            if (response.status === 200) {
+                toast({
+                    title: '회원정보 수정 완료',
+                    description: '회원정보가 성공적으로 수정되었습니다.',
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                });
                 navigate("/mypage/mypageHome");
             } else {
-                alert("회원정보 수정에 실패했습니다.");
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("회원정보 수정 중 오류가 발생했습니다.");
+            toast({
+                title: '회원정보 수정 실패',
+                description: '회원정보 수정 중 오류가 발생했습니다.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
         }
     };
 
     return (
-        <Box p={5}>
-            <form onSubmit={handleSubmit}>
-                <Stack spacing={4}>
-                    <FormControl id="nickname">
-                        <FormLabel>닉네임</FormLabel>
-                        <Input
-                            type="text"
-                            value={nickname}
-                            onChange={(e) => setNickname(e.target.value)}
-                            placeholder="닉네임을 입력하세요"
-                        />
-                    </FormControl>
+        <Flex w="100%" maxW="350px" mx="auto" mt="10px">
+            <Box w="100%" p={4}>
+                <Heading textAlign="center" color="#90CDF4">회원정보 수정</Heading>
+                <Text textAlign="center" fontSize="12px" color="#828282" mt={2}>
+                    회원님의 정보를 수정하려면 아래 폼을 작성해 주세요.
+                </Text>
+                <form onSubmit={handleSubmit}>
+                    <Stack spacing={4} mt={6}>
+                        <FormControl isRequired>
+                            <FormLabel fontSize="12px" color="#333">닉네임</FormLabel>
+                            <Input
+                                type="text"
+                                value={nickname}
+                                onChange={(e) => setNickname(e.target.value)}
+                                placeholder="닉네임을 입력하세요"
+                                fontSize="12px"
+                            />
+                        </FormControl>
 
-                    <FormControl id="password">
-                        <FormLabel>비밀번호</FormLabel>
-                        <Input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="비밀번호를 입력하세요"
-                        />
-                    </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel fontSize="12px" color="#333">비밀번호</FormLabel>
+                            <Input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="비밀번호를 입력하세요"
+                                fontSize="12px"
+                            />
+                        </FormControl>
 
-                    <FormControl id="profileImage">
-                        <FormLabel>프로필 이미지</FormLabel>
-                        <Input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                        />
-                    </FormControl>
+                        <FormControl>
+                            <FormLabel fontSize="12px" color="#333">프로필 이미지</FormLabel>
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                fontSize="12px"
+                            />
+                        </FormControl>
 
-                    <FormControl id="keyword">
-                        <FormLabel>관심사 키워드</FormLabel>
-                        <Textarea
-                            value={keyword}
-                            onChange={(e) => setKeyword(e.target.value)}
-                            placeholder="관심사 키워드를 입력하세요"
-                        />
-                    </FormControl>
+                        <FormControl>
+                            <FormLabel fontSize="12px" color="#333">관심사 키워드</FormLabel>
+                            <Textarea
+                                value={keyword}
+                                onChange={(e) => setkeyword(e.target.value)}
+                                placeholder="관심사 키워드를 입력하세요"
+                                fontSize="12px"
+                            />
+                        </FormControl>
 
-                    <Button type="submit" colorScheme="blue">
-                        수정 저장
-                    </Button>
-                </Stack>
-            </form>
-        </Box>
+                        <Button
+                            mt={6}
+                            w="100%"
+                            variant='gradient'
+                            color="white"
+                            fontSize="12px"
+                            type="submit"
+                        >
+                            수정 저장
+                        </Button>
+                    </Stack>
+                </form>
+            </Box>
+        </Flex>
     );
 }
 

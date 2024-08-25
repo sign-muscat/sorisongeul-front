@@ -44,7 +44,7 @@
 // export default RankingSection;
 import React, { useState, useEffect } from 'react';
 import { Box, HStack, Switch, Text, VStack } from "@chakra-ui/react";
-import axios from 'axios';
+import {authRequest} from "../../../apis/api";
 
 function RankingSection({ rankingVisible, setRankingVisible, userId }) {
     const [scores, setScores] = useState({
@@ -60,7 +60,7 @@ function RankingSection({ rankingVisible, setRankingVisible, userId }) {
 
                 // Fetch scores for each category
                 const responses = await Promise.all(categories.map(category =>
-                    axios.get(`http://localhost:8080/api/rankings/category/${category}`)
+                    authRequest.get(`/api/rankings/category/${category}`)
                 ));
 
                 // Extract highest score and rank for each category

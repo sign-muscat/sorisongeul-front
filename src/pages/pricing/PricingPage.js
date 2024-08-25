@@ -22,11 +22,9 @@ import {
 } from "@chakra-ui/react";
 import {CheckCircleIcon, CheckIcon} from "@chakra-ui/icons";
 import IonIcon from "@reacticons/ionicons";
-import {useNavigate} from "react-router-dom";
+import {isLogin} from "../../utils/TokenUtils";
 
-function PricingPage() {
-    const navigate = useNavigate();
-
+function PricingPage({openLogin}) {
     return (
         <>
             <Box
@@ -67,10 +65,18 @@ function PricingPage() {
                             </Stack>
                         </CardBody>
                         <CardFooter p='unset'>
-                            <Button bg="red.100" borderRadius='full' w='100%'
-                                    onClick={() => navigate('/users/insert')}
-                            >
-                                무료로 시작하기</Button>
+                            {
+                                !isLogin() ?
+                                    <Button bg="red.100" borderRadius='full' w='100%'
+                                            onClick={openLogin}
+                                    >무료로 시작하기
+                                    </Button>
+                                    :
+                                    <Button bg="red.100" borderRadius='full' w='100%'
+                                    >적용 중!
+                                    </Button>
+                            }
+
                         </CardFooter>
                     </Card>
                     <Center w="50%" h="350px"
@@ -140,7 +146,7 @@ function PricingPage() {
                             </Tr>
                             <Tr>
                                 <Th>도전! 소리 탐정</Th>
-                                <Td>플레이 불가능</Td>
+                                <Td>맛보기 게임 플레이 가능</Td>
                                 <Td>데일리 문제 플레이 가능</Td>
                             </Tr>
                             <Tr>
