@@ -28,8 +28,8 @@ function MainLayout() {
         <>
             <Header onOpenLoginModal={openLoginModal} />
             <Flex direction="column" minHeight="100vh">
-                <Container maxW='xl' display="flex" p={0}>
-                    <Box flex="1">
+                <Container maxW='650px' display="flex" p={0}>
+                    <Box flex="1" width>
                         <Outlet/>
                     </Box>
                     <Sidebar/>

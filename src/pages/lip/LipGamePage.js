@@ -12,7 +12,7 @@ import {callRegisterRankAPI} from "../../apis/RankAPICalls";
 import {getUserId, isLogin} from "../../utils/TokenUtils";
 import {callGetVoiceAnswerCheck} from "../../apis/lipGameAPICalls";
 
-function LipGamePage({ onQuitGame }) {
+function LipGamePage({ onQuitGame , setIsTodayCompleted}) {
     const dispatch = useDispatch();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { voiceQuestion } = useSelector(state => state.lipGameReducer);
@@ -66,7 +66,7 @@ function LipGamePage({ onQuitGame }) {
                     {showConfetti && (
                         <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} />
                     )}
-                    <SuccessModal isOpen={isOpen} onClose={handleModalClose} currentVoiceQuestion={currentVoiceQuestion} />
+                    <SuccessModal isOpen={isOpen} onClose={handleModalClose} currentVoiceQuestion={currentVoiceQuestion} setIsTodayCompleted={setIsTodayCompleted} />
                 </>
             )}
         </>

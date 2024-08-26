@@ -59,12 +59,12 @@ function LipGameInfo() {
 
     const handleQuitGame = () => {
         setIsGameStarted(false);
-        setIsTodayCompleted(true);
+        // setIsTodayCompleted(true);
     };
 
     return (
         isGameStarted ? (
-            <LipGamePage onQuitGame={handleQuitGame} />
+            <LipGamePage onQuitGame={handleQuitGame} setIsTodayCompleted={setIsTodayCompleted} />
         ) : (
             <>
                 <Card p={4} mb={5}>

@@ -66,7 +66,7 @@ function LipGameQuestion({voiceQuestion}) {
                 <Box position="relative">
                     <video
                         ref={videoRef}
-                        src={voiceQuestion.answer}
+                        src={voiceQuestion.question}
                         muted
                         style={{width: '100%', height: 'auto'}}
                     />

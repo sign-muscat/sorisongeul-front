@@ -4,7 +4,7 @@ import {getUserId, isLogin} from "../../utils/TokenUtils";
 import {authRequest} from "../../apis/api";
 
 function MainUserInfo() {
-
+    const defaultProfileImage = "https://sorisonsoon.vercel.app/images/icon_user.png";
     const [nickname, setNickname] = useState("");
     const [profileImage, setProfileImage] = useState(null);
     const [userId, setUserId] = useState(null);
@@ -28,7 +28,7 @@ function MainUserInfo() {
                     setUserId(data.userId);
                     setNickname(data.nickname);
                     setEmail(data.email);
-                    setProfileImage(data.profileImage);
+                    setProfileImage(data.profileImage || defaultProfileImage);
 
                 } else {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -58,6 +58,7 @@ function MainUserInfo() {
                         h="50px"
                         mr={4}
                     />
+
                     <Flex flexDirection="column" justifyContent="center" alignItems="center">
                         <Badge display="flex" justifyContent="center" borderRadius="4px" fontSize="8px" variant='outline' colorScheme='green'>{id}</Badge>
                         <Text fontSize="14px" fontWeight="500">{nickname}</Text>
