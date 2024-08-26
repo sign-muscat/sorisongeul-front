@@ -1,5 +1,22 @@
-import { Box, Divider, HStack } from "@chakra-ui/react";
+import {
+    Badge,
+    Box,
+    Card,
+    Divider,
+    Flex,
+    Heading,
+    Img,
+    Text,
+    Link as ChakraLink
+} from "@chakra-ui/react";
 import GameCard from "../components/card/GameCard";
+import Banner from "../components/temporary/Banner";
+import {isLogin} from "../utils/TokenUtils";
+import React from "react";
+import {Link as ReactRouterLink} from "react-router-dom";
+import MainUserInfo from "../components/temporary/MainUserInfo";
+import MainRanking from "../components/temporary/MainRanking";
+import MainTableList from "../components/temporary/MainTableList";
 
 function MainPage() {
 
@@ -23,16 +40,36 @@ function MainPage() {
     }
 
     return (
-        <Box h="2000">
-            <Box pb={10} display="flex" justifyContent="space-between" alignItems="center">
-                <span>메인 페이지</span>
-            </Box>
-            <Divider mb={10} />
-            <HStack spacing={2}>
+        <Box>
+            <Banner/>
+            <Divider my="35px"/>
+            <Flex justifyContent="space-between">
+                {isLogin() ?
+                    <>
+                        <MainUserInfo/>
+                        <MainRanking w="420px"/>
+                    </>
+                    :
+                        <MainRanking/>
+                }
+            </Flex>
+            <Heading fontSize="28px" color="#4F4F4F" mb="16px" mt="35px">소리손글로 통하는 우리 대화</Heading>
+            <Flex justifyContent="space-between">
                 <GameCard game={handGame} />
                 <GameCard game={soundGame} />
                 <GameCard game={lipGame} />
-            </HStack>
+            </Flex>
+            <Divider my="35px" />
+            <Flex justifyContent="space-between">
+                <Flex flexDirection="column" borderRight="1px solid #E2E8F0" py={5} pr={6}>
+                    <Heading fontSize="28px" color="#4F4F4F" mb="16px">공지사항</Heading>
+                    <MainTableList/>
+                </Flex>
+                <Flex flexDirection="column" py={5}>
+                    <Heading fontSize="28px" color="#4F4F4F" mb="16px">커뮤니티 최신 글</Heading>
+                    <MainTableList/>
+                </Flex>
+            </Flex>
         </Box>
     );
 }
