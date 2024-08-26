@@ -28,7 +28,7 @@ function Header() {
 
     return (
         <>
-            <Center w="100vw" h={100} className="Header">
+            <Center w="100vw" h={100} className="Header" borderBottom="1px solid #e2e8f0">
                 <Flex w="100vw" maxW="800px" justifyContent="space-between" alignItems="center">
                     <Heading>
                         <ChakraLink as={ReactRouterLink} to='/'>
