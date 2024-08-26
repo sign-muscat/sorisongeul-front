@@ -4,7 +4,7 @@ import { Link as ReactRouterLink } from 'react-router-dom'
 function GameCard({game}) {
     return (
         <ChakraLink as={ReactRouterLink} to={game.url}>
-            <Card w={200} p={6}>
+            <Card w={200} h={270} p={6}>
                 <Box p={2}>
                     <Image src={game.img}/>
                 </Box>

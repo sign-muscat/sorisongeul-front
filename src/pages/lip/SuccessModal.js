@@ -7,13 +7,18 @@ import {
     ModalOverlay
 } from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
+import {isLogin} from "../../utils/TokenUtils";
 
-function SuccessModal({isOpen, onClose,  currentVoiceQuestion}) {
+function SuccessModal({isOpen, onClose,  currentVoiceQuestion, setIsTodayCompleted}) {
 
     const navigate = useNavigate();
     const onClickHandler = () => {
         onClose();
         navigate('/game/lip');
+        window.location.reload();
+        if(isLogin()) {
+            setIsTodayCompleted(true);
+        }
     }
 
     return(
